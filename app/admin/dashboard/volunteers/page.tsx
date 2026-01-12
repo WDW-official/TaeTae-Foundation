@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -41,6 +41,19 @@ export default function AdminVolunteers() {
   const [filterStatus, setFilterStatus] = useState("all");
   const [filterCategory, setFilterCategory] = useState("all");
   const router = useRouter();
+
+  /** ---------------- Pagination ---------------- */
+  const ITEMS_PER_PAGE = 8;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Example filter (replace with your real filter logic)
+
+  const totalPages = Math.ceil(filteredVolunteers.length / ITEMS_PER_PAGE);
+
+  const paginatedVolunteers = useMemo(() => {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredVolunteers.slice(start, start + ITEMS_PER_PAGE);
+  }, [filteredVolunteers, currentPage]);
 
   useEffect(() => {
     fetchVolunteers();
@@ -311,126 +324,204 @@ export default function AdminVolunteers() {
               </p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-border bg-secondary/40">
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">
-                      Volunteer
-                    </th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">
-                      Contact
-                    </th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">
-                      Category
-                    </th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">
-                      Status
-                    </th>
-                    <th className="px-6 py-4 text-right text-sm font-semibold text-foreground">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredVolunteers.map((volunteer, idx) => (
-                    <tr
-                      key={volunteer.id}
-                      className={`border-b border-border hover:bg-secondary/20 transition ${
-                        idx % 2 === 0 ? "bg-card dark:bg-gray-900" : "bg-secondary/10"
-                      }`}
-                    >
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
-                            {volunteer.name.charAt(0).toUpperCase()}
+            <div className="space-y-6">
+              {/* TABLE */}
+              <div className="overflow-x-auto rounded-xl border border-border">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b border-border bg-secondary/40">
+                      <th className="px-6 py-4 text-left text-sm font-semibold">
+                        Volunteer
+                      </th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold">
+                        Contact
+                      </th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold">
+                        Category
+                      </th>
+                      <th className="px-6 py-4 text-left text-sm font-semibold">
+                        Status
+                      </th>
+                      <th className="px-6 py-4 text-right text-sm font-semibold">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {paginatedVolunteers.map((volunteer, idx) => (
+                      <tr
+                        key={volunteer.id}
+                        className={`border-b border-border hover:bg-secondary/20 transition ${
+                          idx % 2 === 0
+                            ? "bg-card dark:bg-gray-900"
+                            : "bg-secondary/10"
+                        }`}
+                      >
+                        {/* Volunteer */}
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary">
+                              {volunteer.name.charAt(0).toUpperCase()}
+                            </div>
+                            <div>
+                              <button
+                                onClick={() =>
+                                  router.push(`/admin/dashboard/volunteers/${volunteer.id}`)
+                                }
+                                className="font-semibold hover:text-primary transition"
+                              >
+                                {volunteer.name}
+                              </button>
+                              {volunteer.experience && (
+                                <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
+                                  <Award className="w-3 h-3" />
+                                  {volunteer.experience}
+                                </p>
+                              )}
+                            </div>
                           </div>
-                          <div>
+                        </td>
+
+                        {/* Contact */}
+                        <td className="px-6 py-4">
+                          <div className="space-y-1">
+                            <p className="text-sm flex items-center gap-2">
+                              <Mail className="w-4 h-4 text-muted-foreground" />
+                              {volunteer.email}
+                            </p>
+                            <p className="text-sm flex items-center gap-2">
+                              <Phone className="w-4 h-4 text-muted-foreground" />
+                              {volunteer.phone}
+                            </p>
+                          </div>
+                        </td>
+
+                        {/* Category */}
+                        <td className="px-6 py-4">
+                          <span className="inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            {volunteer.category}
+                          </span>
+                        </td>
+
+                        {/* Status */}
+                        <td className="px-6 py-4">
+                          <span
+                            className={`inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                              volunteer.status === "pending"
+                                ? "bg-yellow-100 text-yellow-800"
+                                : volunteer.status === "approved"
+                                ? "bg-green-100 text-green-800"
+                                : "bg-red-100 text-red-800"
+                            }`}
+                          >
+                            {volunteer.status}
+                          </span>
+                        </td>
+
+                        {/* Actions */}
+                        <td className="px-6 py-4">
+                          <div className="flex justify-end gap-2">
                             <button
-                              onClick={() => router.push(`/admin/volunteers/${volunteer.id}`)}
-                              className="font-semibold text-foreground hover:text-primary transition"
+                              onClick={() =>
+                                router.push(
+                                  `/admin/dashboard/volunteers/${volunteer.id}`
+                                )
+                              }
+                              className="p-2 rounded-lg hover:bg-primary/10 transition"
+                              title="View"
                             >
-                              {volunteer.name}
+                              <Eye className="w-4 h-4" />
                             </button>
-                            {volunteer.experience && (
-                              <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
-                                <Award className="w-3 h-3" />
-                                {volunteer.experience}
-                              </p>
+
+                            {volunteer.status === "pending" && (
+                              <>
+                                <button
+                                  onClick={() => handleApprove(volunteer.id)}
+                                  className="p-2 rounded-lg hover:bg-green-50 transition"
+                                  title="Approve"
+                                >
+                                  <CheckCircle className="w-4 h-4 text-green-600" />
+                                </button>
+                                <button
+                                  onClick={() => handleReject(volunteer.id)}
+                                  className="p-2 rounded-lg hover:bg-red-50 transition"
+                                  title="Reject"
+                                >
+                                  <XCircle className="w-4 h-4 text-red-600" />
+                                </button>
+                              </>
                             )}
+
+                            <button
+                              onClick={() => handleDelete(volunteer.id)}
+                              className="p-2 rounded-lg hover:bg-destructive/10 transition"
+                              title="Delete"
+                            >
+                              <Trash2 className="w-4 h-4 text-destructive" />
+                            </button>
                           </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="space-y-1">
-                          <p className="text-sm text-foreground flex items-center gap-2">
-                            <Mail className="w-4 h-4 text-muted-foreground" />
-                            {volunteer.email}
-                          </p>
-                          <p className="text-sm text-foreground flex items-center gap-2">
-                            <Phone className="w-4 h-4 text-muted-foreground" />
-                            {volunteer.phone}
-                          </p>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                          {volunteer.category}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <span
-                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                            volunteer.status === "pending"
-                              ? "bg-yellow-100 text-yellow-800"
-                              : volunteer.status === "approved"
-                              ? "bg-green-100 text-green-800"
-                              : "bg-red-100 text-red-800"
+                        </td>
+                      </tr>
+                    ))}
+
+                    {paginatedVolunteers.length === 0 && (
+                      <tr>
+                        <td
+                          colSpan={5}
+                          className="text-center py-10 text-muted-foreground"
+                        >
+                          No volunteers found
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* PAGINATION */}
+              {totalPages > 1 && (
+                <div className="flex items-center justify-between px-4">
+                  <p className="text-sm text-muted-foreground">
+                    Page {currentPage} of {totalPages}
+                  </p>
+
+                  <div className="flex gap-2">
+                    <button
+                      disabled={currentPage === 1}
+                      onClick={() => setCurrentPage((p) => p - 1)}
+                      className="px-3 py-1.5 rounded-lg border text-sm disabled:opacity-50 hover:bg-secondary transition"
+                    >
+                      Previous
+                    </button>
+
+                    {[...Array(totalPages)].map((_, i) => {
+                      const page = i + 1;
+                      return (
+                        <button
+                          key={page}
+                          onClick={() => setCurrentPage(page)}
+                          className={`px-3 py-1.5 rounded-lg text-sm transition ${
+                            currentPage === page
+                              ? "bg-primary text-primary-foreground"
+                              : "border hover:bg-secondary"
                           }`}
                         >
-                          {volunteer.status}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex justify-end gap-2">
-                          <button
-                            onClick={() => router.push(`/admin/dashboard/volunteers/${volunteer.id}`)}
-                            className="p-2 rounded-lg hover:bg-primary/10 transition group"
-                            title="View Details"
-                          >
-                            <Eye className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
-                          </button>
-                          {volunteer.status === "pending" && (
-                            <>
-                              <button
-                                onClick={() => handleApprove(volunteer.id)}
-                                className="p-2 rounded-lg hover:bg-green-50 transition group"
-                                title="Approve"
-                              >
-                                <CheckCircle className="w-4 h-4 text-muted-foreground group-hover:text-green-600" />
-                              </button>
-                              <button
-                                onClick={() => handleReject(volunteer.id)}
-                                className="p-2 rounded-lg hover:bg-red-50 transition group"
-                                title="Reject"
-                              >
-                                <XCircle className="w-4 h-4 text-muted-foreground group-hover:text-red-600" />
-                              </button>
-                            </>
-                          )}
-                          <button
-                            onClick={() => handleDelete(volunteer.id)}
-                            className="p-2 hover:bg-destructive/10 rounded-lg transition group"
-                            title="Delete"
-                          >
-                            <Trash2 className="w-4 h-4 text-muted-foreground group-hover:text-destructive" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                          {page}
+                        </button>
+                      );
+                    })}
+
+                    <button
+                      disabled={currentPage === totalPages}
+                      onClick={() => setCurrentPage((p) => p + 1)}
+                      className="px-3 py-1.5 rounded-lg border text-sm disabled:opacity-50 hover:bg-secondary transition"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
