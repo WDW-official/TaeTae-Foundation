@@ -124,3 +124,16 @@ body {
     @apply bg-card dark:bg-gray-900 text-foreground;
   }
 }
+
+/* Move spinner to the left */
+#nprogress .spinner {
+  left: 12px;
+  right: auto;
+}
+
+/* Make spinner smaller */
+#nprogress .spinner-icon {
+  width: 9px;
+  height: 9px;
+  border-width: 2px;
+}

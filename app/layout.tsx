@@ -6,6 +6,7 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import Navigation from "@/components/navigation"
 import Footer from "@/components/footer"
+import NextTopLoader from "nextjs-toploader";
 import { ToastContainer } from "react-toastify"
 
 const _geist = Geist({ subsets: ["latin"] })
@@ -33,6 +34,16 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
+        <NextTopLoader
+          color="#8bc97f"
+          initialPosition={0.08}
+          crawlSpeed={200}
+          height={3}
+          crawl={true}
+          showSpinner={true}
+          easing="ease"
+          speed={200}
+        />
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <div className="min-h-screen dark:bg-gray-800">
             {children} {/* This will render the page content */}

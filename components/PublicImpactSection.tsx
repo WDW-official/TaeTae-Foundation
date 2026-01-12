@@ -164,7 +164,7 @@ export default function PublicStatsSection() {
       </div>
 
       {/* =============== CHARTS =============== */}
-      <div className="grid lg:grid-cols-2 gap-8 mb-16">
+      <div className="grid lg:grid-cols-2 grid-cols-1 gap-8 mb-16">
         
         {/* Boys per program */}
         <div className="bg-white dark:bg-gray-900 p-3 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:shadow-xl hover:scale-[1.01]">
