@@ -479,7 +479,6 @@ export default function AdminVolunteers() {
                 </table>
               </div>
 
-              {/* PAGINATION */}
               {totalPages > 1 && (
                 <div className="flex items-center justify-between px-4">
                   <p className="text-sm text-muted-foreground">
