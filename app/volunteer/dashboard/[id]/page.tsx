@@ -358,7 +358,7 @@ export default function VolunteerDetail() {
 
   return (
     <div className="min-h-screen ">
-      <div className="max-w-7xl mx-auto px-4 ">
+      <div className="max-w-7xl mx-auto lg:px-4 ">
         {/* Header */}
         {/* <BackButton label="Back"/> */}
         {/* Action Buttons at Top */}
@@ -381,11 +381,11 @@ export default function VolunteerDetail() {
         
         <div className="bg-card dark:bg-gray-900 border border-border rounded-2xl shadow-sm overflow-hidden mb-6">
           <div className="bg-linear-to-r from-primary/10 via-primary/5 to-transparent h-32"></div>
-          <div className="px-8 pb-8">
-            <div className="flex flex-col md:flex-row gap-6 -mt-16">
+          <div className="md:px-8 px-2 pb-8">
+            <div className="flex flex-col flex-row gap-6 -mt-16">
               {/* Profile Image */}
               <div className="shrink-0">
-                <div className="w-32 h-32 rounded-2xl overflow-hidden border-4 border-card shadow-lg bg-primary/10">
+                <div className="lg:w-32 lg:h-32 w-28 h-28 rounded-2xl overflow-hidden border-4 border-card shadow-lg bg-primary/10">
                   {volunteer.profile_photo_url ? (
                     <img
                       src={volunteer.profile_photo_url}
@@ -404,7 +404,7 @@ export default function VolunteerDetail() {
               <div className="flex-1 pt-4">
                 <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
                   <div>
-                    <h1 className="text-3xl font-bold text-foreground mb-2">{volunteer.name}</h1>
+                    <h1 className="md:text-3xl text-xl font-bold text-foreground mb-2">{volunteer.name}</h1>
                     <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
                       <span className="flex items-center gap-1">
                         <Briefcase className="w-4 h-4" />
@@ -425,7 +425,7 @@ export default function VolunteerDetail() {
                     </div>
                   </div>
 
-                  <div className="flex gap-2">
+                  <div className="md:flex hidden  gap-2">
                     <span
                       className={`inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-semibold ${
                         volunteer.status === "pending"
@@ -474,7 +474,7 @@ export default function VolunteerDetail() {
                   )}
                   <button
                     onClick={() => setShowEditModal(true)}
-                    className="flex items-center gap-2 px-4 py-2 bg-secondary dark:bg-primary hover:bg-secondary/80 border border-border text-foreground rounded-lg transition font-medium"
+                    className="flex items-center gap-2 px-2 md:px-4 text-sm md:text-base py-2 bg-secondary dark:bg-primary hover:bg-secondary/80 border border-border text-foreground rounded-lg transition font-medium"
                   >
                     <Edit className="w-4 h-4" />
                     Edit Profile

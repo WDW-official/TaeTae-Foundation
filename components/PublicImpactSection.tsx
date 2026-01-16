@@ -50,7 +50,7 @@ export default function PublicStatsSection() {
           stats.boysByProgram.sports,
           stats.boysByProgram.education,
         ],
-        backgroundColor: ["#2563eb", "#f97316", "#10b981"],
+        backgroundColor: ["#8bc97f", "#f97316", "#10b981"],
         borderRadius: 10,
         maxBarThickness: 60,
       },
@@ -119,7 +119,7 @@ export default function PublicStatsSection() {
   return (
     <section className="container mx-auto md:py-16">
       {/* Hero Header */}
-      <div className="text-center mb-16">
+      <div className="text-center mb-8">
         <div className="inline-block">
           <h2 className="text-2xl md:text-5xl font-bold md:mb-4">
             Our Impact So Far
@@ -132,7 +132,7 @@ export default function PublicStatsSection() {
       </div>
 
       {/* =============== TOTAL STATS CARDS =============== */}
-      <div className="bg-white dark:bg-gray-900 shadow-lg border border-gray-200 dark:border-gray-900 rounded-2xl p-3 mb-16 transition-all duration-300 hover:shadow-xl">
+      <div className="bg-white dark:bg-gray-900 shadow-lg border border-gray-200 dark:border-gray-900 rounded-2xl p-3 mb-8 transition-all duration-300 hover:shadow-xl">
         <div className="flex items-center gap-3 mb-8">
           <div className="h-1 w-12 bg-primary rounded-full"></div>
           <h3 className="text-lg md:text-2xl font-bold text-gray-900 dark:text-white">Our Impact at a Glance</h3>
@@ -164,7 +164,7 @@ export default function PublicStatsSection() {
       </div>
 
       {/* =============== CHARTS =============== */}
-      <div className="grid lg:grid-cols-2 grid-cols-1 gap-8 mb-16">
+      <div className="grid lg:grid-cols-2 grid-cols-1 gap-8 mb-8">
         
         {/* Boys per program */}
         <div className="bg-white dark:bg-gray-900 p-3 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:shadow-xl hover:scale-[1.01]">

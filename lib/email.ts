@@ -69,21 +69,21 @@ const emailTemplate = (content: string) => `
   <style>
     body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
     .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-    .header { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+    .header { background: linear-gradient(135deg, #8bc97f 0%, #22c55e 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
     .header h1 { margin: 0; font-size: 28px; }
     .content { background: #ffffff; padding: 30px; border: 1px solid #e5e7eb; }
-    .info-box { background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #2563eb; }
-    .info-box h3 { margin-top: 0; color: #2563eb; }
+    .info-box { background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #8bc97f; }
+    .info-box h3 { margin-top: 0; color: #8bc97f; }
     .info-box p { margin: 8px 0; }
-    .button { display: inline-block; background: #2563eb; color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; margin: 20px 0; }
+    .button { display: inline-block; background: #8bc97f; color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; margin: 20px 0; }
     .footer { background: #f9fafb; padding: 20px; text-align: center; font-size: 12px; color: #6b7280; border-radius: 0 0 10px 10px; }
-    .highlight { color: #2563eb; font-weight: bold; }
+    .highlight { color: #8bc97f; font-weight: bold; }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <h1>💙 TaeTae Foundation</h1>
+      <h1>💚 TaeTae Foundation</h1>
       <p style="margin: 5px 0 0 0; opacity: 0.9;">Empowering Boys Through Skills, Education & Sports</p>
     </div>
     <div class="content">
@@ -156,7 +156,7 @@ export async function sendSponsorshipEmail(sponsorship: any, sponsorEmail?: stri
     <h2>🎉 Welcome to TaeTae Foundation!</h2>
     <p>Dear <strong>$${sponsorship.sponsorName}</strong>,</p>
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-    <h2 style="color: #2563eb;">TaeTae Foundation 💙</h2>
+    <h2 style="color: #8bc97f;">TaeTae Foundation 💚</h2>
     <p>Dear ${sponsorship.sponsorName},</p>
     <p>Thank you for choosing to sponsor a young boy through the TaeTae Foundation!</p>
     
@@ -169,7 +169,6 @@ export async function sendSponsorshipEmail(sponsorship: any, sponsorEmail?: stri
       </p>
     </div>
 
-    <p>We'll match you with a boy soon and send you their details.</p>
     <p>You're making a lasting difference! 🌟</p>
     <p>Warm regards,<br>The TaeTae Foundation Team</p>
   </div>
@@ -494,7 +493,7 @@ export async function sendSponsorMatchEmail(sponsor: any, boy: any) {
       <li>💬 Optional direct communication with mentors</li>
     </ul>
 
-    <p>Your sponsorship is changing <strong>${boy.first_name}'s</strong> life! Thank you for making a real difference. 💙</p>
+    <p>Your sponsorship is changing <strong>${boy.first_name}'s</strong> life! Thank you for making a real difference. 💚</p>
 
     <a href="${process.env.NEXT_PUBLIC_APP_URL}/sponsor/dashboard/${sponsor.id}" class="button">View Sponsorship Dashboard</a>
 

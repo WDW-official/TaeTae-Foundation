@@ -89,7 +89,7 @@ export default function Footer() {
               <li className="flex items-start gap-3">
                 <MapPin size={20} />
                 <span>
-                  123 Foundation Street,  
+                  16 Opebi Road, Ikeja, 
                   <br /> Lagos, Nigeria
                 </span>
               </li>
@@ -113,7 +113,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="border-t border-white/10 pt-8 text-center text-white/60">
+        <div className="border-t text-sm border-white/10 pt-8 text-center text-white/60">
           <p>&copy; {new Date().getFullYear()} TaeTae Foundation. All rights reserved.</p>
         </div>
 

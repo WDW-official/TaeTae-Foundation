@@ -199,7 +199,7 @@ export default function VolunteerPage() {
                 name="phone"
                 value={formData.phone}
                 onChange={handleInputChange}
-                placeholder="+1 (555) 000-0000"
+                placeholder="+234 000 000 000"
                 className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 required
               />

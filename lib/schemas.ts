@@ -9,6 +9,7 @@ export interface Donation {
   paymentMethod: "stripe" | "paystack"
   transactionId?: string
   message?: string
+  reference: string
   donationMode: "anonymous" | "known"
   status: "pending" | "completed" | "failed"
   createdAt: string
@@ -160,11 +161,12 @@ export interface Sponsorship {
   boyId?: string
   paymentMethod: "stripe" | "paystack"
   rateUsed?: number
+  reference: string
   items: {
     id: string
     quantity: number
   }[]
-  status: "pending" | "active" | "completed"
+  status: "pending" | "completed" | "failed"
   createdAt: string
   updatedAt?: string
 }

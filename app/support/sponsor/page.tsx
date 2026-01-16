@@ -13,7 +13,7 @@ function SponsorContent() {
   const searchParams = useSearchParams()
   const program = searchParams.get("program")
 
-  const [paymentMethod, setPaymentMethod] = useState("stripe")
+  const [paymentMethod, setPaymentMethod] = useState("paystack") // Default to Paystack
   const [exchangeRate, setExchangeRate] = useState<number | null>(null)
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
@@ -126,54 +126,48 @@ function SponsorContent() {
   const totalAmount = calculateTotal()
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
+    e.preventDefault();
+    setIsSubmitting(true);
 
     const chosenItems = Object.entries(selectedItems)
       .filter(([_, item]) => item.selected)
       .map(([id, item]) => ({
         id,
         quantity: item.quantity,
-      }))
+      }));
 
-    const total = paymentMethod === "paystack" ? totalAmount : totalAmount // No need for a separate conversion here
-    const currency = paymentMethod === "paystack" ? "NGN" : "USD"
+    const total = paymentMethod === "paystack" ? totalAmount : totalAmount; // No need for a separate conversion here
+    const currency = paymentMethod === "paystack" ? "NGN" : "USD";
+
+    const formData = {
+      name,
+      email,
+      items: chosenItems,
+      totalAmount: total,
+      paymentMethod,
+      currency,
+      rateUsed: exchangeRate,
+      mode:"sponsorship"
+    };
 
     try {
-      const res = await fetch("/api/sponsorships", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          email,
-          items: chosenItems,
-          totalAmount: total,
-          paymentMethod,
-          currency,
-          rateUsed: exchangeRate,
-        }),
-      })
+      // Store the form data in localStorage
+      localStorage.setItem('sponsorshipFormData', JSON.stringify(formData));
 
-      if (res.ok) {
-        if (paymentMethod === "stripe") {
-          window.location.href = `/checkout?program=${program || "general"}&amount=${total.toFixed(
-            2
-          )}&donor=${name}`
-        } else {
-          window.location.href = `/checkout-paystack?program=${program || "general"}&amount=${total.toFixed(
-            2
-          )}&donor=${name}&email=${email}`
-        }
+      // Now, redirect based on the payment method
+      if (paymentMethod === "kora") {
+        window.location.href = `/checkout-kora`;
       } else {
-        alert("Error initiating payment.")
+        window.location.href = `/checkout-paystack`;
       }
     } catch (error) {
-      console.error("Error:", error)
-      alert("Error processing sponsorship")
+      console.error("Error:", error);
+      alert("Error processing sponsorship");
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
+
 
   return (
     <div className="max-w-4xl mx-auto dark:bg-gray-900 px-4 py-12">
@@ -319,19 +313,8 @@ function SponsorContent() {
         {/* Payment Method */}
         <div>
           <h2 className="text-2xl font-bold text-primary mb-4">Select Payment Method</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <button
-              type="button"
-              onClick={() => setPaymentMethod("stripe")}
-              className={`p-6 rounded-lg border-2 transition text-center ${
-                paymentMethod === "stripe" ? "border-primary bg-primary/5" : "border-border hover:border-primary"
-              }`}
-            >
-              <div className="font-bold text-lg text-primary mb-2">Stripe</div>
-              <div className="text-sm text-foreground">Credit/Debit Card (USD)</div>
-            </button>
-
-            <button
+          <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
+             <button
               type="button"
               onClick={() => setPaymentMethod("paystack")}
               className={`p-6 rounded-lg border-2 transition text-center ${
@@ -340,6 +323,16 @@ function SponsorContent() {
             >
               <div className="font-bold text-lg text-primary mb-2">Paystack</div>
               <div className="text-sm text-foreground">Card/Bank Transfer (NGN)</div>
+            </button>
+            <button
+              type="button"
+              onClick={() => setPaymentMethod("kora")}
+              className={`p-6 rounded-lg border-2 transition text-center ${
+                paymentMethod === "kora" ? "border-primary bg-primary/5" : "border-border hover:border-primary"
+              }`}
+            >
+              <div className="font-bold text-lg text-primary mb-2">Kora</div>
+              <div className="text-sm text-foreground">Credit/Debit Card (USD)</div>
             </button>
           </div>
 

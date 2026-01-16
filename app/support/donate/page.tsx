@@ -15,7 +15,7 @@ function DonateContent() {
   const [step, setStep] = useState(1)
   const [selectedProgram, setSelectedProgram] = useState(program || "skills")
   const [donationMode, setDonationMode] = useState("known")
-  const [paymentMethod, setPaymentMethod] = useState("stripe")
+  const [paymentMethod, setPaymentMethod] = useState("paystack")
   const [amount, setAmount] = useState("")
   const [message, setMessage] = useState("")
   const [name, setName] = useState("")
@@ -40,30 +40,36 @@ function DonateContent() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-
     try {
-      const res = await fetch("/api/donations", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: donationMode === "anonymous" ? "Anonymous" : name,
-          email: donationMode === "anonymous" ? null : email,
-          program: selectedProgram,
-          amount: Number.parseFloat(amount),
-          message,
-          donationMode,
-          paymentMethod,
-          currency: paymentMethod === "paystack" ? "NGN" : "USD",
-        }),
-      })
+      const isLocalGateway = paymentMethod === "paystack" || paymentMethod === "kora"
+      const currency = isLocalGateway ? "NGN" : "USD"
+      if (isLocalGateway) {
+        localStorage.setItem(
+          "sponsorshipFormData",
+          JSON.stringify({
+            program: selectedProgram,
+            name: donationMode === "anonymous" ? "Anonymous" : name,
+            email: donationMode === "anonymous" ? null : email,
+            amount: amount,
+            mode: "donation",
+            paymentMethod,
+            donationMode,
+            currency,
+            message,
+          })
+        )
 
-      if (res.ok) {
-        if (paymentMethod === "stripe") {
-          window.location.href = `/checkout?program=${selectedProgram}&amount=${amount}&donor=${name}&mode=${donationMode}`
-        } else {
-          window.location.href = `/checkout-paystack?program=${selectedProgram}&amount=${amount}&donor=${name}&email=${email}&mode=${donationMode}`
-        }
+      // Redirect to unified checkout page
+      if (paymentMethod === "paystack") {
+        window.location.href = "/checkout-paystack"
+        return
       }
+
+      if (paymentMethod === "kora") {
+        window.location.href = "/checkout-kora"
+        return
+      }
+    }
     } catch (error) {
       console.error("Error:", error)
       alert("Error processing donation")
@@ -102,7 +108,7 @@ function DonateContent() {
 
       {/* Step Indicator */}
       <div className="flex gap-4 mb-8">
-        {[1, 2, 3, 4].map((s) => (
+        {[1, 2, 3].map((s) => (
           <div key={s} className={`flex-1 h-0.5 rounded-full ${s <= step ? "bg-primary" : "bg-border dark:bg-white"}`} />
         ))}
       </div>
@@ -147,7 +153,28 @@ function DonateContent() {
         {step === 2 && (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-primary">Step 2: Donation Details</h2>
-
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
+              <button
+                type="button"
+                onClick={() => setPaymentMethod("paystack")}
+                className={`p-2 rounded-lg border-2 transition text-center ${
+                  paymentMethod === "paystack" ? "border-primary bg-primary/5" : "border-border hover:border-primary"
+                }`}
+              >
+                <div className="font-bold text-lg text-primary mb-2">Paystack</div>
+                <div className="text-sm text-foreground">Card/Bank Transfer (NGN)</div>
+              </button>
+              <button
+                type="button"
+                onClick={() => setPaymentMethod("kora")}
+                className={`p-2 rounded-lg border-2 transition text-center ${
+                  paymentMethod === "kora" ? "border-primary bg-primary/5" : "border-border hover:border-primary"
+                }`}
+              >
+                <div className="font-bold text-lg text-primary mb-2">Kora</div>
+                <div className="text-sm text-foreground">Credit/Debit Card (USD)</div>
+              </button>
+            </div>
             <div>
               <label className="block text-foreground font-semibold mb-3">How would you like to appear?</label>
               <div className="space-y-2">
@@ -220,26 +247,26 @@ function DonateContent() {
         )}
 
         {/* Step 3: Payment Method Selection */}
-        {step === 3 && (
+        {/* {step === 3 && (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-primary">Step 3: Choose Payment Method</h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
               <button
                 type="button"
-                onClick={() => setPaymentMethod("stripe")}
-                className={`p-6 rounded-lg border-2 transition text-center ${
-                  paymentMethod === "stripe" ? "border-primary bg-primary/5" : "border-border hover:border-primary"
+                onClick={() => setPaymentMethod("kora")}
+                className={`p-2 rounded-lg border-2 transition text-center ${
+                  paymentMethod === "kora" ? "border-primary bg-primary/5" : "border-border hover:border-primary"
                 }`}
               >
-                <div className="font-bold text-lg text-primary mb-2">Stripe</div>
+                <div className="font-bold text-lg text-primary mb-2">kora</div>
                 <div className="text-sm text-foreground">Credit/Debit Card (USD)</div>
               </button>
 
               <button
                 type="button"
                 onClick={() => setPaymentMethod("paystack")}
-                className={`p-6 rounded-lg border-2 transition text-center ${
+                className={`p-2 rounded-lg border-2 transition text-center ${
                   paymentMethod === "paystack" ? "border-primary bg-primary/5" : "border-border hover:border-primary"
                 }`}
               >
@@ -265,10 +292,10 @@ function DonateContent() {
               </button>
             </div>
           </div>
-        )}
+        )} */}
 
         {/* Step 4: Confirmation */}
-        {step === 4 && (
+        {step === 3 && (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-primary">Step 4: Confirm & Donate</h2>
 
@@ -286,19 +313,19 @@ function DonateContent() {
                   />
                 </div>
 
-                <div>
-                  <label className="block text-foreground font-semibold mb-2">Email</label>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="your@email.com"
-                    className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                    required
-                  />
-                </div>
               </>
             )}
+            <div>
+              <label className="block text-foreground font-semibold mb-2">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="your@email.com"
+                className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                required
+              />
+            </div>
 
             <div className="bg-secondary dark:bg-gray-800 p-6 rounded-lg border border-border">
               <h3 className="font-bold text-primary mb-3">Donation Summary</h3>
@@ -333,7 +360,7 @@ function DonateContent() {
             <div className="flex gap-4">
               <button
                 type="button"
-                onClick={() => setStep(3)}
+                onClick={() => setStep(2)}
                 className="flex-1 px-4 py-2 border-2 border-primary text-primary rounded-lg font-semibold hover:bg-primary/5 transition"
               >
                 Back

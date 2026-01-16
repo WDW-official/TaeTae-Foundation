@@ -1,34 +1,34 @@
 "use server"
 
-import { initializePaystackTransaction } from "@/lib/paystack"
-
 export async function startPaystackTransaction(
   amount: number,
   email: string,
-  type: "donation" | "sponsorship",
-  metadata: {
-    program?: string
-    donorName?: string
-    itemId?: string
-  },
+  mode: string,
+  metadata: Record<string, any>
 ) {
-  try {
-    const result = await initializePaystackTransaction({
-      amount: Math.round(amount * 100), // Convert to kobo/cents
+
+  const callbackUrl = `${process.env.FRONTEND_URL}/checkout-paystack/callback`
+
+  console.log("Paystack callback:", callbackUrl) 
+  const res = await fetch("https://api.paystack.co/transaction/initialize", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
       email,
-      metadata: {
-        type,
-        ...metadata,
-      },
-    })
+      amount: amount * 100,
+      callback_url: callbackUrl,
+      metadata,
+    }),
+  })
 
-    if (!result.status) {
-      throw new Error(result.message || "Failed to initialize transaction")
-    }
+  const data = await res.json()
 
-    return result.data.authorization_url
-  } catch (error) {
-    console.error(" Error in startPaystackTransaction:", error)
-    throw error
+  if (!data.status) {
+    throw new Error("Paystack initialization failed")
   }
+
+  return data.data.authorization_url
 }

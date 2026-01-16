@@ -51,8 +51,8 @@ export async function POST(request: NextRequest) {
           `
           <div style="font-family: Arial, sans-serif; background-color: #f7fafc; padding: 20px;">
             <div style="max-width: 600px; margin: auto; background: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
-              <div style="background-color: #2563eb; padding: 20px; text-align: center; color: white;">
-                <h1 style="margin: 0;">TaeTae Foundation 💙</h1>
+              <div style="background-color: #8bc97f; padding: 20px; text-align: center; color: white;">
+                <h1 style="margin: 0;">TaeTae Foundation 💚</h1>
               </div>
               <div style="padding: 30px; color: #1f2937;">
                 <h2>Hello ${data.name},</h2>
@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
         `
           <div style="font-family: Arial, sans-serif; background-color: #f7fafc; padding: 20px;">
             <div style="max-width: 600px; margin: auto; background: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">
-              <div style="background-color: #2563eb; padding: 20px; text-align: center; color: white;">
+              <div style="background-color: #8bc97f; padding: 20px; text-align: center; color: white;">
                 <h1 style="margin: 0;">New Volunteer Registration</h1>
               </div>
               <div style="padding: 30px; color: #1f2937;">
@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
                 </div>
                 <p>View this application on your admin dashboard for review.</p>
                 <a href="https://taetaefoundation.org/admin/volunteers"
-                  style="display:inline-block;background-color:#2563eb;color:white;padding:10px 18px;border-radius:8px;text-decoration:none;margin-top:10px;">
+                  style="display:inline-block;background-color:#8bc97f;color:white;padding:10px 18px;border-radius:8px;text-decoration:none;margin-top:10px;">
                   Open Dashboard
                 </a>
               </div>

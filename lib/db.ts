@@ -182,18 +182,74 @@ export async function updateRecord(collection: string, id: string, updates: any)
   }
 }
 
+export async function updateDonationStatusToActive(donationId: string) {
+  try {
+    // Update the donation status in the 'donations' table
+    const result = await updateRecord("donations", donationId, { status: "active" })
+    if (!result) {
+      throw new Error(`Failed to update donation status for donationId: ${donationId}`)
+    }
+    console.log(`Donation ${donationId} status updated to 'active'`)
+    return result
+  } catch (error) {
+    console.error(`Error updating donation status for ${donationId}:`, error)
+    throw error
+  }
+}
+
+export async function updateSponsorshipStatusToActive(sponsorshipId: string) {
+  try {
+    // Update the sponsorship status in the 'sponsorships' table
+    const result = await updateRecord("sponsorships", sponsorshipId, { status: "active" })
+    if (!result) {
+      throw new Error(`Failed to update sponsorship status for sponsorshipId: ${sponsorshipId}`)
+    }
+    console.log(`Sponsorship ${sponsorshipId} status updated to 'active'`)
+    return result
+  } catch (error) {
+    console.error(`Error updating sponsorship status for ${sponsorshipId}:`, error)
+    throw error
+  }
+}
+
 export async function deleteRecord(collection: string, id: string) {
   try {
     const col = await getCollection(collection)
+
+    // Build base query (same as before)
     let query: any = { id }
     try {
       query = { $or: [{ _id: new ObjectId(id) }, { id }] }
     } catch {
       query = { id }
     }
+
+    // 🔥 SPECIAL CASE: deleting a volunteer
+    if (collection === "volunteers") {
+      const usersCol = await getCollection("users")
+
+      // Delete user linked by volunteerId
+      const userDeleteResult = await usersCol.deleteOne({
+        volunteerId: id,
+      })
+
+      if (userDeleteResult.deletedCount > 0) {
+        console.log(`User deleted for volunteerId: ${id}`)
+      } else {
+        console.warn(`No user found for volunteerId: ${id}`)
+      }
+    }
+
+    // Delete main record
     const result = await col.deleteOne(query)
+
+    if (result.deletedCount === 0) {
+      console.warn(`No record found in ${collection} for id: ${id}`)
+      return false
+    }
+
     console.log(`Record deleted from ${collection}:`, id)
-    return result.deletedCount > 0
+    return true
   } catch (error) {
     console.error(`Error deleting record from ${collection}:`, error)
     throw error

@@ -34,9 +34,10 @@ export async function POST(request: NextRequest) {
       amount: data.amount,
       currency: data.currency || "USD",
       paymentMethod: data.paymentMethod,
+      reference: data.reference,
       message: data.message,
       donationMode: data.donationMode,
-      status: "pending",
+      status: data.status || "pending",
     }
 
     // ✅ Save donation to DB

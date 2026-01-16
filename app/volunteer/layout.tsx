@@ -41,7 +41,7 @@ export default async function VolunteerLayout({
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           {/* LOGO / HOME */}
           <Link
-            href={`/volunteer/dashboard`}
+            href={`/`}
             className="flex items-center gap-2 font-bold text-lg text-foreground"
           >
             <img
@@ -58,7 +58,7 @@ export default async function VolunteerLayout({
       </header>
 
       {/* PAGE CONTENT */}
-      <main className="flex-1 max-w-7xl mx-auto w-full px-6 py-4">
+      <main className="flex-1 max-w-7xl mx-auto w-full px-3 py-4">
         {children}
       </main>
 
