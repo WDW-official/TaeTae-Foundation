@@ -308,7 +308,7 @@ export async function getStats() {
 }
 
 
-export async function getEnhancedStats() {
+export async function getEnhancedStat() {
   try {
     // Fetch raw DB data
     let donations = await getRecords("donations") as unknown as Donation[]
@@ -518,6 +518,225 @@ export async function getEnhancedStats() {
     throw error
   }
 }
+export async function getEnhancedStats() {
+  try {
+    // Fetch raw DB data
+    let donations = (await getRecords("donations")) as unknown as Donation[]
+    let volunteers = (await getRecords("volunteers")) as unknown as Volunteer[]
+    let sponsorships = (await getRecords("sponsorships")) as unknown as Sponsorship[]
+    const boys = await getRecords("boys")
+
+    /* -------------------------------------------------
+     * STATUS FILTERING
+     * ------------------------------------------------- */
+    donations = donations.filter((d) => d.status === "completed")
+    sponsorships = sponsorships.filter(
+      (s) => s.status === "active" || s.status === "completed"
+    )
+    volunteers = volunteers.filter((v) => v.status === "approved")
+
+    /* -------------------------------------------------
+     * UTILITY: SAFE NUMBER + CURRENCY CONVERSION
+     * ------------------------------------------------- */
+    const toNaira = (
+      amount: number | string,
+      currency: "USD" | "NGN",
+      rateUsed?: number | string
+    ): number => {
+      const numericAmount = Number(amount)
+      const numericRate = rateUsed !== undefined ? Number(rateUsed) : undefined
+
+      if (Number.isNaN(numericAmount)) return 0
+
+      if (currency === "NGN") return numericAmount
+
+      if (numericRate && !Number.isNaN(numericRate)) {
+        return numericAmount * numericRate
+      }
+
+      return numericAmount
+    }
+
+    /* -------------------------------------------------
+     * DONATION SUMMARY
+     * ------------------------------------------------- */
+    const totalDonations = donations.reduce(
+      (sum, d) => sum + toNaira(d.amount, d.currency, d.rateUsed),
+      0
+    )
+
+    const donationPrograms = ["skills", "education", "sports"] as const
+
+    const donationsByProgram: Record<string, number> = donationPrograms.reduce(
+      (acc, program) => {
+        acc[program] = donations
+          .filter((d) => d.program === program)
+          .reduce(
+            (sum, d) => sum + toNaira(d.amount, d.currency, d.rateUsed),
+            0
+          )
+        return acc
+      },
+      {} as Record<string, number>
+    )
+
+    /* -------------------------------------------------
+     * TOP DONORS (Email-based, NGN normalized)
+     * ------------------------------------------------- */
+    const donorTotals: Record<string, number> = {}
+    const donorProgram: Record<string, string> = {}
+
+    donations.forEach((d) => {
+      const email = d.email || "anonymous@unknown.com"
+      const amountNGN = toNaira(d.amount, d.currency, d.rateUsed)
+
+      donorTotals[email] = (donorTotals[email] || 0) + amountNGN
+      donorProgram[email] = d.program
+    })
+
+    const topDonors = Object.entries(donorTotals)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(([email, amount]) => {
+        const donor = donations.find((d) => d.email === email)
+        return {
+          email,
+          name: donor?.name || "Anonymous",
+          amount,
+          program: donorProgram[email],
+        }
+      })
+
+    /* -------------------------------------------------
+     * TOP SPONSORS (Email-based, NGN normalized)
+     * ------------------------------------------------- */
+    const sponsorTotals: Record<string, number> = {}
+
+    sponsorships.forEach((s) => {
+      const amountNGN = toNaira(s.amount, s.currency, s.rateUsed)
+      sponsorTotals[s.sponsorEmail] =
+        (sponsorTotals[s.sponsorEmail] || 0) + amountNGN
+    })
+
+    const topSponsors = Object.entries(sponsorTotals)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(([email, amount]) => {
+        const sponsor = sponsorships.find((s) => s.sponsorEmail === email)
+        return {
+          email,
+          name: sponsor?.sponsorName || "Unknown",
+          amount,
+          program: null,
+        }
+      })
+
+    /* -------------------------------------------------
+     * HALL OF FAME (Top 5 contributors)
+     * ------------------------------------------------- */
+    const hallOfFame = [
+      ...topDonors.map((d) => ({ ...d, type: "donor" })),
+      ...topSponsors.map((s) => ({ ...s, type: "sponsor" })),
+    ]
+      .sort((a, b) => b.amount - a.amount)
+      .slice(0, 5)
+
+    /* -------------------------------------------------
+     * ITEMS PAID FOR (BAR CHART)
+     * ------------------------------------------------- */
+    const itemTotals: Record<string, number> = {}
+
+    sponsorships.forEach((s) => {
+      s.items.forEach((item) => {
+        itemTotals[item.id] =
+          (itemTotals[item.id] || 0) + Number(item.quantity)
+      })
+    })
+
+    const barChartItems = Object.entries(itemTotals).map(
+      ([itemId, quantity]) => ({
+        itemId,
+        quantity,
+      })
+    )
+
+    /* -------------------------------------------------
+     * TOP VOLUNTEERS (Longest-serving)
+     * ------------------------------------------------- */
+    const topVolunteers = volunteers
+      .sort(
+        (a, b) =>
+          new Date(a.createdAt).getTime() -
+          new Date(b.createdAt).getTime()
+      )
+      .slice(0, 5)
+      .map((v) => ({
+        id: v.id,
+        name: v.name,
+        email: v.email,
+        category: v.category,
+        profilePhoto: v.profile_photo_url || null,
+        createdAt: v.createdAt,
+      }))
+
+    /* -------------------------------------------------
+     * QUARTERLY REPORT
+     * ------------------------------------------------- */
+    const quarterly: Record<string, number> = {}
+
+    donations.forEach((d) => {
+      const date = new Date(d.createdAt)
+      const year = date.getFullYear()
+      const quarter = Math.ceil((date.getMonth() + 1) / 3)
+      const key = `${year}-Q${quarter}`
+
+      quarterly[key] =
+        (quarterly[key] || 0) + toNaira(d.amount, d.currency, d.rateUsed)
+    })
+
+    /* -------------------------------------------------
+     * YEARLY REPORT (Donations + Sponsorships)
+     * ------------------------------------------------- */
+    const yearly: Record<string, number> = {}
+
+    donations.forEach((d) => {
+      const year = new Date(d.createdAt).getFullYear()
+      yearly[year] =
+        (yearly[year] || 0) + toNaira(d.amount, d.currency, d.rateUsed)
+    })
+
+    sponsorships.forEach((s) => {
+      const year = new Date(s.createdAt).getFullYear()
+      yearly[year] =
+        (yearly[year] || 0) + toNaira(s.amount, s.currency, s.rateUsed)
+    })
+
+    /* -------------------------------------------------
+     * RETURN EVERYTHING
+     * ------------------------------------------------- */
+    return {
+      totals: {
+        totalDonations,
+        donationCount: donations.length,
+        totalVolunteers: volunteers.length,
+        totalSponsors: sponsorships.length,
+        totalBoys: boys.length,
+      },
+      donationsByProgram,
+      topDonors,
+      topSponsors,
+      hallOfFame,
+      topVolunteers,
+      barChartItems,
+      quarterly,
+      yearly,
+    }
+  } catch (error) {
+    console.error("Error calculating enhanced stats:", error)
+    throw error
+  }
+}
+
 
 export async function getPublicStats() {
   try {
