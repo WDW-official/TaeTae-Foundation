@@ -21,7 +21,7 @@ export function NewsletterSignup() {
           transition={{ duration: 0.6 }}
           className="max-w-3xl mx-auto"
         >
-          <Card className="border-none shadow-2xl bg-gradient-to-br  from-[#76b569] to-[#173510] dark:from-gray-800 dark:to-gray-900 ">
+          <Card className="border-none shadow-2xl bg-linear-to-br  from-[#76b569] to-[#173510] dark:from-gray-800 dark:to-gray-900 ">
             <CardContent className="p-12 text-center">
               <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-6">
                 <Mail className="text-white" size={32} />

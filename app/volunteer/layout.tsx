@@ -42,13 +42,14 @@ export default async function VolunteerLayout({
           {/* LOGO / HOME */}
           <Link
             href={`/`}
-            className="flex items-center gap-2 font-bold text-lg text-foreground"
+            className="flex items-center gap-2 font-bold md:text-lg text-sm text-foreground"
           >
             <img
                 src="/Tae-Tae-logo.png"
                 alt="TaeTae Foundation Logo"
                 className="md:h-10 h-8 pr-1 w-auto"
             />
+
             Volunteer Portal
           </Link>
 

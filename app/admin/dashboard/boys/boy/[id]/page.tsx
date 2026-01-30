@@ -393,7 +393,7 @@ export default function BoyDashboard() {
                 </div>
 
                 {/* Sponsor Information */}
-                {boy.sponsor_name ? (
+                {/* {boy.sponsor_name ? (
                   <div className="p-6 bg-gradient-to-r from-primary/10 to-transparent border border-primary/20 rounded-xl">
                     <div className="flex items-center gap-3 mb-2">
                       <Heart className="w-6 h-6 text-primary" />
@@ -410,7 +410,7 @@ export default function BoyDashboard() {
                       Find Sponsor
                     </button>
                   </div>
-                )}
+                )} */}
 
                 {/* Notes */}
                 {boy.notes && (
@@ -594,9 +594,9 @@ export default function BoyDashboard() {
                       Add Assessment
                     </button>
                   </div>
-                  {physicalAssessments.length > 0 ? (
+                  {boy.physicalAssessments.length > 0 ? (
                     <div className="space-y-3">
-                      {physicalAssessments.map((assessment, idx) => (
+                      {boy.physicalAssessments.map((assessment, idx) => (
                         <div key={idx} className="p-4 bg-secondary/20 rounded-lg border border-border">
                           <div className="flex justify-between items-start mb-3">
                             <div>
@@ -682,9 +682,9 @@ export default function BoyDashboard() {
                       Add Assessment
                     </button>
                   </div>
-                  {cognitiveAssessments.length > 0 ? (
+                  {boy.cognitiveAssessments.length > 0 ? (
                     <div className="space-y-3">
-                      {cognitiveAssessments.map((assessment, idx) => (
+                      {boy.cognitiveAssessments[0].map((assessment, idx) => (
                         <div key={idx} className="p-4 bg-secondary/20 rounded-lg border border-border">
                           <div className="flex justify-between items-start mb-3">
                             <div>

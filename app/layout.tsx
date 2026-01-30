@@ -8,6 +8,7 @@ import Navigation from "@/components/navigation"
 import Footer from "@/components/footer"
 import NextTopLoader from "nextjs-toploader";
 import { ToastContainer } from "react-toastify"
+import Providers from "./providers"
 
 const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
@@ -44,12 +45,14 @@ export default function RootLayout({
           easing="ease"
           speed={200}
         />
+
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <div className="min-h-screen dark:bg-gray-800">
             {children} {/* This will render the page content */}
           </div>
           <Analytics />
         </ThemeProvider>
+
 
         {/* Toast Container for showing toast notifications */}
         <ToastContainer

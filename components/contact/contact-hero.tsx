@@ -27,7 +27,7 @@ export function ContactHero() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="relative hidden lg:block"
           >
-            <div className="bg-gradient-to-br from-[#76b569] to-[#5a8d4f] dark:from-[#8bc97f] dark:to-[#76b569] rounded-3xl p-12 text-white">
+            <div className="bg-linear-to-br from-[#76b569] to-[#5a8d4f] dark:from-[#8bc97f] dark:to-[#76b569] rounded-3xl p-12 text-white">
               <MessageCircle size={64} className="mb-6" />
               <h3 className="text-3xl font-bold mb-4">We're Here to Help</h3>
               <p className="text-white/90 text-lg">

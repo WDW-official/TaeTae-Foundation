@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { AlertCircle, Lock, X } from "lucide-react"
 import Navigation from "@/components/navigation"
+import { useAuthStore } from "../store/auth.store"
+import { routeByRole } from "@/lib/routeByRole"
+
 
 export default function AdminLogin() {
   const router = useRouter()
@@ -25,6 +28,7 @@ export default function AdminLogin() {
 
   // Resend OTP cooldown
   const [cooldown, setCooldown] = useState(0)
+  const setAuth = useAuthStore((s:any) => s.setAuth)
 
   /* ----------------------------------
    * Password strength checker
@@ -72,8 +76,18 @@ export default function AdminLogin() {
         return
       }
 
-      if (data.role === "admin") {
+      setAuth({
+        role: data.role,
+        volunteerId: data.volunteerId,
+      })
+
+      routeByRole(router, data)
+
+
+      if (data.role === "superAdmin") {
           router.replace("/admin/dashboard")
+        } else if (data.role === "admin") {
+          router.replace("/admin/dashboard/volunteers")
         } else if (data.role === "volunteer") {
           router.replace(`/volunteer/dashboard/${data.volunteerId}`)
         } else {
@@ -143,7 +157,7 @@ export default function AdminLogin() {
           {error && (
             <div className="bg-red-100 p-3 rounded mb-4 flex gap-2">
               <AlertCircle className="w-4 h-4 text-red-600" />
-              <p className="text-sm">{error}</p>
+              <p className="text-sm text-black">{error}</p>
             </div>
           )}
 

@@ -11,7 +11,12 @@ import {
   Handshake,
   UserPlus,
 } from "lucide-react"
+import ChangePasswordModal from "@/components/ChangePasswordModal"
 import { cn } from "@/lib/utils"
+import { ThemeToggle } from "@/components/theme-toggle"
+import LogoutButton from "@/components/LogoutButton"
+import { useAuthStore } from "../store/auth.store"
+import { useState } from "react"
 
 export default function Sidebar({
   isSidebarOpen,
@@ -21,14 +26,48 @@ export default function Sidebar({
   setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>
 }) {
   const pathname = usePathname()
+  const role = useAuthStore((s) => s.role)
+  const [showChangePassword, setShowChangePassword] = useState(false)
 
   const links = [
-    { href: "/admin/dashboard", label: "Dashboard", icon: BarChart3 },
-    { href: "/admin/dashboard/volunteers", label: "Volunteers", icon: Users },
-    { href: "/admin/dashboard/boys", label: "Boys", icon: UserPlus },
-    { href: "/admin/dashboard/donations", label: "Donors", icon: Heart },
-    { href: "/admin/dashboard/sponsors", label: "Sponsors", icon: Handshake },
+    {
+      href: "/admin/dashboard",
+      label: "Dashboard",
+      icon: BarChart3,
+      roles: ["superAdmin"],
+    },
+    {
+      href: "/admin/dashboard/volunteers",
+      label: "Volunteers",
+      icon: Users,
+      roles: ["admin", "superAdmin"],
+    },
+    {
+      href: "/admin/dashboard/boys",
+      label: "Boys",
+      icon: UserPlus,
+      roles: ["admin", "superAdmin"],
+    },
+    {
+      href: "/admin/dashboard/donations",
+      label: "Donors",
+      icon: Heart,
+      roles: ["admin", "superAdmin"],
+    },
+    {
+      href: "/admin/dashboard/sponsors",
+      label: "Sponsors",
+      icon: Handshake,
+      roles: ["admin", "superAdmin"],
+    },
+    {
+      href: "/admin/dashboard/users",
+      label: "Users",
+      icon: Users,
+      roles: ["superAdmin"],
+    }
   ]
+
 
   const isActive = (href: string) => {
     if (href === "/admin/dashboard") return pathname === href
@@ -37,6 +76,7 @@ export default function Sidebar({
 
   return (
     <>
+    
       {/* Floating mobile toggle */}
       <button
         onClick={() => setIsSidebarOpen((v) => !v)}
@@ -81,7 +121,9 @@ export default function Sidebar({
 
         {/* Navigation */}
         <nav className="flex flex-col gap-1">
-          {links.map(({ href, label, icon: Icon }) => {
+          {links
+            .filter((link) => link.roles.includes(role as string))
+            .map(({ href, label, icon: Icon }) => {
             const active = isActive(href)
 
             return (
@@ -99,9 +141,16 @@ export default function Sidebar({
                 <Icon size={18} />
                 {label}
               </Link>
+              
             )
           })}
         </nav>
+        <div className="flex fixed bottom-0 ml-6 mb-20 left-0 gap-3">
+          <ThemeToggle />
+  
+          <LogoutButton />
+        </div>
+        
       </aside>
     </>
   )

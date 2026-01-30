@@ -25,6 +25,7 @@ import {
   Banknote
 } from "lucide-react";
 import BackButton from "@/components/backButton";
+import { useAuthStore } from "@/app/store/auth.store";
 
 interface Sponsorship {
   _id: string;
@@ -51,6 +52,7 @@ interface Sponsorship {
 }
 
 export default function SponsorshipViewPage() {
+  const role = useAuthStore((s) => s.role)
   const params = useParams();
   const router = useRouter();
   const [sponsorship, setSponsorship] = useState<Sponsorship | null>(null);
@@ -220,12 +222,14 @@ Thank you for your generous support!
             >
               <Download className="w-4 h-4" /> Download Receipt
             </button>
-            <button
-              onClick={handleDelete}
-              className="flex items-center gap-2 px-4 py-2 bg-destructive hover:bg-destructive/90 text-destructive-foreground rounded-lg transition font-medium"
-            >
-              <Trash2 className="w-4 h-4" /> Delete
-            </button>
+            {role === "superAdmin" && (
+              <button
+                onClick={handleDelete}
+                className="flex items-center gap-2 px-4 py-2 bg-destructive hover:bg-destructive/90 text-destructive-foreground rounded-lg transition font-medium"
+              >
+                <Trash2 className="w-4 h-4" /> Delete
+              </button>
+            )}
           </div>
         </div>
 
@@ -278,7 +282,7 @@ Thank you for your generous support!
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
           {/* Amount Card */}
-          <div className="lg:col-span-1 bg-gradient-to-br from-primary to-primary/80 rounded-2xl p-6 text-white shadow-lg">
+          <div className="lg:col-span-1 bg-linear-to-br from-primary to-primary/80 rounded-2xl p-6 text-white shadow-lg">
             <div className="flex items-center gap-3 mb-4">
               <div className="p-3 bg-white/20 rounded-lg">
                 <Banknote className="w-6 h-6" />

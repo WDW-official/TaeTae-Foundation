@@ -129,13 +129,25 @@ export default function AdminDonations() {
   };
 
   const stats = {
-    total: donations.reduce((sum, d) => sum + d.amount, 0),
-    count: donations.length,
-    skills: donations.filter((d) => d.program === "skills").reduce((sum, d) => sum + d.amount, 0),
-    education: donations.filter((d) => d.program === "education").reduce((sum, d) => sum + d.amount, 0),
-    sports: donations.filter((d) => d.program === "sports").reduce((sum, d) => sum + d.amount, 0),
-    avgDonation: donations.length > 0 ? (donations.reduce((sum, d) => sum + d.amount, 0) / donations.length).toFixed(2) : "0"
-  };
+  total: donations.reduce((sum, d) => sum + Number(d.amount), 0),
+  count: donations.length,
+  skills: donations
+    .filter(d => d.program === "skills")
+    .reduce((sum, d) => sum + Number(d.amount), 0),
+  education: donations
+    .filter(d => d.program === "education")
+    .reduce((sum, d) => sum + Number(d.amount), 0),
+  sports: donations
+    .filter(d => d.program === "sports")
+    .reduce((sum, d) => sum + Number(d.amount), 0),
+  avgDonation:
+    donations.length > 0
+      ? (
+          donations.reduce((sum, d) => sum + Number(d.amount), 0) /
+          donations.length
+        ).toFixed(2)
+      : "0"
+};
 
   if (loading) {
     return (
@@ -202,12 +214,19 @@ export default function AdminDonations() {
               <p className="text-xs text-muted-foreground">This Month</p>
             </div>
             <p className="text-2xl font-bold text-foreground">
-              ${donations.filter(d => {
+            $
+            {donations
+              .filter(d => {
                 const date = new Date(d.createdAt);
                 const now = new Date();
-                return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
-              }).reduce((sum, d) => sum + d.amount, 0).toLocaleString()}
-            </p>
+                return (
+                  date.getMonth() === now.getMonth() &&
+                  date.getFullYear() === now.getFullYear()
+                );
+              })
+              .reduce((sum, d) => sum + Number(d.amount), 0)
+              .toLocaleString()}
+          </p>
           </div>
           <div className="bg-card dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
             <div className="flex items-center gap-3 mb-2">
@@ -227,21 +246,21 @@ export default function AdminDonations() {
 
         {/* Program Breakdown */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-6 text-white shadow-lg">
+          <div className="bg-linear-to-br from-blue-500 to-blue-600 rounded-xl p-6 text-white shadow-lg">
             <h3 className="text-white/80 text-sm mb-2">Skills Track</h3>
             <p className="text-3xl font-bold">${stats.skills.toLocaleString()}</p>
             <p className="text-white/70 text-xs mt-2">
               {donations.filter(d => d.program === "skills").length} donations
             </p>
           </div>
-          <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-6 text-white shadow-lg">
+          <div className="bg-linear-to-br from-green-500 to-green-600 rounded-xl p-6 text-white shadow-lg">
             <h3 className="text-white/80 text-sm mb-2">Education Track</h3>
             <p className="text-3xl font-bold">${stats.education.toLocaleString()}</p>
             <p className="text-white/70 text-xs mt-2">
               {donations.filter(d => d.program === "education").length} donations
             </p>
           </div>
-          <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-6 text-white shadow-lg">
+          <div className="bg-linear-to-br from-orange-500 to-orange-600 rounded-xl p-6 text-white shadow-lg">
             <h3 className="text-white/80 text-sm mb-2">Sports Track</h3>
             <p className="text-3xl font-bold">${stats.sports.toLocaleString()}</p>
             <p className="text-white/70 text-xs mt-2">

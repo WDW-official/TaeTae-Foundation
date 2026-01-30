@@ -126,9 +126,19 @@ body {
 }
 
 /* Move spinner to the left */
+/* Default: desktop (left aligned) */
 #nprogress .spinner {
   left: 12px;
   right: auto;
+}
+
+/* Mobile: center spinner */
+@media (max-width: 640px) {
+  #nprogress .spinner {
+    left: 60%;
+    right: auto;
+    transform: translateX(-50%);
+  }
 }
 
 /* Make spinner smaller */

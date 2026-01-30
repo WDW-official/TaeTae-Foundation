@@ -27,6 +27,7 @@ import {
   Banknote
 } from "lucide-react";
 import BackButton from "@/components/backButton";
+import { useAuthStore } from "@/app/store/auth.store";
 
 interface Sponsorship {
   _id: string;
@@ -50,6 +51,7 @@ interface Sponsorship {
 }
 
 export default function SponsorsPage() {
+  const role = useAuthStore((s) => s.role)
   const [sponsorships, setSponsorships] = useState<Sponsorship[]>([]);
   const [filteredSponsorships, setFilteredSponsorships] = useState<Sponsorship[]>([]);
   const [loading, setLoading] = useState(true);
@@ -455,13 +457,15 @@ export default function SponsorsPage() {
                           >
                             <Eye className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
                           </button>
-                          <button
-                            onClick={() => handleDelete(sponsorship._id)}
-                            className="p-2 hover:bg-destructive/10 rounded-lg transition group"
-                            title="Delete"
-                          >
-                            <Trash2 className="w-4 h-4 text-muted-foreground group-hover:text-destructive" />
-                          </button>
+                          {role === "superAdmin" && (
+                            <button
+                              onClick={() => handleDelete(sponsorship._id)}
+                              className="p-2 hover:bg-destructive/10 rounded-lg transition group"
+                              title="Delete"
+                            >
+                              <Trash2 className="w-4 h-4 text-muted-foreground group-hover:text-destructive" />
+                            </button>
+                          )}
                         </div>
                       </td>
                     </tr>

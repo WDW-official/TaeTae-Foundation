@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import BackButton from "@/components/backButton";
 import EditVolunteerModal from "@/components/EditVolunteerModal";
+import { useAuthStore } from "@/app/store/auth.store";
 
 interface Volunteer {
   id: string;
@@ -81,6 +82,7 @@ interface MediaItem {
 }
 
 export default function VolunteerDetail() {
+  const role = useAuthStore((s) => s.role)
   const router = useRouter();
   const params = useParams();
   const id = params?.id as string;
@@ -365,16 +367,18 @@ ${volunteer.motivation || "Not provided"}
         <div className="flex justify-end gap-3 mb-6">
           <button
             onClick={exportProfile}
-            className="flex items-center gap-2 px-4 py-2 bg-secondary hover:bg-secondary/80 border border-border rounded-lg transition font-medium"
+            className="flex items-center gap-2 px-4 text-black py-2 bg-secondary hover:bg-secondary/80 border border-border rounded-lg transition font-medium"
           >
             <Download className="w-4 h-4" /> Export Profile
           </button>
-          <button
-            onClick={handleDelete}
-            className="flex items-center gap-2 px-4 py-2 bg-destructive hover:bg-destructive/90 text-destructive-foreground rounded-lg transition font-medium"
-          >
-            <Trash2 className="w-4 h-4" /> Delete
-          </button>
+          {role === "superAdmin" && (
+            <button
+              onClick={handleDelete}
+              className="flex items-center gap-2 px-4 py-2 bg-destructive hover:bg-destructive/90 text-destructive-foreground rounded-lg transition font-medium"
+            >
+              <Trash2 className="w-4 h-4" /> Delete
+            </button>
+          )}
         </div>
 
         {/* Profile Header */}
@@ -443,9 +447,27 @@ ${volunteer.motivation || "Not provided"}
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex flex-wrap gap-3">
-                  {volunteer.status === "pending" && (
-                    <>
+                {role === "superAdmin" && (
+                  <div className="flex flex-wrap gap-3">
+                    {volunteer.status === "pending" && (
+                      <>
+                        <button
+                          onClick={handleApprove}
+                          className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition font-medium"
+                        >
+                          <CheckCircle className="w-4 h-4" />
+                          Approve Volunteer
+                        </button>
+                        <button
+                          onClick={handleReject}
+                          className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition font-medium"
+                        >
+                          <XCircle className="w-4 h-4" />
+                          Reject Application
+                        </button>
+                      </>
+                    )}
+                    {volunteer.status === "rejected" && (
                       <button
                         onClick={handleApprove}
                         className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition font-medium"
@@ -453,32 +475,16 @@ ${volunteer.motivation || "Not provided"}
                         <CheckCircle className="w-4 h-4" />
                         Approve Volunteer
                       </button>
-                      <button
-                        onClick={handleReject}
-                        className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition font-medium"
-                      >
-                        <XCircle className="w-4 h-4" />
-                        Reject Application
-                      </button>
-                    </>
-                  )}
-                  {volunteer.status === "rejected" && (
-                    <button
-                      onClick={handleApprove}
-                      className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition font-medium"
+                    )}
+                    {/* <button
+                      onClick={() => setShowEditModal(true)}
+                      className="flex items-center gap-2 px-4 py-2 bg-secondary hover:bg-secondary/80 border border-border text-foreground rounded-lg transition font-medium"
                     >
-                      <CheckCircle className="w-4 h-4" />
-                      Approve Volunteer
-                    </button>
-                  )}
-                  {/* <button
-                    onClick={() => setShowEditModal(true)}
-                    className="flex items-center gap-2 px-4 py-2 bg-secondary hover:bg-secondary/80 border border-border text-foreground rounded-lg transition font-medium"
-                  >
-                    <Edit className="w-4 h-4" />
-                    Edit Profile
-                  </button> */}
-                </div>
+                      <Edit className="w-4 h-4" />
+                      Edit Profile
+                    </button> */}
+                  </div>
+                )}
               </div>
             </div>
           </div>

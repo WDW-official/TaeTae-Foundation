@@ -34,7 +34,8 @@ import {
   Sun,
   Medal,
   Clock,
-  Banknote
+  Banknote,
+  KeyRound
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -52,6 +53,10 @@ ChartJS.register(
   Legend,
   Filler
 );
+import { X, UserPlus } from "lucide-react"
+import { useAuthStore } from "@/app/store/auth.store";
+import ChangePasswordModal from "@/components/ChangePasswordModal";
+
 
 interface DashboardStats {
   totals: {
@@ -95,10 +100,18 @@ interface DashboardStats {
 }
 
 export default function AdminDashboard() {
+  const role = useAuthStore((s) => s.role)
+
+  const [showAddAdmin, setShowAddAdmin] = useState(false)
+  const [adminEmail, setAdminEmail] = useState("")
+  const [adminPassword, setAdminPassword] = useState("")
+  const [creatingAdmin, setCreatingAdmin] = useState(false)
+  const [adminMessage, setAdminMessage] = useState<string | null>(null)
   const router = useRouter();
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
+  const [showChangePassword, setShowChangePassword] = useState(false)
 
   useEffect(() => {
     fetchStats();
@@ -114,6 +127,39 @@ export default function AdminDashboard() {
     document.documentElement.classList.toggle("dark");
     localStorage.setItem("darkMode", (!darkMode).toString());
   };
+
+  const handleCreateAdmin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setCreatingAdmin(true)
+    setAdminMessage(null)
+
+    try {
+      const res = await fetch("/api/admin/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: adminEmail,
+          password: adminPassword,
+        }),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        setAdminMessage(data.error || "Failed to create admin")
+      } else {
+        setAdminMessage("Admin created successfully")
+        setAdminEmail("")
+        setAdminPassword("")
+        setShowAddAdmin(false)
+      }
+    } catch {
+      setAdminMessage("Something went wrong")
+    } finally {
+      setCreatingAdmin(false)
+    }
+  }
+
 
   const fetchStats = async () => {
     try {
@@ -214,11 +260,18 @@ export default function AdminDashboard() {
               Overview of your foundation's programs, volunteers, and contributions
             </p>
           </div>
+            <button
+              onClick={() => setShowChangePassword(true)}
+              className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-black hover:bg-primary/90 transition"
+            >
+              <KeyRound size={16} />
+              Change Password
+            </button>
         </div>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition">
+          <div className="bg-linear-to-br from-green-500 to-green-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition">
             <div className="flex justify-between items-start mb-4">
               <div className="p-3 bg-white/20 rounded-lg">
                 <Banknote className="w-6 h-6" />
@@ -233,7 +286,7 @@ export default function AdminDashboard() {
             <p className="text-white/70 text-xs mt-2">{stats.totals.donationCount} donations</p>
           </div>
 
-          <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition">
+          <div className="bg-linear-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition">
             <div className="flex justify-between items-start mb-4">
               <div className="p-3 bg-white/20 rounded-lg">
                 <Users className="w-6 h-6" />
@@ -244,7 +297,7 @@ export default function AdminDashboard() {
             <p className="text-white/70 text-xs mt-2">Active members</p>
           </div>
 
-          <div className="bg-gradient-to-br from-lime-800 to-lime-900 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition">
+          <div className="bg-linear-to-br from-lime-800 to-lime-900 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition">
             <div className="flex justify-between items-start mb-4">
               <div className="p-3 bg-white/20 rounded-lg">
                 <TrendingUp className="w-6 h-6" />
@@ -255,7 +308,7 @@ export default function AdminDashboard() {
             <p className="text-white/70 text-xs mt-2">Across all tracks</p>
           </div>
 
-          {/* <div className="bg-gradient-to-br from-teal-500 to-teal-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition">
+          {/* <div className="bg-linear-to-br from-teal-500 to-teal-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition">
             <div className="flex justify-between items-start mb-4">
               <div className="p-3 bg-white/20 rounded-lg">
                 <Heart className="w-6 h-6" />
@@ -266,7 +319,7 @@ export default function AdminDashboard() {
             <p className="text-white/70 text-xs mt-2">Supporting boys</p>
           </div> */}
 
-          <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition">
+          <div className="bg-linear-to-br from-orange-500 to-orange-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition">
             <div className="flex justify-between items-start mb-4">
               <div className="p-3 bg-white/20 rounded-lg">
                 <Trophy className="w-6 h-6" />
@@ -549,6 +602,10 @@ export default function AdminDashboard() {
           />
         </div>
       </div>
+      <ChangePasswordModal
+        open={showChangePassword}
+        onClose={() => setShowChangePassword(false)}
+      />
     </div>
   );
 }

@@ -26,10 +26,12 @@ import {
   FileText,
   Trash2,
   Video,
-  Eye
+  Eye,
+  KeyRound
 } from "lucide-react";
 import BackButton from "@/components/backButton";
 import EditVolunteerModal from "@/components/EditVolunteerModal";
+import ChangePasswordModal from "@/components/ChangePasswordModal";
 
 interface Volunteer {
   id: string;
@@ -97,7 +99,10 @@ export default function VolunteerDetail() {
   const [learningFiles, setLearningFiles] = useState<MediaItem[]>([]);
   const [showVideos, setShowVideos] = useState(false);
   const [showFiles, setShowFiles] = useState(false);
+  const [openVideoId, setOpenVideoId] = useState<string | null>(null)
+  const [openFileId, setOpenFileId] = useState<string | null>(null)
   const [showEditModal, setShowEditModal] = useState(false);
+   const [showChangePassword, setShowChangePassword] = useState(false)
 
 
   useEffect(() => {
@@ -111,6 +116,17 @@ export default function VolunteerDetail() {
       const res = await fetch(`/api/media?volunteerId=${id}`);
       const data = await res.json();
       const media: MediaItem[] = data.media || [];
+      const isYouTube = (url: string) =>
+        /youtube\.com|youtu\.be/.test(url)
+
+      const getYouTubeEmbedUrl = (url: string) => {
+        const match = url.match(
+          /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/,
+        )
+        return match
+          ? `https://www.youtube.com/embed/${match[1]}?rel=0`
+          : null
+      }
 
       const videos = media.filter((m: MediaItem) => {
         const url = m.secureUrl || m.fileUrl || "";
@@ -445,39 +461,21 @@ export default function VolunteerDetail() {
 
                 {/* Action Buttons */}
                 <div className="flex flex-wrap gap-3">
-                  {/* {volunteer.status === "pending" && (
-                    <>
-                      <button
-                        onClick={handleApprove}
-                        className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition font-medium"
-                      >
-                        <CheckCircle className="w-4 h-4" />
-                        Approve Volunteer
-                      </button>
-                      <button
-                        onClick={handleReject}
-                        className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition font-medium"
-                      >
-                        <XCircle className="w-4 h-4" />
-                        Reject Application
-                      </button>
-                    </>
-                  )} */}
-                  {volunteer.status === "rejected" && (
-                    <button
-                      onClick={handleApprove}
-                      className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition font-medium"
-                    >
-                      <CheckCircle className="w-4 h-4" />
-                      Approve Volunteer
-                    </button>
-                  )}
                   <button
                     onClick={() => setShowEditModal(true)}
                     className="flex items-center gap-2 px-2 md:px-4 text-sm md:text-base py-2 bg-secondary dark:bg-primary hover:bg-secondary/80 border border-border text-foreground rounded-lg transition font-medium"
                   >
                     <Edit className="w-4 h-4" />
                     Edit Profile
+                  </button>
+                  <button
+                    onClick={() => setShowChangePassword(true)}
+                    className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-black hover:bg-primary/90 transition"
+                  >
+                    <KeyRound size={16} />
+                    <span className="hidden md:block">
+                    Change Password
+                    </span>
                   </button>
                 </div>
               </div>
@@ -557,7 +555,7 @@ export default function VolunteerDetail() {
                         : "text-muted-foreground hover:bg-secondary/50"
                     }`}
                   >
-                    <Icon className="w-4 h-4" />
+                    {/* <Icon className="w-4 h-4" /> */}
                     {tab.label}
                   </button>
                 );
@@ -565,7 +563,7 @@ export default function VolunteerDetail() {
             </div>
           </div>
 
-          <div className="p-6">
+          <div className="py-6 px-2">
             {activeTab === "overview" && (
               <div className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -668,18 +666,21 @@ export default function VolunteerDetail() {
               <div className="space-y-8">
                 {/* LEARNING VIDEOS */}
                 <div className="border border-border rounded-xl overflow-hidden bg-card dark:bg-gray-800">
+                  {/* SECTION HEADER */}
                   <button
                     onClick={() => setShowVideos(!showVideos)}
                     className="w-full flex items-center justify-between px-4 py-4 hover:bg-secondary/30 transition"
                   >
                     <div className="flex items-center gap-2">
                       <Video className="w-5 h-5 text-primary" />
-                      <span className="text-lg font-semibold text-foreground">Learning Videos</span>
+                      <span className="text-lg font-semibold text-foreground">
+                        Learning Videos
+                      </span>
                     </div>
 
                     <svg
                       className={`w-5 h-5 text-muted-foreground transition-transform ${
-                        showVideos ? "rotate-180" : "rotate-0"
+                        showVideos ? "rotate-180" : ""
                       }`}
                       fill="none"
                       stroke="currentColor"
@@ -690,53 +691,99 @@ export default function VolunteerDetail() {
                     </svg>
                   </button>
 
+                  {/* SECTION BODY */}
                   <div
                     className={`transition-all duration-300 overflow-hidden ${
                       showVideos ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0"
                     }`}
                   >
-                    <div className="p-4 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="py-4 space-y-4">
                       {learningVideos.length === 0 ? (
-                        <div className="p-8 text-center bg-secondary/20 rounded-lg col-span-full">
+                        <div className="p-8 text-center bg-secondary/20 rounded-lg">
                           <Video className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
-                          <p className="text-muted-foreground">No learning videos available</p>
+                          <p className="text-muted-foreground">
+                            No learning videos available
+                          </p>
                         </div>
                       ) : (
-                        learningVideos.map((item: MediaItem) => (
-                          <div
-                            key={item.id}
-                            className="bg-card border dark:bg-gray-900 border-border rounded-xl shadow-sm p-4"
-                          >
-                            {renderMedia(item)}
+                        learningVideos.map((item: MediaItem) => {
+                          const isOpen = openVideoId === item.id
 
-                            <p className="mt-3 font-semibold text-foreground">
-                              {item.description || "Learning Video"}
-                            </p>
-
-                            <div className="flex gap-3 mt-4">
-                              <a
-                                href={item.secureUrl || item.fileUrl}
-                                target="_blank"
-                                className="flex-1 flex items-center justify-center px-3 py-2 bg-primary/10 hover:bg-primary/20 rounded-lg text-primary font-medium"
+                          return (
+                            <div
+                              key={item.id}
+                              className="border border-border mb-0 rounded-xl overflow-hidden bg-card dark:bg-gray-900"
+                            >
+                              {/* VIDEO HEADER */}
+                              <button
+                                onClick={() =>
+                                  setOpenVideoId(isOpen ? null : item.id)
+                                }
+                                className="w-full flex items-center justify-between px-2 py-2 hover:bg-secondary/20 transition"
                               >
-                                <Eye className="w-4 h-4 mr-1" />
-                                View
-                              </a>
+                                <div className="flex items-center gap-3">
+                                  <div className="w-5 h-5 rounded-lg bg-primary/10 flex items-center justify-center">
+                                    <Video className="w-3 h-3 text-primary" />
+                                  </div>
 
-                              <a
-                                href={item.secureUrl || item.fileUrl}
-                                download
-                                className="p-2 rounded-lg bg-secondary dark:bg-primary hover:bg-secondary/50"
+                                  <p className="text-sm text-foreground text-left">
+                                    {item.description || "Learning Video"}
+                                  </p>
+                                </div>
+
+                                <svg
+                                  className={`w-5 h-5 text-muted-foreground transition-transform ${
+                                    isOpen ? "rotate-180" : ""
+                                  }`}
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path d="M19 9l-7 7-7-7" />
+                                </svg>
+                              </button>
+
+                              {/* VIDEO BODY */}
+                              <div
+                                className={`transition-all duration-300 overflow-hidden ${
+                                  isOpen
+                                    ? "max-h-[1000px] opacity-100"
+                                    : "max-h-0 opacity-0"
+                                }`}
                               >
-                                <Download className="w-4 h-4" />
-                              </a>
+                                <div className="p-4 space-y-4">
+                                  {renderMedia(item)}
+
+                                  <div className="flex gap-3">
+                                    <a
+                                      href={item.secureUrl || item.fileUrl}
+                                      target="_blank"
+                                      className="flex-1 flex items-center justify-center px-3 py-2 bg-primary/10 hover:bg-primary/20 rounded-lg text-primary font-medium"
+                                    >
+                                      <Eye className="w-4 h-4 mr-1" />
+                                      View
+                                    </a>
+
+                                    <a
+                                      href={item.secureUrl || item.fileUrl}
+                                      download
+                                      className="p-2 rounded-lg bg-secondary dark:bg-primary hover:bg-secondary/50"
+                                    >
+                                      <Download className="w-4 h-4" />
+                                    </a>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        ))
+                          )
+                        })
                       )}
                     </div>
                   </div>
                 </div>
+
+
                 {/* LEARNING MATERIALS */}
                 <div className="border border-border rounded-xl overflow-hidden bg-card dark:bg-gray-800">
                   <button
@@ -922,6 +969,10 @@ export default function VolunteerDetail() {
         )}
 
       </div>
+      <ChangePasswordModal
+          open={showChangePassword}
+          onClose={() => setShowChangePassword(false)}
+        />
     </div>
     
   );

@@ -1,16 +1,17 @@
-// lib/auth.ts
 import bcrypt from "bcryptjs"
 import { ObjectId } from "mongodb"
 import { getCollection } from "./mongodb"
+
+export type UserRole = "superAdmin" | "admin" | "volunteer"
 
 export interface User {
   _id?: ObjectId
   id: string
   email: string
   password: string // hashed
-  role: "admin" | "volunteer"
+  role: UserRole
   resetOTP?: string
-  volunteerId?:string
+  volunteerId?: string
   resetExpiry?: number
   createdAt: string
 }
@@ -23,9 +24,14 @@ export async function findUserByEmail(email: string) {
 export async function createUser(
   email: string,
   password: string,
-  role: "admin" | "volunteer",
-  volunteerId?:string
+  role: UserRole,
+  volunteerId?: string,
+  allowSuperAdmin = false
 ) {
+  if (role === "superAdmin" && !allowSuperAdmin) {
+    throw new Error("Unauthorized to create superAdmin")
+  }
+
   const users = await getCollection("users")
 
   const exists = await users.findOne({ email })
@@ -55,7 +61,7 @@ export async function setResetOTP(email: string, otp: string) {
     {
       $set: {
         resetOTP: otp,
-        resetExpiry: Date.now() + 5 * 60 * 1000, // 5 mins
+        resetExpiry: Date.now() + 5 * 60 * 1000,
       },
     }
   )
@@ -63,12 +69,11 @@ export async function setResetOTP(email: string, otp: string) {
 
 export async function verifyOTP(email: string, otp: string) {
   const users = await getCollection("users")
-  const user = await users.findOne({
+  return users.findOne({
     email,
     resetOTP: otp,
     resetExpiry: { $gt: Date.now() },
   })
-  return user
 }
 
 export async function updatePassword(email: string, newHashedPassword: string) {

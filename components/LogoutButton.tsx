@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuthStore } from "@/app/store/auth.store";
 import { LogOut, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -19,6 +20,7 @@ export default function LogoutButton() {
       });
 
       if (res.ok) {
+        useAuthStore.getState().clearAuth()
         router.push("/login");
         router.refresh();
       }
@@ -32,7 +34,7 @@ export default function LogoutButton() {
     <button
       onClick={handleLogout}
       disabled={loading}
-      className={`flex items-center shadow-lg gap-2 px-4 py-2 rounded-lg text-sm font-medium transition
+      className={`flex text-red-600  items-center shadow-lg gap-2 px-2 py-1 rounded-lg text-[14px] transition
         ${loading
           ? "bg-gray-200 dark:bg-gray-700 cursor-not-allowed"
           : "bg-gray-100 dark:bg-gray-800 hover:bg-gray-200"

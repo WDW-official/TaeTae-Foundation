@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft, Edit, Eye, Trash2, TrendingUp, X, Search, Filter, Download, UserPlus } from "lucide-react";
 import BackButton from "@/components/backButton";
+import { useAuthStore } from "@/app/store/auth.store";
 
 interface Boy {
   _id: string;
@@ -41,6 +42,7 @@ interface Boy {
 }
 
 export default function AdminBoysPage() {
+  const role = useAuthStore((s) => s.role)
   const [boys, setBoys] = useState<Boy[]>([]);
   const [filteredBoys, setFilteredBoys] = useState<Boy[]>([]);
   const [loading, setLoading] = useState(true);
@@ -158,7 +160,7 @@ export default function AdminBoysPage() {
           <div className="flex gap-3">
             <button
               onClick={exportData}
-              className="flex items-center gap-2 px-4 py-2 bg-secondary hover:bg-secondary/80 border border-border rounded-lg transition font-medium"
+              className="flex items-center gap-2 px-4 text-black py-2 bg-secondary hover:bg-secondary/80 border border-border rounded-lg transition font-medium"
             >
               <Download className="w-4 h-4" /> Export
             </button>
@@ -360,13 +362,15 @@ export default function AdminBoysPage() {
                           >
                             <Edit className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
                           </button> */}
-                          <button
-                            onClick={() => handleDelete(boy.id)}
-                            className="p-2 hover:bg-destructive/10 rounded-lg transition group"
-                            title="Delete"
-                          >
-                            <Trash2 className="w-4 h-4 text-muted-foreground group-hover:text-destructive" />
-                          </button>
+                          {role === "superAdmin" && (
+                            <button
+                              onClick={() => handleDelete(boy.id)}
+                              className="p-2 hover:bg-destructive/10 rounded-lg transition group"
+                              title="Delete"
+                            >
+                              <Trash2 className="w-4 h-4 text-muted-foreground group-hover:text-destructive" />
+                            </button>
+                          )}
                         </div>
                       </td>
                     </tr>

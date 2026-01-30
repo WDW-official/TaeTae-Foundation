@@ -74,7 +74,7 @@ export function ContactInfo() {
               ))}
             </div>
 
-      <Card className="border-none shadow-md bg-gradient-to-br from-[#76b569] to-white">
+      <Card className="border-none shadow-md bg-linear-to-br from-[#76b569] to-white">
         <CardContent className="p-6">
           <h3 className="font-bold text-gray-900 mb-3">Quick Response</h3>
           <p className="text-gray-600 text-sm">

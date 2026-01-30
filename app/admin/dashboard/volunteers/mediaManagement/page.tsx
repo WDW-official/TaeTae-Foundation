@@ -20,6 +20,7 @@ import {
   User,
   Tag
 } from "lucide-react";
+import { useAuthStore } from "@/app/store/auth.store";
 
 interface MediaItem {
   id: string;
@@ -45,6 +46,7 @@ interface MediaItem {
 }
 
 export default function MediaManagementPage() {
+   const role = useAuthStore((s) => s.role)
   const [media, setMedia] = useState<MediaItem[]>([]);
   const [filteredMedia, setFilteredMedia] = useState<MediaItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -512,12 +514,14 @@ export default function MediaManagementPage() {
                         <Download className="w-4 h-4 text-muted-foreground" />
                       </button>
 
-                      <button
-                        onClick={() => handleDelete(item.id)}
-                        className="p-2 hover:bg-destructive/10 rounded-lg transition"
-                      >
-                        <Trash2 className="w-4 h-4 text-destructive" />
-                      </button>
+                      {role === "superAdmin" && (
+                        <button
+                          onClick={() => handleDelete(item.id)}
+                          className="p-2 hover:bg-destructive/10 rounded-lg transition"
+                        >
+                          <Trash2 className="w-4 h-4 text-destructive" />
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -599,12 +603,14 @@ export default function MediaManagementPage() {
                         >
                           <Download className="w-4 h-4 text-muted-foreground" />
                         </button>
-                        <button
-                          onClick={() => handleDelete(item.id)}
-                          className="p-2 hover:bg-destructive/10 rounded-lg transition"
-                        >
-                          <Trash2 className="w-4 h-4 text-muted-foreground hover:text-destructive" />
-                        </button>
+                        {role === "superAdmin" && (
+                          <button
+                            onClick={() => handleDelete(item.id)}
+                            className="p-2 hover:bg-destructive/10 rounded-lg transition"
+                          >
+                            <Trash2 className="w-4 h-4 text-muted-foreground hover:text-destructive" />
+                          </button>
+                        )}
                       </div>
                     </td>
                   </tr>

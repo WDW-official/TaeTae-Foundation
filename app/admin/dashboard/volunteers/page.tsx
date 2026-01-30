@@ -20,6 +20,7 @@ import {
   Award
 } from "lucide-react";
 import BackButton from "@/components/backButton";
+import { useAuthStore } from "@/app/store/auth.store";
 
 interface Volunteer {
   id: string;
@@ -34,6 +35,7 @@ interface Volunteer {
 }
 
 export default function AdminVolunteers() {
+  const role = useAuthStore((s) => s.role)
   const [volunteers, setVolunteers] = useState<Volunteer[]>([]);
   const [filteredVolunteers, setFilteredVolunteers] = useState<Volunteer[]>([]);
   const [loading, setLoading] = useState(true);
@@ -197,7 +199,7 @@ export default function AdminVolunteers() {
           <div className="flex gap-3">
             <button
               onClick={exportData}
-              className="flex items-center gap-2 px-4 py-2 bg-secondary hover:bg-secondary/80 border border-border rounded-lg transition font-medium"
+              className="flex items-center text-black gap-2 px-4 py-2 bg-secondary hover:bg-secondary/80 border border-border rounded-lg transition font-medium"
             >
               <Download className="w-4 h-4" /> Export
             </button>
@@ -434,7 +436,7 @@ export default function AdminVolunteers() {
                               <Eye className="w-4 h-4" />
                             </button>
 
-                            {volunteer.status === "pending" && (
+                            {/* {volunteer.status === "pending" && (
                               <>
                                 <button
                                   onClick={() => handleApprove(volunteer.id)}
@@ -451,8 +453,8 @@ export default function AdminVolunteers() {
                                   <XCircle className="w-4 h-4 text-red-600" />
                                 </button>
                               </>
-                            )}
-
+                            )} */}
+                            {role === "superAdmin" && (
                             <button
                               onClick={() => handleDelete(volunteer.id)}
                               className="p-2 rounded-lg hover:bg-destructive/10 transition"
@@ -460,6 +462,7 @@ export default function AdminVolunteers() {
                             >
                               <Trash2 className="w-4 h-4 text-destructive" />
                             </button>
+                            )}
                           </div>
                         </td>
                       </tr>
