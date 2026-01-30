@@ -335,28 +335,28 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <Link
             href="/admin/dashboard/boys"
-            className="bg-card dark:bg-gray-900 dark:bg-gray-900 border border-border rounded-xl p-4 hover:shadow-lg transition text-center group"
+            className="bg-card dark:bg-gray-900 border border-border rounded-xl p-4 hover:shadow-lg transition text-center group"
           >
             <Users className="w-8 h-8 text-primary mx-auto mb-2 group-hover:scale-110 transition" />
             <p className="font-semibold text-foreground">Manage Boys</p>
           </Link>
           <Link
             href="/admin/dashboard/volunteers"
-            className="bg-card dark:bg-gray-900 dark:bg-gray-900 border border-border rounded-xl p-4 hover:shadow-lg transition text-center group"
+            className="bg-card dark:bg-gray-900 border border-border rounded-xl p-4 hover:shadow-lg transition text-center group"
           >
             <Activity className="w-8 h-8 text-primary mx-auto mb-2 group-hover:scale-110 transition" />
             <p className="font-semibold text-foreground">Volunteers</p>
           </Link>
           <Link
             href="/admin/dashboard/donations"
-            className="bg-card dark:bg-gray-900 dark:bg-gray-900 border border-border rounded-xl p-4 hover:shadow-lg transition text-center group"
+            className="bg-card dark:bg-gray-900 border border-border rounded-xl p-4 hover:shadow-lg transition text-center group"
           >
             <Banknote className="w-8 h-8 text-primary mx-auto mb-2 group-hover:scale-110 transition" />
             <p className="font-semibold text-foreground">Donations</p>
           </Link>
           <Link
             href="/admin/dashboard/sponsors"
-            className="bg-card dark:bg-gray-900 dark:bg-gray-900 border border-border rounded-xl p-4 hover:shadow-lg transition text-center group"
+            className="bg-card dark:bg-gray-900 border border-border rounded-xl p-4 hover:shadow-lg transition text-center group"
           >
             <Heart className="w-8 h-8 text-primary mx-auto mb-2 group-hover:scale-110 transition" />
             <p className="font-semibold text-foreground">Sponsors</p>
@@ -366,7 +366,7 @@ export default function AdminDashboard() {
         {/* Charts Section */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           {/* Donation Trends */}
-          <div className="lg:col-span-2 bg-card dark:bg-gray-900 dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-border">
+          <div className="lg:col-span-2 bg-card dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-border">
             <div className="mb-6">
               <h2 className="text-xl font-bold text-foreground">Donation Trends</h2>
               <p className="text-sm text-muted-foreground">Quarterly performance</p>
@@ -400,7 +400,7 @@ export default function AdminDashboard() {
           </div>
 
           {/* Program Distribution */}
-          <div className="bg-card dark:bg-gray-900 dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-border">
+          <div className="bg-card dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-border">
             <h2 className="text-xl font-bold text-foreground mb-2">Program Distribution</h2>
             <p className="text-sm text-muted-foreground mb-6">Donations by track</p>
             <div className="h-64">
@@ -428,7 +428,7 @@ export default function AdminDashboard() {
         {/* Top 5 Lists Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           {/* 🥇 Top 5 Donors */}
-          <div className="bg-card dark:bg-gray-900 dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-border">
+          <div className="bg-card dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-border">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 bg-yellow-100 rounded-lg">
                 <Medal className="w-6 h-6 text-yellow-600" />
@@ -457,7 +457,7 @@ export default function AdminDashboard() {
           </div>
 
           {/* 🥈 Top 5 Sponsors */}
-          <div className="bg-card dark:bg-gray-900 dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-border">
+          <div className="bg-card dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-border">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 bg-emerald-100 rounded-lg">
                 <Heart className="w-6 h-6 text-emerald-600" />
@@ -486,7 +486,7 @@ export default function AdminDashboard() {
           </div>
 
           {/* 🏆 Hall of Fame */}
-          <div className="bg-card dark:bg-gray-900 dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-border">
+          <div className="bg-card dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-border">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 bg-orange-100 rounded-lg">
                 <Trophy className="w-6 h-6 text-orange-600" />
@@ -524,7 +524,7 @@ export default function AdminDashboard() {
           </div>
 
           {/* 🧑‍🤝‍🧑 Top 5 Volunteers */}
-          <div className="bg-card dark:bg-gray-900 dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-border">
+          <div className="bg-card dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-border">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 bg-blue-100 rounded-lg">
                 <Clock className="w-6 h-6 text-blue-600" />
@@ -570,7 +570,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Items Sponsored Chart */}
-        <div className="bg-card dark:bg-gray-900 dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-border">
+        <div className="bg-card dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-border">
           <div className="flex items-center gap-3 mb-6">
             <Package className="w-6 h-6 text-primary" />
             <h2 className="text-xl font-bold text-foreground">Items Sponsored</h2>

@@ -175,34 +175,34 @@ export default function AdminBoysPage() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-8">
-          <div className="bg-card dark:bg-gray-900 dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
+          <div className="bg-card dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
             <p className="text-xs text-muted-foreground mb-1">Total Boys</p>
             <p className="text-2xl font-bold text-foreground">{stats.total}</p>
           </div>
-          <div className="bg-card dark:bg-gray-900 dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
+          <div className="bg-card dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
             <p className="text-xs text-muted-foreground mb-1">Skills Track</p>
             <p className="text-2xl font-bold text-blue-600">{stats.skills}</p>
           </div>
-          <div className="bg-card dark:bg-gray-900 dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
+          <div className="bg-card dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
             <p className="text-xs text-muted-foreground mb-1">Education</p>
             <p className="text-2xl font-bold text-green-600">{stats.education}</p>
           </div>
-          <div className="bg-card dark:bg-gray-900 dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
+          <div className="bg-card dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
             <p className="text-xs text-muted-foreground mb-1">Sports</p>
             <p className="text-2xl font-bold text-orange-600">{stats.sports}</p>
           </div>
-          <div className="bg-card dark:bg-gray-900 dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
+          <div className="bg-card dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
             <p className="text-xs text-muted-foreground mb-1">Sponsored</p>
             <p className="text-2xl font-bold text-purple-600">{stats.sponsored}</p>
           </div>
-          <div className="bg-card dark:bg-gray-900 dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
+          <div className="bg-card dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
             <p className="text-xs text-muted-foreground mb-1">Avg Growth</p>
             <p className="text-2xl font-bold text-primary">{stats.avgGrowth}</p>
           </div>
         </div>
 
         {/* Filters */}
-        <div className="bg-card dark:bg-gray-900 dark:bg-gray-900 border border-border rounded-xl p-6 shadow-sm mb-6">
+        <div className="bg-card dark:bg-gray-900 border border-border rounded-xl p-6 shadow-sm mb-6">
           <div className="flex items-center gap-2 mb-4">
             <Filter className="w-5 h-5 text-primary" />
             <h2 className="text-lg font-semibold">Filters & Search</h2>
@@ -259,7 +259,7 @@ export default function AdminBoysPage() {
         </div>
 
         {/* Table */}
-        <div className="bg-card dark:bg-gray-900 dark:bg-gray-900 border border-border rounded-xl overflow-hidden shadow-sm">
+        <div className="bg-card dark:bg-gray-900 border border-border rounded-xl overflow-hidden shadow-sm">
           {filteredBoys.length === 0 ? (
             <div className="p-12 text-center">
               <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
@@ -331,7 +331,7 @@ export default function AdminBoysPage() {
                               style={{ width: `${(boy.growthMetrics?.totalScore || 0) * 10}%` }}
                             />
                           </div>
-                          <span className="text-sm font-semibold text-foreground min-w-[3rem]">
+                          <span className="text-sm font-semibold text-foreground min-w-12">
                             {boy.growthMetrics?.totalScore || 0}/10
                           </span>
                         </div>
@@ -439,7 +439,7 @@ function EditBoyModal({
   };
 
   return (
-    <div className="bg-card dark:bg-gray-900 dark:bg-gray-900 border border-border rounded-2xl p-8 shadow-2xl max-w-2xl w-full relative overflow-y-auto max-h-[90vh] animate-in zoom-in-95 duration-200">
+    <div className="bg-card dark:bg-gray-900 border border-border rounded-2xl p-8 shadow-2xl max-w-2xl w-full relative overflow-y-auto max-h-[90vh] animate-in zoom-in-95 duration-200">
       <button
         onClick={onClose}
         className="absolute top-4 right-4 p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition"

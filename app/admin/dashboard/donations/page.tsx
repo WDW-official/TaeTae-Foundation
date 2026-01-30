@@ -179,7 +179,7 @@ export default function AdminDonations() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
-          <div className="bg-card dark:bg-gray-900 dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
+          <div className="bg-card dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
             <div className="flex items-center gap-3 mb-2">
               <div className="p-2 bg-primary/10 rounded-lg">
                 <Banknote className="w-5 h-5 text-primary" />
@@ -188,7 +188,7 @@ export default function AdminDonations() {
             </div>
             <p className="text-2xl font-bold text-foreground">${stats.total.toLocaleString()}</p>
           </div>
-          <div className="bg-card dark:bg-gray-900 dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
+          <div className="bg-card dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
             <div className="flex items-center gap-3 mb-2">
               <div className="p-2 bg-blue-100 rounded-lg">
                 <Receipt className="w-5 h-5 text-blue-600" />

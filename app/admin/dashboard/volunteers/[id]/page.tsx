@@ -383,11 +383,11 @@ ${volunteer.motivation || "Not provided"}
 
         {/* Profile Header */}
         <div className="bg-card dark:bg-gray-900 border border-border rounded-2xl shadow-sm overflow-hidden mb-6">
-          <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent h-32"></div>
+          <div className="bg-linear-to-r from-primary/10 via-primary/5 to-transparent h-32"></div>
           <div className="px-8 pb-8">
             <div className="flex flex-col md:flex-row gap-6 -mt-16">
               {/* Profile Image */}
-              <div className="flex-shrink-0">
+              <div className="shrink-0">
                 <div className="w-32 h-32 rounded-2xl overflow-hidden border-4 border-card shadow-lg bg-primary/10">
                   {volunteer.profile_photo_url ? (
                     <img
@@ -844,7 +844,7 @@ ${volunteer.motivation || "Not provided"}
         {/* Timeline Section */}
         {volunteer.createdAt && (
           <div className="mt-6 bg-card dark:bg-gray-900 border border-border rounded-2xl shadow-sm overflow-hidden">
-            <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent p-6 border-b border-border">
+            <div className="bg-linear-to-r from-primary/10 via-primary/5 to-transparent p-6 border-b border-border">
               <h2 className="text-xl font-bold text-foreground flex items-center gap-3">
                 <Calendar className="w-6 h-6 text-primary" />
                 Timeline
