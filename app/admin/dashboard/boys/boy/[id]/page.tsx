@@ -684,7 +684,7 @@ export default function BoyDashboard() {
                   </div>
                   {boy.cognitiveAssessments.length > 0 ? (
                     <div className="space-y-3">
-                      {boy.cognitiveAssessments[0].map((assessment, idx) => (
+                      {boy.cognitiveAssessments.map((assessment, idx) => (
                         <div key={idx} className="p-4 bg-secondary/20 rounded-lg border border-border">
                           <div className="flex justify-between items-start mb-3">
                             <div>
