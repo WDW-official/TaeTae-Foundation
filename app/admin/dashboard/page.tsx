@@ -116,10 +116,10 @@ export default function AdminDashboard() {
   useEffect(() => {
     fetchStats();
     const savedMode = localStorage.getItem("darkMode");
-    if (savedMode === "true") {
-      setDarkMode(true);
-      document.documentElement.classList.add("dark");
-    }
+    // if (savedMode === "true") {
+    //   setDarkMode(true);
+    //   document.documentElement.classList.add("dark");
+    // }
   }, []);
 
   const toggleDarkMode = () => {

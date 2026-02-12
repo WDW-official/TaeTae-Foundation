@@ -30,7 +30,7 @@ export default function SupportPage() {
             </h1>
 
             <p className="lg:text-lg text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
-              There are many ways to be part of our journey, donate, sponsor, or volunteer.
+              There are three ways to be part of this journey, donate, sponsor, or volunteer.
               Each contribution directly impacts the boys we serve and the future we’re
               shaping together.
             </p>
@@ -65,7 +65,7 @@ export default function SupportPage() {
             <img
               src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764570541/Carpentry_2_ceiql0.png"
               alt="Support Illustration"
-              className="w-full h-[420px] object-cover"
+              className="w-full h-105 object-cover"
             />
           </motion.div>
 
@@ -74,7 +74,7 @@ export default function SupportPage() {
 
 
       {/* SUPPORT OPTIONS */}
-      <section id="support-options" className="bg-card dark:bg-gray-900 dark:bg-gray-900 container mx-auto px-4 py-12">
+      <section id="support-options" className="bg-card dark:bg-gray-900  container mx-auto px-4 py-3 md:py-12">
         <div className=" mx-auto">
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -97,7 +97,7 @@ export default function SupportPage() {
                 </div>
 
                 <p className="text-muted-foreground text-sm mb-6">
-                  Your generosity helps us build leaders for tomorrow. Choose a cause — Skills, Education, or Sports — and decide how you’d like to give.
+                  Your generosity helps us build leaders for tomorrow. Choose a cause: Skills, Education, or Sports and decide how you’d like to give.
                 </p>
 
                 <Link
@@ -175,7 +175,7 @@ export default function SupportPage() {
           </div>
         </div>
       </section>
-      <section className="container mx-auto px-4 py-16">
+      <section className="container mx-auto px-4 py-1 md:py-16">
         <PublicImpactSection />
       </section>
 

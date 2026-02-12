@@ -48,6 +48,9 @@ export default function HowWeOperatePage() {
               and opportunity, they grow into responsible men who uplift their families and
               communities.
             </p>
+            <div className="absolute -bottom-6 text-sm lg:text-base  bg-primary text-white px-6 py-3 rounded-xl shadow-lg">
+                <p className="font-semibold">Growth • Excellence • Integrity</p>
+            </div>
           </motion.div>
 
           {/* Right Decorative Card */}
@@ -58,17 +61,15 @@ export default function HowWeOperatePage() {
             transition={{ duration: 0.6 }}
             className="relative"
             >
-            <div className="rounded-2xl overflow-hidden shadow-xl">
+            <div className="rounded-2xl overflow-hidden ">
                 <img
-                src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764570541/TaeTae_Elec_Elect_1_bvniay.png"
+                src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1770925732/iPhone_17_Pro_Mockup_Free.svg.png_qbwmye.svg"
                 alt="Boys in leadership training"
                 className="w-full md:h-[380px] object-cover"
                 />
             </div>
 
-            <div className="absolute -bottom-6 text-sm lg:text-base left-6 bg-primary text-white px-6 py-3 rounded-xl shadow-lg">
-                <p className="font-semibold">Mentorship • Discipline • Growth</p>
-            </div>
+            
           </motion.div>
           
         </div>
@@ -82,7 +83,7 @@ export default function HowWeOperatePage() {
             {/* ---------------------------------------- */}
             <section className="bg-secondary dark:bg-gray-800 lg:py-24 py-10">
               <div className="container mx-auto px-4">
-                <h2 className="lg:text-4xl text-xl  font-bold text-gray-900 dark:text-white mb-6 text-center">
+                <h2 className="lg:text-5xl text-xl  font-bold text-gray-900 dark:text-white mb-6 text-center">
                   How We Operate
                 </h2>
       

@@ -10,23 +10,42 @@ import Footer from "@/components/footer";
 import IconRenderer from "@/components/icon-renderer";
 
 export default function AboutFoundationPage() {
+
+  const weDo = [
+    {
+      title: "Education & Mentorship",
+      description: "Strengthening academic foundations, confidence, values, and life skills.",
+    },
+    {
+      title: "Skills & Future Work",
+      description: "Equipping boys with vocational, STEM, digital, and creative skills linked to employability.",
+    },
+    {
+      title: "Sports Development",
+      description: "Using structured sports to build discipline, teamwork, health, and leadership.",
+    },
+    {
+      title: "Volunteer & Trainer",
+      description: "Developing coaches, mentors, and artisans to deliver programmes safely and consistently.",
+    },
+  ]
   
   const pillars = [
-    {
-      title: "Mission",
-      icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617603/Our_Mission_akg8w9.svg",
-      description: "Global compassion and outreach, shaping boys into men who uplift their communities.",
-    },
-    {
-      title: "Vision",
-      icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764757163/Our_Vision_oey5gf.svg",
-      description: "Clarity of purpose and direction, guiding boys to become responsible leaders.",
-    },
-    {
-      title: "Values",
-      icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617622/Values_julkif.svg",
-      description: "Integrity, growth, and excellence, principles that shape character and purpose.",
-    },
+    // {
+    //   title: "Mission",
+    //   icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617603/Our_Mission_akg8w9.svg",
+    //   description: "Global compassion and outreach, shaping boys into men who uplift their communities.",
+    // },
+    // {
+    //   title: "Vision",
+    //   icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764757163/Our_Vision_oey5gf.svg",
+    //   description: "Clarity of purpose and direction, guiding boys to become responsible leaders.",
+    // },
+    // {
+    //   title: "Values",
+    //   icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617622/Values_julkif.svg",
+    //   description: "Integrity, growth, excellence, and Integrity, principles that shape character and purpose.",
+    // },
     {
       title: "5-Year Plan",
       icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617610/5_Year_Plan_hpdcjt.svg",
@@ -62,7 +81,7 @@ export default function AboutFoundationPage() {
           >
             <h1 className="text-2xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-tight mb-6">
               Building Boys of{" "}
-              <span className="text-primary">Character, Competence,</span>{" "}
+              <span className="text-primary md:text-[50px]">Character, Competence,</span>{" "}
               and Confidence
             </h1>
 
@@ -93,11 +112,130 @@ export default function AboutFoundationPage() {
           >
             <img
               src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764570529/freepik__a-black-teenage-boy-in-a-modern-classroom-assembli__14053_tqfmsn.jpg"
-              className="w-full h-[420px] object-cover"
+              className="w-full h-105 object-cover"
               alt="About the Foundation"
             />
           </motion.div>
         </div>
+      </section>
+      <section className="from-[#2f5129] bg-linear-to-br to-[#2a6f1a] dark:from-[#0a1421] dark:to-[#0a1421] grid-cols-1 gap-12 grid md:grid-cols-2 dark:bg-gray-900 p-4 md:p-14">
+        <div className="relative  group gr  overflow-hidden">
+          <div>
+            <h1 className="text-2xl lg:text-5xl text-white text-center font-bold dark:text-white leading-tight mb-6">
+              What We Must Achive 
+            </h1>
+            <p className="text-center text-white text-sm md;mb-12 mb-5 max-w-2xl mx-auto">
+            By 2030, we must have systematically developed and fine tuned a programme that will child the lives of the boy-child for generations to come.
+            </p>
+            <div className="grid-cols-1 p-2 gap-3 grid md:grid-cols-2 ">
+              <div className="flex-1">
+                <h1 className="text-2xl flex-1 lg:text-4xl text-white font-bold dark:text-white leading-tight mb-2">
+                  Mission
+                </h1>
+                <p className=" text-white text-sm md;mb-12  max-w-2xl mx-auto">
+                  To identify, nurture, and develop the talents, abilities, and character of the boy-child, especially in underserved communities, by providing access to structured sports programmes, quality education, vocational and digital skills, mentorship, and opportunity platforms.
+                </p>
+              </div>
+              <div className="block md:hidden ">
+                <h1 className="text-2xl flex-1 lg:text-4xl text-white  font-bold dark:text-white leading-tight mb-2">
+                  Vision
+                </h1>
+                <p className=" text-white flex md:hidden text-sm md;mb-12  max-w-2xl mx-auto">
+                  To raise a generation of young men who are physically strong, intellectually capable, emotionally intelligent, and economically empowered, able to compete locally and globally, becoming contributors to the continuous development of future generations
+                </p>
+              </div>
+              <div>
+              <img
+                src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1770906839/unnamed_5_1_pqbbth.svg"
+                className=" rounded-xl max-w-[94%]  object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              </div>
+            </div>
+            <div className="grid-cols-1 hidden  p-2 gap-3 md:grid md:grid-cols-2">             
+              <div>
+                <img
+                  src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1770913426/unnamed_2_gyffal.svg"
+                  className=" rounded-xl max-w-[94%]  object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div className="flex-1">
+                <h1 className="text-2xl md:flex hidden flex-1 lg:text-4xl text-white  font-bold dark:text-white leading-tight mb-2">
+                  Vision
+                </h1>
+                <p className=" text-white md:flex hidden  text-sm md;mb-12  max-w-2xl mx-auto">
+                  To raise a generation of young men who are physically strong, intellectually capable, emotionally intelligent, and economically empowered, able to compete locally and globally, becoming contributors to the continuous development of future generations
+                </p>
+              </div>
+            </div>
+
+          {/* color overlay */}
+          {/* <div className="absolute inset-0 bg-black/40"></div> */}
+
+          {/* word on top */}
+          {/* <div className="absolute  flex inset-0 items-center justify-center">
+            <span className="text-white  text-sm">
+              Every contribution big or small changes a boy's trajectory, and contributes to his future outcome for the betterment of the society.
+            </span>
+          </div>
+          <div className="absolute flex inset-0 mb-20 items-center justify-center">
+            <span className="text-white  text-sm">
+              Every contribution big or small changes a boy's trajectory, and contributes to his future outcome for the betterment of the society.
+            </span>
+          </div> */}
+          </div>
+          <div>
+
+          </div>
+        </div>
+
+      <div>
+        <h1 className="text-2xl lg:text-5xl text-white text-center font-bold dark:text-white leading-tight mb-6">
+          How We Do
+        </h1>
+        <p className="text-center text-white md:text-sm text-[17px]  md;mb-12 mb-5 max-w-2xl mx-auto">
+          We combine four proven pillars into one coordinated programme:
+        </p>
+
+        <div className="grid grid-cols-2 sm:grid-cols-2 sm:mt-13.5 my-10 lg:grid-cols-2 gap-2 md:gap-10">
+            {weDo.map((pillar, index) => {
+              
+
+              return (
+                <motion.div
+                  key={pillar.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1, duration: 0.5 }}
+                  className="group p-2 md:p-8 from-[#ffffff] bg-linear-to-br shadow-2xl to-[#fdffbe] dark:from-[#1d395d] dark:to-[#0a1421] dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 hover:shadow-xl transition relative"
+                >
+                  
+                  {/* Title */}
+                  <h3 className="lg:text-2xl text-[11px] md:text-xl font-bold text-gray-600 dark:text-white mb-2">
+                    {pillar.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-gray-600 dark:text-gray-400 lg:text-base text-[10px] leading-relaxed mb-6">
+                    {pillar.description}
+                  </p>
+
+                  {/* Arrow CTA — only if link exists */}
+                  {/* {pillar.href && (
+                    <Link
+                      href={pillar.href}
+                      className="inline-flex items-center gap-2 text-primary font-semibold text-sm hover:underline"
+                    >
+                      Learn More
+                      <ArrowRight
+                        className="w-4 h-4 transition-transform group-hover:translate-x-1"
+                      />
+                    </Link>
+                  )} */}
+                </motion.div>
+              )
+            })}
+        </div>
+      </div>
       </section>
 
       
@@ -105,33 +243,20 @@ export default function AboutFoundationPage() {
       <section className="container mx-auto px-4 py-2">
         {/* ABOUT SECTION */}
         <section className="container mx-auto px-4 py-10">
-            <h2 className="lg:text-4xl text-xl font-bold text-gray-900 dark:text-white mb-12 text-center">
-                Our Approach
+            <h2 className="lg:text-4xl italic text-lg font-bold text-gray-900 dark:text-white mb-2 text-center">
+                A DATA-DRIVEN ACCOUNTABLE NGO
             </h2>
+            <p className="lg:text-2xl font-bold text-primary text-base text-gray-600 dark:text-gray-300 leading-relaxed mb-4 text-center max-w-3xl mx-auto">
+              Technology That Turns Impact Into Measurable Outcomes
+            </p>
+            <p className="text-center hidden md:block text-sm mb-2 md:mb-12">
+              Accountability: Audit-ready data at any point in time <br/>
+              Transparency: Know exactly where funds go and what they achieve
+            </p>
 
             <div className="grid lg:grid-cols-2 gap-12 items-center">
 
                 {/* LEFT — IMAGE + BADGE */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  className="hidden lg:block"
-                >
-                  <div className=" p-3 ">
-                    <h3 className="text-3xl text-primary font-bold mb-4">Our Commitment</h3>
-                    <p className="text-lg leading-relaxed">
-                      We mentor and equip boys ages 10 to 14 through sports, leadership training,
-                      education, and skills development, laying the foundation for lifelong purpose.
-                    </p>
-                    <p className="lg:text-lg text-sm text-gray-700 dark:text-gray-300 leading-relaxed ">
-                      We equip boys to take ownership of their development through hands-on learning,
-                      guidance, and structured support.
-                    </p>
-                  </div>
-                </motion.div>
-
-                {/* RIGHT — CONTENT */}
                 <motion.div
                 initial={{ opacity: 0, x: 40 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -144,19 +269,57 @@ export default function AboutFoundationPage() {
                 
 
                 {/* Highlighted Box */}
-                <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-md border border-gray-200 dark:border-gray-700">
-                    <p className="lg:text-lg text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
-                        Through sports, mentorship, and learning opportunities, we nurture qualities like
-                        discipline, empathy, leadership, and confidence — teaching boys that manhood is
-                        built on responsibility, not strength alone.
+                <div className=" p-3 ">
+                    <p className="text-sm text-center   leading-relaxed">
+                      Participant Progress & Programme Management
                     </p>
+                    <p className="lg:text-lg hidden md:block text-center  text-sm text-gray-700 dark:text-gray-300 leading-relaxed ">
+                      Monitors engagement, outcomes, and development<br/> pathways for every boy
+                    </p>
+                    <p className="lg:text-lg md:hidden block text-center  text-sm text-gray-700 dark:text-gray-300 leading-relaxed ">
+                      Monitors engagement, outcomes, and development pathways for every boy
+                    </p>
+                    <div>
+                      <img
+                        src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1770915283/macbook_pro_ergnrp.svg"
+                        className=" md:rounded-xl my-12 max-w-[94%]  object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <p className="lg:text-base text-sm text-gray-700 dark:text-gray-300 leading-relaxed ">
+                      Monitor academic, skills, sports, and mentorship progress per participant Identify high performers, at-risk participants, and intervention needs early.
+                    </p>
+                  </div>
+                </motion.div>
+                
 
-                    <p className="lg:text-lg text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-                    With collaborators across schools, families, and community organizations, we
-                    guide boys aged 10–14 — a defining stage where values, identity, and purpose
-                    begin to form.
+                {/* RIGHT — CONTENT */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  className=""
+                >
+                  <div className=" p-3 ">
+                    <p className="text-sm text-center leading-relaxed">
+                      Live Sponsorship & Funding Dashboard
                     </p>
-                </div>
+                    <p className="lg:text-lg text-center text-sm text-gray-700 dark:text-gray-300 leading-relaxed ">
+                      Tracks donor contributions, allocations, and <br/>programme funding in real time
+                    </p>
+                    <div>
+                      <img
+                        src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1770922105/macbook_pro_2_gttwqs.svg"
+                        className=" md:rounded-xl my-12 max-w-[94%]  object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <p className="text-base text-primary leading-relaxed">
+                      Real-Time Financial Transparency
+
+                    </p>
+                    <p className="lg:text-base text-sm text-gray-700 dark:text-gray-300 leading-relaxed ">
+                      Live visibility into sponsorships, donations, and allocations Clear audit trails from funding received to activities delivered
+                    </p>
+                  </div>
                 </motion.div>
 
             </div>
@@ -171,15 +334,77 @@ export default function AboutFoundationPage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="bg-white dark:bg-gray-800 rounded-2xl p-10 shadow-md border  border-gray-200 dark:border-gray-700 mb-20"
+          className="bg-white dark:bg-gray-800 rounded-2xl md:p-10 p-2 shadow-md border  border-gray-200 dark:border-gray-700 mb-20"
         >
-          <h2 className="lg:text-4xl text-xl font-bold text-gray-900 dark:text-white mb-6">Our 5-Year Plan</h2>
-          <ul className="space-y-4 text-gray-700 dark:text-gray-300 lg:text-lg text-sm leading-relaxed">
-            <li>• Establish mentorship & leadership development programs.</li>
-            <li>• Promote holistic education through school partnerships.</li>
-            <li>• Build sports & skill centers combining play, learning, and guidance.</li>
-            <li>• Support community-driven initiatives that uplift families and neighborhoods.</li>
-          </ul>
+          <section className="w-full">
+
+          {/* TOP GRID */}
+          <div className="grid md:grid-cols-2">
+
+            {/* LEFT GREEN PANEL */}
+            <div className="bg-primary dark:bg-gray-900 text-white md:p-10 p-4">
+              <h2 className="sm:text-3xl drop-shadow-2xl text-xl font-bold mb-6">
+                80% Vocational or Digital Employability
+              </h2>
+
+              <ul className="space-y-4 text-sm sm:text-lg">
+                <li>Participants placed into apprenticeships, internships, or paid work</li>
+                <li>Job-ready technical, digital, and creative skill sets</li>
+                <li>Early income-generation and entrepreneurship pathways</li>
+              </ul>
+            </div>
+
+            {/* RIGHT LIGHT PANEL */}
+            <div className="bg-gray-100 dark:bg-gray-800 md:p-10 p-4">
+              <h2 className="md:text-4xl text-2xl font-extrabold mb-6">
+                EVERY 5 YEARS
+              </h2>
+
+              <h3 className="md:text-2xl text-lg font-bold text-green-700 mb-4">
+                National Sports Representation Pathways
+              </h3>
+
+              <ul className="space-y-4 md:text-lg text-sm">
+                <li>Identified elite athletes progressing into pipelines</li>
+                <li>Structured exposure through tournaments</li>
+                <li>Discipline, leadership, and health outcomes</li>
+              </ul>
+            </div>
+
+          </div>
+
+
+          {/* BOTTOM IMAGE ROW */}
+          <div className="grid md:grid-cols-3 gap-6 bg-primary/20 p-8">
+
+            {/* BIG ROUNDED IMAGE */}
+            {/* <div className="md:col-span-1">
+              <img
+                src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1770915530/iPhone_17_Pro_Mockup_Free_1_kthlrc.svg"
+                className="w-full h-[320px] object-cover rounded-bl-[60px] rounded-tr-[60px]"
+              />
+            </div> */}
+
+            {/* SLANTED IMAGE 1 */}
+            {/* <div className="h-[320px] overflow-hidden">
+              <img
+                src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1770915530/iPhone_17_Pro_Mockup_Free_1_kthlrc.svg"
+                className="w-full h-full object-cover clip-slant"
+              />
+            </div> */}
+
+            {/* SLANTED IMAGE 2 */}
+            {/* <div className="h-[320px] overflow-hidden">
+              <img
+                src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1770915530/iPhone_17_Pro_Mockup_Free_1_kthlrc.svg"
+                className="w-full h-full object-cover clip-slant-reverse"
+              />
+            </div> */}
+
+          </div>
+
+        </section>
+
         </motion.div>
 
         {/* PILLARS */}
@@ -193,7 +418,7 @@ export default function AboutFoundationPage() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1, duration: 0.5 }}
-                className="group p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-200 dark:border-gray-700 hover:shadow-xl transition relative"
+                className="group p-8 bg-white dark:bg-gray-800 mb-8 rounded-2xl shadow-md border border-gray-200 dark:border-gray-700 hover:shadow-xl transition relative"
               >
                 {/* Icon */}
                 <div className="w-14 h-14 rounded-full bg-primary/15 dark:bg-[#76b569]/20 flex items-center justify-center mb-4">

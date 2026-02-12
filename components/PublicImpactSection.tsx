@@ -46,9 +46,9 @@ export default function PublicStatsSection() {
       {
         label: "Registered Boys",
         data: [
-          stats.boysByProgram.skills,
-          stats.boysByProgram.sports,
-          stats.boysByProgram.education,
+          stats.boysByProgram?.skills,
+          stats.boysByProgram?.sports,
+          stats.boysByProgram?.education,
         ],
         backgroundColor: ["#8bc97f", "#f97316", "#10b981"],
         borderRadius: 10,
@@ -127,7 +127,7 @@ export default function PublicStatsSection() {
           <div className="h-1 w-full rounded-full"></div>
         </div>
         <p className="text-gray-600 dark:text-gray-400 mt-6 text-base max-w-2xl mx-auto">
-          Together, we're making a difference in young lives through education, skills, and sports programs.
+          Below is a glance at our progress thus far. Together, we're making a difference in young lives through education, skills, sports, and mentorship programs.
         </p>
       </div>
 
@@ -138,11 +138,11 @@ export default function PublicStatsSection() {
           <h3 className="text-lg md:text-2xl font-bold text-gray-900 dark:text-white">Our Impact at a Glance</h3>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4  md:gap-6">
           {impactItems.map((item, index) => (
             <div 
               key={index}
-              className={`group relative flex flex-col items-center text-center p-6 rounded-xl border-2 border-transparent hover:border-${item.color}-200 dark:hover:border-${item.color}-800 transition-all duration-300 hover:scale-105 hover:shadow-lg `}
+              className={`group relative flex flex-col items-center text-center md:p-6 p-3 rounded-xl border-2 border-transparent hover:border-${item.color}-200 dark:hover:border-${item.color}-800 transition-all duration-300 hover:scale-105 hover:shadow-lg `}
             >
               <div className={`w-16 h-16 flex items-center justify-center rounded-xl bg-${item.color}-100 dark:bg-${item.color}-900 group-hover:scale-110 transition-transform duration-300 shadow-sm mb-4`}>
                 <div className={`text-${item.color}-700 dark:text-${item.color}-300`}>

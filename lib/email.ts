@@ -83,7 +83,7 @@ const emailTemplate = (content: string) => `
 <body>
   <div class="container">
     <div class="header">
-      <h1>💚 TaeTae Foundation</h1>
+      <h1 style="color: #ffffff;">💚 TaeTae Foundation</h1>
       <p style="margin: 5px 0 0 0; opacity: 0.9;">Empowering Boys Through Skills, Education & Sports</p>
     </div>
     <div class="content">
@@ -105,7 +105,7 @@ const emailTemplate = (content: string) => `
 
 export async function sendBoyEnrollmentEmail(boy: any, guardianEmail?: string) {
   const content = `
-    <h2>🎉 Welcome to TaeTae Foundation!</h2>
+    <h2 style="color: #ffffff;">🎉 Welcome to TaeTae Foundation!</h2>
     <p>Dear <strong>${boy.guardian_name}</strong>,</p>
     <p>We are thrilled to inform you that <strong>${boy.first_name} ${boy.last_name}</strong> has been successfully enrolled in our program!</p>
     
@@ -153,7 +153,7 @@ export async function sendBoyEnrollmentEmail(boy: any, guardianEmail?: string) {
 }
 export async function sendSponsorshipEmail(sponsorship: any, sponsorEmail?: string) {
   const content = `
-    <h2>🎉 Welcome to TaeTae Foundation!</h2>
+    <h2style="color: #ffffff;">🎉 Welcome to TaeTae Foundation!</h2>
     <p>Dear <strong>$${sponsorship.sponsorName}</strong>,</p>
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
     <h2 style="color: #8bc97f;">TaeTae Foundation 💚</h2>

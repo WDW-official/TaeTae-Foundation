@@ -104,7 +104,7 @@ export default function Footer() {
 
               <li className="flex items-start gap-3">
                 <Phone size={20} />
-                <span>+234 (000) 000 0000</span>
+                <span>+234 (904) 0000 551</span>
               </li>
 
             </ul>

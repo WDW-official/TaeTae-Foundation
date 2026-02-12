@@ -7,6 +7,7 @@ import { AlertCircle, Lock, X } from "lucide-react"
 import Navigation from "@/components/navigation"
 import { useAuthStore } from "../store/auth.store"
 import { routeByRole } from "@/lib/routeByRole"
+import { motion } from "framer-motion"
 
 
 export default function AdminLogin() {
@@ -148,6 +149,25 @@ export default function AdminLogin() {
     <main className="min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         <Navigation/>
+        <motion.div
+          initial={{ opacity: 0, x: -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="relative"
+          >
+          {/* <div className="rounded-2xl overflow-hidden shadow-xl">
+              <img
+              src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764570541/TaeTae_Elec_Elect_1_bvniay.png"
+              alt="Boys in leadership training"
+              className="w-full md:h-[380px] object-cover"
+              />
+          </div> */}
+
+          {/* <div className="absolute -bottom-6 text-sm lg:text-base left-6 bg-primary text-white px-6 py-3 rounded-xl shadow-lg">
+              <p className="font-semibold"> Excellence • Growth • Integrity</p>
+          </div> */}
+        </motion.div>
         <div className="bg-card dark:bg-gray-900  rounded-lg p-8 shadow-lg">
           <h1 className="text-xl font-semibold flex items-center gap-3 mb-2">
             <Lock className="w-4 h-4 text-primary" />

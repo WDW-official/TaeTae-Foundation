@@ -147,3 +147,11 @@ body {
   height: 9px;
   border-width: 2px;
 }
+
+.clip-slant {
+  clip-path: polygon(12% 0, 100% 0, 88% 100%, 0 100%);
+}
+
+.clip-slant-reverse {
+  clip-path: polygon(0 0, 88% 0, 100% 100%, 12% 100%);
+}
