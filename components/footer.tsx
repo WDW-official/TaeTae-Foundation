@@ -24,28 +24,28 @@ export default function Footer() {
               <a
                 href="https://www.facebook.com/share/1CsbxtFyeg/?mibextid=wwXIfr"
                 aria-label="Facebook"
-                className="w-10 h-10 rounded-full bg-white/10 hover:bg-[#76b569] dark:hover:bg-[#8bc97f] flex items-center justify-center transition-colors"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-primary dark:hover:bg-[#8bc97f] flex items-center justify-center transition-colors"
               >
                 <Facebook size={20} />
               </a>
               <a
                 href="https://x.com/taetaefound?s=11"
                 aria-label="Twitter"
-                className="w-10 h-10 rounded-full bg-white/10 hover:bg-[#76b569] dark:hover:bg-[#8bc97f] flex items-center justify-center transition-colors"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-primary dark:hover:bg-[#8bc97f] flex items-center justify-center transition-colors"
               >
                 <Twitter size={20} />
               </a>
               <a
                 href="https://www.instagram.com/taetaefoundation?igsh=dmZucTduOTlwY3ls"
                 aria-label="Instagram"
-                className="w-10 h-10 rounded-full bg-white/10 hover:bg-[#76b569] dark:hover:bg-[#8bc97f] flex items-center justify-center transition-colors"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-primary dark:hover:bg-[#8bc97f] flex items-center justify-center transition-colors"
               >
                 <Instagram size={20} />
               </a>
               <a
                 href="https://www.linkedin.com/company/taetaefoundation/"
                 aria-label="LinkedIn"
-                className="w-10 h-10 rounded-full bg-white/10 hover:bg-[#76b569] dark:hover:bg-[#8bc97f] flex items-center justify-center transition-colors"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-primary dark:hover:bg-[#8bc97f] flex items-center justify-center transition-colors"
               >
                 <Linkedin size={20} />
               </a>
@@ -97,8 +97,7 @@ export default function Footer() {
               <li className="flex items-start gap-3">
                 <Mail size={20} />
                 <span>
-                  info@taetaefoundation.org  
-                  
+                  taetaefoundation@gmail.com
                 </span>
               </li>
 

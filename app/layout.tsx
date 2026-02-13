@@ -8,7 +8,6 @@ import Navigation from "@/components/navigation"
 import Footer from "@/components/footer"
 import NextTopLoader from "nextjs-toploader";
 import { ToastContainer } from "react-toastify"
-import Providers from "./providers"
 
 const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
@@ -25,6 +24,14 @@ const geistSans = Geist({
 export const metadata: Metadata = {
   title: "TaeTae Foundation - Building Tomorrow's Leaders",
   description: "TaeTae Foundation mentors and develops boys through Skills, Education, and Sports programs.",
+
+  icons: {
+    icon: [
+      "/public/favicon.ico",
+    ],
+    apple: ["/public/apple-touch-icon.png"],
+    shortcut: ["/public/favicon.ico"],
+  },
 }
 
 export default function RootLayout({

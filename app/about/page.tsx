@@ -46,11 +46,11 @@ export default function AboutFoundationPage() {
     //   icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617622/Values_julkif.svg",
     //   description: "Integrity, growth, excellence, and Integrity, principles that shape character and purpose.",
     // },
-    {
-      title: "5-Year Plan",
-      icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617610/5_Year_Plan_hpdcjt.svg",
-      description: "Long-term strategic development for mentorship, education, sports, and skill centers.",
-    },
+    // {
+    //   title: "5-Year Plan",
+    //   icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617610/5_Year_Plan_hpdcjt.svg",
+    //   description: "Long-term strategic development for mentorship, education, sports, and skill centers.",
+    // },
     {
       title: "Get Involved",
       icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617578/Support_hb7jin.svg",
@@ -190,7 +190,7 @@ export default function AboutFoundationPage() {
 
       <div>
         <h1 className="text-2xl lg:text-5xl text-white text-center font-bold dark:text-white leading-tight mb-6">
-          How We Do
+          How We Will Achieve It.
         </h1>
         <p className="text-center text-white md:text-sm text-[17px]  md;mb-12 mb-5 max-w-2xl mx-auto">
           We combine four proven pillars into one coordinated programme:
@@ -240,13 +240,13 @@ export default function AboutFoundationPage() {
 
       
       {/* MAIN CONTENT */}
-      <section className="container mx-auto px-4 py-2">
+      <section className="container mx-auto py-2">
         {/* ABOUT SECTION */}
         <section className="container mx-auto px-4 py-10">
             <h2 className="lg:text-4xl italic text-lg font-bold text-gray-900 dark:text-white mb-2 text-center">
                 A DATA-DRIVEN ACCOUNTABLE NGO
             </h2>
-            <p className="lg:text-2xl font-bold text-primary text-base text-gray-600 dark:text-gray-300 leading-relaxed mb-4 text-center max-w-3xl mx-auto">
+            <p className="lg:text-2xl font-bold text-primary text-base dark:text-gray-300 leading-relaxed mb-4 text-center max-w-3xl mx-auto">
               Technology That Turns Impact Into Measurable Outcomes
             </p>
             <p className="text-center hidden md:block text-sm mb-2 md:mb-12">
@@ -254,7 +254,7 @@ export default function AboutFoundationPage() {
               Transparency: Know exactly where funds go and what they achieve
             </p>
 
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="grid lg:grid-cols-2 md:gap-12 gap-6 items-center">
 
                 {/* LEFT — IMAGE + BADGE */}
                 <motion.div
@@ -269,8 +269,8 @@ export default function AboutFoundationPage() {
                 
 
                 {/* Highlighted Box */}
-                <div className=" p-3 ">
-                    <p className="text-sm text-center   leading-relaxed">
+                <div className="  ">
+                    <p className="text-sm lg:text-lg text-center leading-relaxed">
                       Participant Progress & Programme Management
                     </p>
                     <p className="lg:text-lg hidden md:block text-center  text-sm text-gray-700 dark:text-gray-300 leading-relaxed ">
@@ -282,7 +282,7 @@ export default function AboutFoundationPage() {
                     <div>
                       <img
                         src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1770915283/macbook_pro_ergnrp.svg"
-                        className=" md:rounded-xl my-12 max-w-[94%]  object-cover group-hover:scale-105 transition-transform duration-300"
+                        className=" md:rounded-xl sm:my-12 my-4 max-w-[94%]  object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>
                     <p className="lg:text-base text-sm text-gray-700 dark:text-gray-300 leading-relaxed ">
@@ -300,16 +300,19 @@ export default function AboutFoundationPage() {
                   className=""
                 >
                   <div className=" p-3 ">
-                    <p className="text-sm text-center leading-relaxed">
+                    <p className="text-sm lg:text-lg text-center leading-relaxed">
                       Live Sponsorship & Funding Dashboard
                     </p>
-                    <p className="lg:text-lg text-center text-sm text-gray-700 dark:text-gray-300 leading-relaxed ">
+                    <p className="lg:text-lg hidden md:block text-center text-sm text-gray-700 dark:text-gray-300 leading-relaxed ">
                       Tracks donor contributions, allocations, and <br/>programme funding in real time
+                    </p>
+                    <p className="lg:text-lg md:hidden block  text-center text-sm text-gray-700 dark:text-gray-300 leading-relaxed ">
+                      Tracks donor contributions, allocations, and programme funding in real time
                     </p>
                     <div>
                       <img
                         src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1770922105/macbook_pro_2_gttwqs.svg"
-                        className=" md:rounded-xl my-12 max-w-[94%]  object-cover group-hover:scale-105 transition-transform duration-300"
+                        className=" md:rounded-xl sm:my-12 my-4  max-w-[94%]  object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>
                     <p className="text-base text-primary leading-relaxed">
@@ -421,7 +424,7 @@ export default function AboutFoundationPage() {
                 className="group p-8 bg-white dark:bg-gray-800 mb-8 rounded-2xl shadow-md border border-gray-200 dark:border-gray-700 hover:shadow-xl transition relative"
               >
                 {/* Icon */}
-                <div className="w-14 h-14 rounded-full bg-primary/15 dark:bg-[#76b569]/20 flex items-center justify-center mb-4">
+                <div className="w-14 h-14 rounded-full bg-primary/15 dark:bg-primary/20 flex items-center justify-center mb-4">
                   <IconRenderer icon={Icon} size={32} className="text-primary" />
                 </div>
 

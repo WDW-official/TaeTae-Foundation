@@ -694,7 +694,7 @@ export default function VolunteerDetail() {
                   {/* SECTION BODY */}
                   <div
                     className={`transition-all duration-300 overflow-hidden ${
-                      showVideos ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0"
+                      showVideos ? "max-h-500 opacity-100" : "max-h-0 opacity-0"
                     }`}
                   >
                     <div className="py-4 space-y-4">
@@ -748,7 +748,7 @@ export default function VolunteerDetail() {
                               <div
                                 className={`transition-all duration-300 overflow-hidden ${
                                   isOpen
-                                    ? "max-h-[1000px] opacity-100"
+                                    ? "max-h-250 opacity-100"
                                     : "max-h-0 opacity-0"
                                 }`}
                               >
@@ -810,7 +810,7 @@ export default function VolunteerDetail() {
 
                   <div
                     className={`transition-all duration-300 overflow-hidden ${
-                      showFiles ? "max-h-[2000px] opacity-100" : "max-h-0 opacity-0"
+                      showFiles ? "max-h-500 opacity-100" : "max-h-0 opacity-0"
                     }`}
                   >
                     <div className="p-4 grid grid-cols-1 md:grid-cols-6 gap-6">

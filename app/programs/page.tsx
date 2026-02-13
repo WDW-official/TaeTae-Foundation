@@ -40,7 +40,7 @@ export default function HowWeOperatePage() {
             transition={{ duration: 0.6 }}
           >
             <h1 className="text-xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight mb-6">
-              Shaping Boys Into
+              Shaping Boys Into<br/>
               <span className="text-primary dark:text-[#8bc97f]"> Men of Purpose</span>
             </h1>
             <p className="lg:text-xl text-sm text-gray-600 dark:text-gray-300 leading-relaxed lg:mb-8 max-w-xl">
@@ -65,7 +65,7 @@ export default function HowWeOperatePage() {
                 <img
                 src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1770925732/iPhone_17_Pro_Mockup_Free.svg.png_qbwmye.svg"
                 alt="Boys in leadership training"
-                className="w-full md:h-[380px] object-cover"
+                className="w-full md:h-95 mb-8  object-cover"
                 />
             </div>
 
