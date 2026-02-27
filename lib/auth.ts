@@ -10,6 +10,8 @@ export interface User {
   email: string
   password: string // hashed
   role: UserRole
+  name?: string
+  phone?: string
   resetOTP?: string
   volunteerId?: string
   resetExpiry?: number
@@ -25,6 +27,8 @@ export async function createUser(
   email: string,
   password: string,
   role: UserRole,
+  name?: string,
+  phone?: string,
   volunteerId?: string,
   allowSuperAdmin = false
 ) {
@@ -46,6 +50,8 @@ export async function createUser(
     email,
     password: hashed,
     role,
+    name,
+    phone,
     volunteerId,
     createdAt: new Date().toISOString(),
   }

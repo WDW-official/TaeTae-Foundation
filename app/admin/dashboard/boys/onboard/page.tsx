@@ -12,6 +12,7 @@ function OnboardContent() {
   const router = useRouter()
   const [step, setStep] = useState(1)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSaving, setIsSaving] = useState(true)
   const [formData, setFormData] = useState({
     fullName: "",
     date_of_birth: "",
@@ -23,6 +24,7 @@ function OnboardContent() {
     parentName: "",
     parentPhone: "",
     guardianName: "",
+    guardianEmail: "",
     guardianPhone: "",
     profile_photo_base64: "",  // Added for image upload
     school_name: "",
@@ -75,10 +77,23 @@ function OnboardContent() {
       ...prev,
       guardian_signature: signature,  // Save the signature base64
     }));
-    toast.success("Signature saved.", {
+    setIsSaving(false); // Mark signature as saved
+    const id = toast.success("Signature saved.", {
       position: "top-right",
-      autoClose: 5000,
+      autoClose: 3000,
+      
     });
+
+    let progress = 0;
+
+    const interval = setInterval(() => {
+      progress += 0.02;
+      toast.update(id, { progress });
+
+      if (progress >= 1) {
+        clearInterval(interval);
+      }
+    }, 100);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -105,6 +120,7 @@ function OnboardContent() {
           date_of_birth: formData.date_of_birth,        // Using date of birth directly
           program_track: formData.program,
           guardian_name: formData.guardianName,
+          guardian_Email: formData.guardianEmail,
           guardian_phone: formData.guardianPhone,
           school_name: formData.school_name,
           class_level: formData.class_level,
@@ -334,6 +350,19 @@ function OnboardContent() {
               </div>
 
               <div>
+                <label className="block text-foreground font-semibold mb-2">Guardian Email</label>
+                <input
+                  type="text"
+                  name="guardianEmail"
+                  value={formData.guardianEmail}
+                  onChange={handleChange}
+                  placeholder="Guardian's Email"
+                  className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                  required
+                />
+              </div>
+
+              <div>
                 <label className="block text-foreground font-semibold mb-2">Guardian Phone</label>
                 <input
                   type="tel"
@@ -386,7 +415,7 @@ function OnboardContent() {
                 </button>
                 <button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || isSaving} // Disable submit while saving signature or submitting form
                   className="flex-1 px-4 py-2 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition disabled:opacity-50 flex items-center justify-center gap-2"
                 >
                   {isSubmitting ? "Creating Profile..." : "Complete Onboarding"} <ArrowRight className="w-4 h-4" />

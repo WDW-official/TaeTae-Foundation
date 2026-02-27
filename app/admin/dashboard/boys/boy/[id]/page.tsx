@@ -46,6 +46,7 @@ interface Boy {
   sponsor_name?: string;
   address_city?: string;
   address_country?: string;
+  profile_photo_base64?: string
   emergency_contact?: string;
   status: string;
   consent_form_signed: boolean;
@@ -844,33 +845,59 @@ function EditBoyModal({
   const [form, setForm] = useState(boy);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const [previewImage, setPreviewImage] = useState<string | null>(null)
 
   const handleChange = (field: keyof Boy, value: any) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0]
+  if (!file) return
+
+  const reader = new FileReader()
+  reader.onloadend = () => {
+    const base64 = reader.result as string
+    setPreviewImage(base64)
+
+    handleChange("profile_photo_base64", base64)
+  }
+  reader.readAsDataURL(file)
+}
+
   const handleSave = async () => {
-    setSaving(true);
-    setError("");
-    try {
-      const res = await fetch(`/api/boys/${form.id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      if (res.ok) {
-        onSaved();
-      } else {
-        const errorText = await res.text();
-        setError(errorText || "Failed to update profile");
-      }
-    } catch (error) {
-      setError("Network error occurred");
-      console.error("Error saving:", error);
-    } finally {
-      setSaving(false);
+  if (saving) return;
+
+  setSaving(true);
+  setError("");
+
+  try {
+    const payload = { ...form };
+
+    if (!payload.profile_photo_base64) {
+      delete payload.profile_photo_base64;
     }
-  };
+
+    const res = await fetch(`/api/boys/${form.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      throw new Error(errorText || "Failed to update profile");
+    }
+
+    onSaved();
+
+  } catch (error: any) {
+    setError(error.message || "Network error occurred");
+  } finally {
+    setSaving(false);
+  }
+};
+
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-200">
@@ -895,6 +922,39 @@ function EditBoyModal({
         )}
 
         <div className="space-y-6">
+          {/* Profile Photo */}
+<div className="flex flex-col items-center gap-4 mb-6">
+  <div className="w-32 h-32 rounded-2xl overflow-hidden border-4 border-border shadow bg-secondary/20">
+    {previewImage ? (
+      <img
+        src={previewImage}
+        alt="Profile Preview"
+        className="w-full h-full object-cover"
+      />
+    ) : form.profile_photo_url ? (
+      <img
+        src={form.profile_photo_url}
+        alt="Profile"
+        className="w-full h-full object-cover"
+      />
+    ) : (
+      <div className="w-full h-full flex items-center justify-center text-3xl font-bold text-muted-foreground">
+        {form.first_name?.charAt(0)}
+        {form.last_name?.charAt(0)}
+      </div>
+    )}
+  </div>
+
+  <label className="cursor-pointer px-4 py-2 bg-secondary rounded-lg text-sm font-medium hover:bg-secondary/70 transition">
+    Change Photo
+    <input
+      type="file"
+      accept="image/*"
+      className="hidden"
+      onChange={handleImageChange}
+    />
+  </label>
+</div>
           {/* Personal Information */}
           <div>
             <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">

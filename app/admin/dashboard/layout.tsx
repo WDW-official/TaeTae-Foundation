@@ -3,12 +3,15 @@
 import { ReactNode, useState, useEffect } from "react";
 import Sidebar from "../Sidebar";
 import MobileTopNavbar from "@/components/mobileTopNavbar";
+import { usePathname } from "next/navigation";
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Track sidebar state
   const [isMobile, setIsMobile] = useState(false); // Detect mobile screen size
+  const pathname = usePathname();
 
   // Detect screen size change
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 1024); // Adjust breakpoint as necessary (e.g., 1024px)
@@ -21,6 +24,11 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       window.removeEventListener("resize", handleResize); // Clean up listener
     };
   }, []);
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  
 
   return (
     <div className="flex min-h-screen dark:bg-gray-800">

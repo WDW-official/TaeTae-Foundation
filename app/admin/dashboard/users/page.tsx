@@ -8,6 +8,8 @@ import { useAuthStore } from "@/app/store/auth.store"
 type User = {
   id: string
   email: string
+  name: string
+  phone: string
   role: "superAdmin" | "admin" | "volunteer"
   createdAt: string
 }
@@ -16,6 +18,8 @@ export default function UserManagementPage() {
   const role = useAuthStore((s) => s.role)
   const [showAddAdmin, setShowAddAdmin] = useState(false)
   const [adminEmail, setAdminEmail] = useState("")
+  const [adminPhone, setAdminPhone] = useState("")
+  const [adminName, setAdminName] = useState("")
   const [adminPassword, setAdminPassword] = useState("")
   const [creatingAdmin, setCreatingAdmin] = useState(false)
   const [adminMessage, setAdminMessage] = useState<string | null>(null)
@@ -66,6 +70,8 @@ export default function UserManagementPage() {
         body: JSON.stringify({
           email: adminEmail,
           password: adminPassword,
+          name: adminName,
+          phone: adminPhone,
         }),
       })
 
@@ -77,7 +83,10 @@ export default function UserManagementPage() {
         setAdminMessage("Admin created successfully")
         setAdminEmail("")
         setAdminPassword("")
+        setAdminName("")
+        setAdminPhone("")
         setShowAddAdmin(false)
+        fetchUsers()
       }
     } catch {
       setAdminMessage("Something went wrong")
@@ -184,10 +193,13 @@ export default function UserManagementPage() {
               <thead>
                 <tr className="border-b border-border bg-secondary/40">
                   <th className="px-6 py-4 text-left text-sm font-semibold">
-                    User
+                    Name
                   </th>
                   <th className="px-6 py-4 text-left text-sm font-semibold">
                     Email
+                  </th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold">
+                    Phone Number
                   </th>
                   <th className="px-6 py-4 text-left text-sm font-semibold">
                     Role
@@ -202,92 +214,102 @@ export default function UserManagementPage() {
               </thead>
 
               <tbody>
-    {users.map((user, idx) => (
-      <tr
-        key={user.id}
-        className={`border-b border-border hover:bg-secondary/20 transition ${
-          idx % 2 === 0
-            ? "bg-card dark:bg-gray-900"
-            : "bg-secondary/10"
-        }`}
-      >
-        {/* User */}
-        <td className="px-6 py-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary">
-              {user.email.charAt(0).toUpperCase()}
-            </div>
-            <div>
-              <p className="font-semibold text-foreground">
-                {user.email}
-              </p>
-              <p className="text-xs text-muted-foreground">
-                ID: {user.id}
-              </p>
-            </div>
-          </div>
-        </td>
+                {users.map((user, idx) => (
+                  <tr
+                    key={user.id}
+                    className={`border-b border-border hover:bg-secondary/20 transition ${
+                      idx % 2 === 0
+                        ? "bg-card dark:bg-gray-900"
+                        : "bg-secondary/10"
+                    }`}
+                  >
+                    {/* User */}
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary">
+                          {user?.name
+                            ? user.name
+                                .split(" ")
+                                .map((n) => n?.[0])
+                                .join("")
+                                .toUpperCase()
+                            : "?"}
+                        </div>
+                        <div>
+                          <p className="font-semibold text-foreground">
+                            {user.name}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            ID: {user.id}
+                          </p>
+                        </div>
+                      </div>
+                    </td>
 
-        {/* Email */}
-        <td className="px-6 py-4">
-          <p className="text-sm">{user.email}</p>
-        </td>
+                    {/* Email */}
+                    <td className="px-6 py-4">
+                      <p className="text-sm">{user.email}</p>
+                    </td>
+                    {/* phone */}
+                    <td className="px-6 py-4">
+                      <p className="text-sm">{user.phone}</p>
+                    </td>
 
-        {/* Role */}
-        <td className="px-6 py-4">
-          <span
-            className={`inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium ${
-              user.role === "superAdmin"
-                ? "bg-red-100 text-red-800"
-                : "bg-blue-100 text-blue-800"
-            }`}
-          >
-            {user.role}
-          </span>
-        </td>
+                    {/* Role */}
+                    <td className="px-6 py-4">
+                      <span
+                        className={`inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          user.role === "superAdmin"
+                            ? "bg-red-100 text-red-800"
+                            : "bg-blue-100 text-blue-800"
+                        }`}
+                      >
+                        {user.role}
+                      </span>
+                    </td>
 
-        {/* Created */}
-        <td className="px-6 py-4 text-sm text-muted-foreground">
-          {new Date(user.createdAt).toLocaleDateString()}
-        </td>
+                    {/* Created */}
+                    <td className="px-6 py-4 text-sm text-muted-foreground">
+                      {new Date(user.createdAt).toLocaleDateString()}
+                    </td>
 
-        {/* Actions */}
-        <td className="px-6 py-4">
-          <div className="flex justify-end gap-2">
-            {/* Reset password */}
-            <button
-              onClick={() => openResetPassword(user)}
-              className="p-2 rounded-lg hover:bg-primary/10 transition"
-              title="Reset password"
-            >
-              <KeyRound className="w-4 h-4 text-primary" />
-            </button>
+                    {/* Actions */}
+                    <td className="px-6 py-4">
+                      <div className="flex justify-end gap-2">
+                        {/* Reset password */}
+                        <button
+                          onClick={() => openResetPassword(user)}
+                          className="p-2 rounded-lg hover:bg-primary/10 transition"
+                          title="Reset password"
+                        >
+                          <KeyRound className="w-4 h-4 text-primary" />
+                        </button>
 
-            {/* Delete admin only */}
-            {user.role === "admin" && (
-              <button
-                onClick={() => handleDeleteAdmin(user.id)}
-                className="p-2 rounded-lg hover:bg-destructive/10 transition"
-                title="Delete admin"
-              >
-                <Trash2 className="w-4 h-4 text-destructive" />
-              </button>
-            )}
-          </div>
-        </td>
-      </tr>
-    ))}
+                        {/* Delete admin only */}
+                        {user.role === "admin" && (
+                          <button
+                            onClick={() => handleDeleteAdmin(user.id)}
+                            className="p-2 rounded-lg hover:bg-destructive/10 transition"
+                            title="Delete admin"
+                          >
+                            <Trash2 className="w-4 h-4 text-destructive" />
+                          </button>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
 
-    {users.length === 0 && (
-      <tr>
-        <td
-          colSpan={5}
-          className="text-center py-10 text-muted-foreground"
-        >
-          No users found
-        </td>
-      </tr>
-    )}
+                {users.length === 0 && (
+                  <tr>
+                    <td
+                      colSpan={5}
+                      className="text-center py-10 text-muted-foreground"
+                    >
+                      No users found
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
 
@@ -312,11 +334,29 @@ export default function UserManagementPage() {
                   )}
 
                   <input
+                    type="text"
+                    placeholder="Admin name"
+                    className="w-full rounded border px-4 py-2"
+                    value={adminName}
+                    onChange={(e) => setAdminName(e.target.value)}
+                    required
+                  />
+
+                  <input
                     type="email"
                     placeholder="Admin email"
                     className="w-full rounded border px-4 py-2"
                     value={adminEmail}
                     onChange={(e) => setAdminEmail(e.target.value)}
+                    required
+                  />
+
+                  <input
+                    type="number"
+                    placeholder="Phone number"
+                    className="w-full rounded border px-4 py-2"
+                    value={adminPhone}
+                    onChange={(e) => setAdminPhone(e.target.value)}
                     required
                   />
 

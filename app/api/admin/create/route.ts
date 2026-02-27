@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
   }
 
   // 📥 Input
-  const { email, password } = await req.json()
+  const { email, password, name, phone } = await req.json()
 
   if (!email || !password) {
     return NextResponse.json(
@@ -46,7 +46,9 @@ export async function POST(req: NextRequest) {
   const admin = await createUser(
     email,
     password,     // ⚠️ plain password
-    "admin"       // role
+    "admin" ,      // role
+    name,          // name
+    phone,         // phone
   )
 
   return NextResponse.json({
