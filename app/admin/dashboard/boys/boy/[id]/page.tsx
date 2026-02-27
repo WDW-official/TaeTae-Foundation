@@ -923,38 +923,38 @@ function EditBoyModal({
 
         <div className="space-y-6">
           {/* Profile Photo */}
-<div className="flex flex-col items-center gap-4 mb-6">
-  <div className="w-32 h-32 rounded-2xl overflow-hidden border-4 border-border shadow bg-secondary/20">
-    {previewImage ? (
-      <img
-        src={previewImage}
-        alt="Profile Preview"
-        className="w-full h-full object-cover"
-      />
-    ) : form.profile_photo_url ? (
-      <img
-        src={form.profile_photo_url}
-        alt="Profile"
-        className="w-full h-full object-cover"
-      />
-    ) : (
-      <div className="w-full h-full flex items-center justify-center text-3xl font-bold text-muted-foreground">
-        {form.first_name?.charAt(0)}
-        {form.last_name?.charAt(0)}
-      </div>
-    )}
-  </div>
+          <div className="flex flex-col items-center gap-4 mb-6">
+            <div className="w-32 h-32 rounded-2xl overflow-hidden border-4 border-border shadow bg-secondary/20">
+              {previewImage ? (
+                <img
+                  src={previewImage}
+                  alt="Profile Preview"
+                  className="w-full h-full object-cover"
+                />
+              ) : form.profile_photo_url ? (
+                <img
+                  src={form.profile_photo_url}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-3xl font-bold text-muted-foreground">
+                  {form.first_name?.charAt(0)}
+                  {form.last_name?.charAt(0)}
+                </div>
+              )}
+            </div>
 
-  <label className="cursor-pointer px-4 py-2 bg-secondary rounded-lg text-sm font-medium hover:bg-secondary/70 transition">
-    Change Photo
-    <input
-      type="file"
-      accept="image/*"
-      className="hidden"
-      onChange={handleImageChange}
-    />
-  </label>
-</div>
+            <label className="cursor-pointer px-4 py-2 bg-primary rounded-lg text-sm text-white font-medium hover:bg-primary/70 transition">
+              Change Photo
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageChange}
+              />
+            </label>
+          </div>
           {/* Personal Information */}
           <div>
             <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
