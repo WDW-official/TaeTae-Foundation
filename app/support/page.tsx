@@ -24,9 +24,9 @@ export default function SupportPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-2xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-tight mb-6">
-              How You Can{" "}
-              <span className="text-primary dark:text-[#8bc97f]">Support</span>
+            <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight mb-6">
+              HOW YOU CAN{" "}
+              <span className="text-primary dark:text-[#8bc97f]">SUPPORT</span>
             </h1>
 
             <p className="lg:text-lg text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
@@ -48,7 +48,7 @@ export default function SupportPage() {
                 href="#support-options"
                 className="inline-flex items-center gap-2 bg-primary hover:bg-[#5ea04e] text-white lg:px-6 lg:py-3 px-3 py-1 rounded-lg font-semibold transition"
               >
-                Learn How
+                LEARN HOW
                 <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
@@ -60,15 +60,22 @@ export default function SupportPage() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="rounded-2xl overflow-hidden hidden lg:block shadow-xl"
+            className="relative rounded-2xl overflow-hidden hidden lg:block shadow-xl"
           >
             <img
               src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764570541/Carpentry_2_ceiql0.png"
               alt="Support Illustration"
               className="w-full h-105 object-cover"
             />
-          </motion.div>
 
+            {/* Overlay */}
+            <div className="absolute hover:bg-black/40 inset-0 bg-black/70"></div>
+            <div className="absolute inset-0 flex items-center justify-center">
+            <h2 className="text-white text-center italic text-3xl ">
+              When you support a boy,<br/> you build a nation.
+            </h2>
+          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -93,7 +100,7 @@ export default function SupportPage() {
               <div className="p-6">
                 <div className="flex items-center gap-3 mb-3">
                   <IconRenderer icon={'https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617721/Asset_29_cwxbbu.svg'} size={20} className="text-primary" />
-                  <h3 className="text-xl font-bold text-foreground">Donate</h3>
+                  <h3 className="text-xl font-bold text-foreground">DONATE</h3>
                 </div>
 
                 <p className="text-muted-foreground text-sm mb-6">
@@ -104,7 +111,7 @@ export default function SupportPage() {
                   href="/support/donate"
                   className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition"
                 >
-                  Donate Now
+                  DONATE NOW
                   <ChevronRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -124,7 +131,7 @@ export default function SupportPage() {
               <div className="p-6">
                 <div className="flex items-center gap-3 mb-3">
                   <IconRenderer icon={'https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617667/Sponsor_1_goyphq.svg'} size={20} className="text-primary" />
-                  <h3 className="text-xl font-bold text-foreground">Sponsor</h3>
+                  <h3 className="text-xl font-bold text-foreground">SPONSOR</h3>
                 </div>
 
                 <p className="text-muted-foreground text-sm mb-6">
@@ -135,7 +142,7 @@ export default function SupportPage() {
                   href="/support/sponsor"
                   className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition"
                 >
-                  Sponsor an Item
+                  SPONSOR AN ITEM
                   <ChevronRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -155,18 +162,18 @@ export default function SupportPage() {
               <div className="p-6">
                 <div className="flex items-center gap-3 mb-3">
                   <IconRenderer icon={'https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617618/Volunteer_izlode.svg'} size={20} className="text-primary" />
-                  <h3 className="text-xl font-bold text-foreground">Volunteer</h3>
+                  <h3 className="text-xl font-bold text-foreground">VOLUNTEER</h3>
                 </div>
 
                 <p className="text-muted-foreground text-sm mb-6">
-                  Join us as a professional mentor or helper. Be part of shaping confident, capable, responsible young men.
+                  The heartbeat of our activities, given the ultimate commitment, your time, skills, and passion to mentor and guide boys.
                 </p>
 
                 <Link
                   href="/support/volunteer"
                   className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition"
                 >
-                  Sign Up
+                  SIGN UP
                   <ChevronRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -175,7 +182,7 @@ export default function SupportPage() {
           </div>
         </div>
       </section>
-      <section className="container mx-auto px-4 py-1 md:py-16">
+      <section className="container mx-auto px-4 py-1 ">
         <PublicImpactSection />
       </section>
 

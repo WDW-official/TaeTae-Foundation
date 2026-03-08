@@ -117,25 +117,25 @@ export default function PublicStatsSection() {
   ];
 
   return (
-    <section className="container mx-auto md:py-16">
+    <section className="container mx-auto py-5 md:py-10">
       {/* Hero Header */}
       <div className="text-center mb-8">
         <div className="inline-block">
-          <h2 className="text-2xl md:text-5xl font-bold md:mb-4">
-            Our Impact So Far
+          <h2 className="text-3xl md:text-6xl text-gray-800 dark:text-white font-bold md:mb-4">
+            OUR IMPACT SO FAR...
           </h2>
           <div className="h-1 w-full rounded-full"></div>
         </div>
-        <p className="text-gray-600 dark:text-gray-400 mt-6 text-base max-w-2xl mx-auto">
+        <p className="text-gray-600 dark:text-gray-400 mt- md:text-xl max-w-2xl mx-auto">
           Below is a glance at our progress thus far. Together, we're making a difference in young lives through education, skills, sports, and mentorship programs.
         </p>
       </div>
 
       {/* =============== TOTAL STATS CARDS =============== */}
       <div className="bg-white dark:bg-gray-900 shadow-lg border border-gray-200 dark:border-gray-900 rounded-2xl p-3 mb-8 transition-all duration-300 hover:shadow-xl">
-        <div className="flex items-center gap-3 mb-8">
+        <div className="flex items-center mt-6 gap-3 mb-8">
           <div className="h-1 w-12 bg-primary rounded-full"></div>
-          <h3 className="text-lg md:text-2xl font-bold text-gray-900 dark:text-white">Our Impact at a Glance</h3>
+          <h3 className="text-lg md:text-2xl font-bold text-gray-900 dark:text-white">OUR IMPACT AT A GLANCE</h3>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4  md:gap-6">

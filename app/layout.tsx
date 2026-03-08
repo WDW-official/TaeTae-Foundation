@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Geist, Geist_Mono, Inter } from "next/font/google"
+import { Geist, Geist_Mono, Inter, Keania_One, Signika } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -20,6 +20,15 @@ const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 })
+const signika = Signika({
+  subsets: ["latin"],
+})
+
+const keaniaOne = Keania_One({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-keania-one",
+});
 
 export const metadata: Metadata = {
   title: "TaeTae Foundation - Building Tomorrow's Leaders",
@@ -41,7 +50,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
+      <body className={`${signika.className} ${geistMono.variable} font-sans`}>
         <NextTopLoader
           color="#8bc97f"
           initialPosition={0.08}

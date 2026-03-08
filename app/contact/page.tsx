@@ -1,6 +1,8 @@
 import { ContactHero } from "@/components/contact/contact-hero"
 import { ContactForm } from "@/components/contact/contact-form"
 import { ContactInfo } from "@/components/contact/contact-info"
+import Navigation from "@/components/navigation"
+import Footer from "@/components/footer"
 
 export const metadata = {
   title: "Contact Us - TaeTae Foundation",
@@ -10,6 +12,7 @@ export const metadata = {
 export default function ContactPage() {
   return (
     <main className="min-h-screen">
+      <Navigation />
       <ContactHero />
       <div className="lg:py-24 pb-10 dark:bg-gray-800 bg-white">
         <div className="container mx-auto px-4">
@@ -19,6 +22,7 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
+      <Footer />
     </main>
   )
 }

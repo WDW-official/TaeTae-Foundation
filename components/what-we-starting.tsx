@@ -1,6 +1,12 @@
 import Link from "next/link"
 import { ArrowRight, Hammer, BookOpen, Trophy } from "lucide-react"
 import IconRenderer from "./icon-renderer"
+import { Exo_2, Keania_One } from "next/font/google";
+
+const exo2 = Exo_2({
+  weight: "500",
+  subsets: ["latin"],
+});
 
 export default function WhatWeStarting() {
   const programs = [
@@ -28,12 +34,35 @@ export default function WhatWeStarting() {
   ]
 
   return (
-    <section id="programs" className="bg-card dark:bg-gray-900 py-10 md:py-24 px-4">
+    <section id="programs" className="bg-card dark:bg-gray-900 py-10 md:py-10 px-4">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-xl md:text-5xl font-bold  mb-4 text-center">What We're Starting With</h2>
-        <p className="text-center text-sm lg:text-lg text-gray-600 dark:text-gray-300 mb-12 max-w-2xl mx-auto">
-          We’re beginning our journey with three key focus areas which are Skills Acquisition, Education & Mentorship, and Sports Development all designed to build a strong foundation for every boy to reach his full potential.
-        </p>
+        <div className="grid md:grid-cols-2 grid-cols-1 gap-3 mb-12">
+          <div className="relative h-40 md:h-64">
+            <img
+              src="https://res.cloudinary.com/dx3zrhslt/image/upload/v1772884456/start-up-02-stroke-rounded_jyfidg.svg"
+              className="absolute inset-0 w-full h-full opacity-40 object-contain"
+            />
+
+            <div className={`${exo2.className} relative text-3xl md:text-[64px] md:leading-16 text-gray-700 dark:text-white px-[31px] md:py-[42px] py-[30px] text-center font-[900]`}>
+              WHAT WE'RE STARTING WITH...
+            </div>
+          </div>
+            {/* <img
+              src="https://res.cloudinary.com/dx3zrhslt/image/upload/v1772884456/start-up-02-stroke-rounded_jyfidg.svg"
+              className="absolute inset-0 w-full h-full object-contain"
+            />
+            <div
+              className={`${exo2.className} text-xl md:text-[64px] leading-16 px-[31px] py-[42px] font-bold mb-4 text-white`}
+            >
+              WHAT WE'RE STARTING WITH...
+            </div> */}
+          <div>
+            <p className=" text-sm md:px-[46px] px[20px] lg:text-[25px] text-gray-600 dark:text-gray-300 mb-12 max-w-2xl mx-auto">
+              We’re beginning our journey with three key focus areas which are <span className="bg-secondary dark:bg-primary font-bold">Skills Acquisition, Education & Mentorship, and Sports Development</span>   all designed to build a strong foundation for every boy to reach his full potential.
+            </p>
+
+          </div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {programs.map((program, idx) => {
@@ -49,19 +78,19 @@ export default function WhatWeStarting() {
                     alt={program.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                   />
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition"></div>
+                  <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition"></div>
                 </div>
                 <div className="p-6">
                   <div className="flex items-center gap-3 mb-3">
                     <IconRenderer icon={Icon} size={32} className="text-primary" />
-                    <h3 className="text-xl font-bold text-foreground">{program.title}</h3>
+                    <h3 className="text-2xl text-gray-800  font-bold">{program.title}</h3>
                   </div>
                   <p className="text-muted-foreground text-sm mb-6">{program.description}</p>
                   <Link
                     href={program.href}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-gray-800 text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition"
                   >
-                    Learn More
+                    LEARN MORE
                     <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>

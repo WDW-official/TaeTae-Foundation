@@ -15,7 +15,7 @@ const contactDetails = [
   {
     icon: Phone,
     title: "Call Us",
-    details: ["+234 123 456 7890", "+234 098 765 4321"],
+    details: ["+234 (904) 0000 551"],
   },
   {
     icon: Mail,
@@ -53,8 +53,8 @@ export function ContactInfo() {
       <div className="space-y-4">
               {[
                 { icon: Mail, label: "Email Us", value: "info@taetaefoundation.org" },
-                { icon: Phone, label: "Call Us", value: "+234 XXX XXX XXXX" },
-                { icon: MapPin, label: "Visit Us", value: "Lagos, Nigeria" },
+                { icon: Phone, label: "Call Us", value: "+234 (904) 0000 551" },
+                { icon: MapPin, label: "Visit Us", value: "16 Opebi Road, Ikeja, Lagos, Nigeria" },
               ].map((item, index) => (
                 <motion.div
                   key={item.label}

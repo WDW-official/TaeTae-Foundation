@@ -8,6 +8,12 @@ import WhatWeStarting from "@/components/what-we-starting";
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import IconRenderer from "@/components/icon-renderer";
+import { Geist } from "next/font/google";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+})
 
 export default function AboutFoundationPage() {
 
@@ -31,26 +37,6 @@ export default function AboutFoundationPage() {
   ]
   
   const pillars = [
-    // {
-    //   title: "Mission",
-    //   icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617603/Our_Mission_akg8w9.svg",
-    //   description: "Global compassion and outreach, shaping boys into men who uplift their communities.",
-    // },
-    // {
-    //   title: "Vision",
-    //   icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764757163/Our_Vision_oey5gf.svg",
-    //   description: "Clarity of purpose and direction, guiding boys to become responsible leaders.",
-    // },
-    // {
-    //   title: "Values",
-    //   icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617622/Values_julkif.svg",
-    //   description: "Integrity, growth, excellence, and Integrity, principles that shape character and purpose.",
-    // },
-    // {
-    //   title: "5-Year Plan",
-    //   icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617610/5_Year_Plan_hpdcjt.svg",
-    //   description: "Long-term strategic development for mentorship, education, sports, and skill centers.",
-    // },
     {
       title: "Get Involved",
       icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617578/Support_hb7jin.svg",
@@ -71,7 +57,7 @@ export default function AboutFoundationPage() {
       {/* SECTION 1 — ABOUT THE FOUNDATION */}
       {/* ---------------------------------------- */}
       <section className="container mx-auto px-4 pt-24 lg:pb-12  pb-2">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className={`grid ${geistSans.variable}  lg:grid-cols-2 gap-12 items-center`}>
           {/* LEFT */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
@@ -80,9 +66,9 @@ export default function AboutFoundationPage() {
             transition={{ duration: 0.6 }}
           >
             <h1 className="text-2xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-tight mb-6">
-              Building Boys of{" "}
-              <span className="text-primary md:text-[50px]">Character, Competence,</span>{" "}
-              and Confidence
+              BUILDING BOYS OF{" "}
+              <span className="text-primary md:text-[50px]">CHARACTER, COMPETENCE,</span>{" "}
+              AND <span className="text-primary md:text-[50px]">CONFIDENCE</span>
             </h1>
 
             <p className="lg:text-lg text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
@@ -118,19 +104,19 @@ export default function AboutFoundationPage() {
           </motion.div>
         </div>
       </section>
-      <section className="from-[#2f5129] bg-linear-to-br to-[#2a6f1a] dark:from-[#0a1421] dark:to-[#0a1421] grid-cols-1 gap-12 grid md:grid-cols-2 dark:bg-gray-900 p-4 md:p-14">
-        <div className="relative  group gr  overflow-hidden">
+      <section className="from-[#2f5129] bg-linear-to-br to-[#2a6f1a] dark:from-[#0a1421] dark:to-[#0a1421] grid-cols-1 gap-12 grid md:grid-cols-2 dark:bg-gray-900 p-4 md:p-14 md:[clip-path:polygon(0_10%,100%_0,100%_100%,0_100%)]">
+        <div className="relative md:mt-20 group overflow-hidden">
           <div>
             <h1 className="text-2xl lg:text-5xl text-white text-center font-bold dark:text-white leading-tight mb-6">
-              What We Must Achive 
+              WHAT WE MUST ACHIEVE
             </h1>
-            <p className="text-center text-white text-sm md;mb-12 mb-5 max-w-2xl mx-auto">
+            <p className="text-center text-white text-xl md;mb-12 mb-5 max-w-2xl mx-auto">
             By 2030, we must have systematically developed and fine tuned a programme that will child the lives of the boy-child for generations to come.
             </p>
             <div className="grid-cols-1 p-2 gap-3 grid md:grid-cols-2 ">
               <div className="flex-1">
                 <h1 className="text-2xl flex-1 lg:text-4xl text-white font-bold dark:text-white leading-tight mb-2">
-                  Mission
+                  MISSION
                 </h1>
                 <p className=" text-white text-sm md;mb-12  max-w-2xl mx-auto">
                   To identify, nurture, and develop the talents, abilities, and character of the boy-child, especially in underserved communities, by providing access to structured sports programmes, quality education, vocational and digital skills, mentorship, and opportunity platforms.
@@ -138,7 +124,7 @@ export default function AboutFoundationPage() {
               </div>
               <div className="block md:hidden ">
                 <h1 className="text-2xl flex-1 lg:text-4xl text-white  font-bold dark:text-white leading-tight mb-2">
-                  Vision
+                  VISION
                 </h1>
                 <p className=" text-white flex md:hidden text-sm md;mb-12  max-w-2xl mx-auto">
                   To raise a generation of young men who are physically strong, intellectually capable, emotionally intelligent, and economically empowered, able to compete locally and globally, becoming contributors to the continuous development of future generations
@@ -160,7 +146,7 @@ export default function AboutFoundationPage() {
               </div>
               <div className="flex-1">
                 <h1 className="text-2xl md:flex hidden flex-1 lg:text-4xl text-white  font-bold dark:text-white leading-tight mb-2">
-                  Vision
+                  VISION
                 </h1>
                 <p className=" text-white md:flex hidden  text-sm md;mb-12  max-w-2xl mx-auto">
                   To raise a generation of young men who are physically strong, intellectually capable, emotionally intelligent, and economically empowered, able to compete locally and globally, becoming contributors to the continuous development of future generations
@@ -189,10 +175,10 @@ export default function AboutFoundationPage() {
         </div>
 
       <div>
-        <h1 className="text-2xl lg:text-5xl text-white text-center font-bold dark:text-white leading-tight mb-6">
-          How We Will Achieve It.
+        <h1 className="text-2xl md:mt-20  lg:text-5xl text-white text-center font-bold dark:text-white leading-tight mb-6">
+          HOW WE WILL ACHIEVE IT.
         </h1>
-        <p className="text-center text-white md:text-sm text-[17px]  md;mb-12 mb-5 max-w-2xl mx-auto">
+        <p className="text-center text-white md:text-xl text-[17px]  md;mb-12 mb-5 max-w-2xl mx-auto">
           We combine four proven pillars into one coordinated programme:
         </p>
 
@@ -206,7 +192,7 @@ export default function AboutFoundationPage() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1, duration: 0.5 }}
-                  className="group p-2 md:p-8 from-[#ffffff] bg-linear-to-br shadow-2xl to-[#fdffbe] dark:from-[#1d395d] dark:to-[#0a1421] dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 hover:shadow-xl transition relative"
+                  className="group p-2 md:pt-8 md:pb- md:px-8  from-[#ffffff] bg-linear-to-br shadow-2xl to-white dark:from-[#1d395d] dark:to-[#0a1421] dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 hover:shadow-xl transition relative"
                 >
                   
                   {/* Title */}
@@ -215,7 +201,7 @@ export default function AboutFoundationPage() {
                   </h3>
 
                   {/* Description */}
-                  <p className="text-gray-600 dark:text-gray-400 lg:text-base text-[10px] leading-relaxed mb-6">
+                  <p className="text-gray-600 dark:text-gray-400 lg:text-xl text-[10px] leading-relaxed mb-6">
                     {pillar.description}
                   </p>
 
@@ -243,13 +229,13 @@ export default function AboutFoundationPage() {
       <section className="container mx-auto py-2">
         {/* ABOUT SECTION */}
         <section className="container mx-auto px-4 py-10">
-            <h2 className="lg:text-4xl italic text-lg font-bold text-gray-900 dark:text-white mb-2 text-center">
-                A DATA-DRIVEN ACCOUNTABLE NGO
+            <h2 className="lg:text-7xl text-2xl font-bold text-gray-900 dark:text-white mb-2 text-center">
+                AN ACCOUNTABLE  <br/> DATA-DRIVEN NGO
             </h2>
-            <p className="lg:text-2xl font-bold text-primary text-base dark:text-gray-300 leading-relaxed mb-4 text-center max-w-3xl mx-auto">
+            <p className="lg:text-5xl font-bold text-primary text-xl  md:leading-14 mb-4 text-center max-w-3xl mx-auto">
               Technology That Turns Impact Into Measurable Outcomes
             </p>
-            <p className="text-center hidden md:block text-sm mb-2 md:mb-12">
+            <p className="text-center hidden md:block text-xl mb-2 md:mb-12">
               Accountability: Audit-ready data at any point in time <br/>
               Transparency: Know exactly where funds go and what they achieve
             </p>
@@ -270,8 +256,8 @@ export default function AboutFoundationPage() {
 
                 {/* Highlighted Box */}
                 <div className="  ">
-                    <p className="text-sm lg:text-lg text-center leading-relaxed">
-                      Participant Progress & Programme Management
+                    <p className="text-sm lg:text-xl text-primary text-center leading-relaxed">
+                      PARTICIPANT PROGRESS & PROGRAMME MANAGEMENT
                     </p>
                     <p className="lg:text-lg hidden md:block text-center  text-sm text-gray-700 dark:text-gray-300 leading-relaxed ">
                       Monitors engagement, outcomes, and development<br/> pathways for every boy
@@ -300,8 +286,8 @@ export default function AboutFoundationPage() {
                   className=""
                 >
                   <div className=" p-3 ">
-                    <p className="text-sm lg:text-lg text-center leading-relaxed">
-                      Live Sponsorship & Funding Dashboard
+                    <p className="text-sm lg:text-xl text-primary text-center leading-relaxed">
+                      LIVE SPONSORSHIP & FUNDING DASHBOARD
                     </p>
                     <p className="lg:text-lg hidden md:block text-center text-sm text-gray-700 dark:text-gray-300 leading-relaxed ">
                       Tracks donor contributions, allocations, and <br/>programme funding in real time

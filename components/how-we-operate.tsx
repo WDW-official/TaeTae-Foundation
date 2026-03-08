@@ -7,11 +7,11 @@ export default function HowWeOperate() {
   ]
 
   return (
-    <section className=" py-10 md:py-24 bg-secondary dark:bg-gray-800 px-4">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-xl md:text-5xl font-bold mb-4 text-center">About the <span className="text-primary dark:text-[#8bc97f]">Foundation</span></h2>
-        <p className="text-sm lg:text-lg text-gray-600 dark:text-gray-300 leading-relaxed text-center  max-w-5xl mx-auto">
-          The TaeTae Foundation is committed to nurturing the boy-child through comprehensive development programs designed to instill discipline, curiosity, and self-belief. We create safe spaces and structured mentorship that guide boys toward becoming responsible, confident young men prepared to make a difference in their communities.
+    <section className=" py-10 md:py-24 bg-secondary dark:bg-gray-800 px-4 [clip-path:polygon(0_0,100%_0,100%_85%,0_100%)]">
+      <div className="md:max-w-6xl mx-auto">
+        <h2 className="text-3xl md:text-6xl font-bold mb-4 text-center">ABOUT THE <span className="text-primary dark:text-[#8bc97f]">TAE TAE FOUNDATION</span></h2>
+        <p className="text-sm lg:text-2xl text-gray-600 dark:text-gray-300 leading-relaxed text-left  max-w-5xl mx-auto">
+          The TaeTae Foundation is committed to nurturing the boy-child through comprehensive development programs designed to instill discipline, curiosity, and self-belief.<br/> We create safe spaces and structured mentorship that guide boys toward becoming responsible, confident young men prepared to make a difference in their communities.
         </p>
       </div>
       {/* <div className="max-w-6xl lg:p-24 p-5 bg-[#e8f5e6] dark:bg-gray-800 mx-auto">
