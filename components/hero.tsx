@@ -27,7 +27,7 @@ export default function Hero() {
               <span className="text-[#76b569] dark:text-[#8bc97f] font-semibold">Empowering Young Boys</span>
             </div> */}
 
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+            <h1 className="text-6xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 md:leading-tight leading-15">
               Building Tomorrow's{" "}
               <span className="text-primary dark:text-[#8bc97f] relative">
                 Leaders

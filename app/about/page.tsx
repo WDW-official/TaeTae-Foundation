@@ -108,14 +108,14 @@ export default function AboutFoundationPage() {
         <div className="relative md:mt-20 group overflow-hidden">
           <div>
             <h1 className="text-2xl lg:text-5xl text-white text-center font-bold dark:text-white leading-tight mb-6">
-              WHAT WE MUST ACHIEVE
+              WHAT WE <span className="text-primary">MUST ACHIEVE</span> 
             </h1>
             <p className="text-center text-white text-xl md;mb-12 mb-5 max-w-2xl mx-auto">
             By 2030, we must have systematically developed and fine tuned a programme that will child the lives of the boy-child for generations to come.
             </p>
             <div className="grid-cols-1 p-2 gap-3 grid md:grid-cols-2 ">
               <div className="flex-1">
-                <h1 className="text-2xl flex-1 lg:text-4xl text-white font-bold dark:text-white leading-tight mb-2">
+                <h1 className="text-2xl flex-1 lg:text-4xl text-primary font-bold leading-tight mb-2">
                   MISSION
                 </h1>
                 <p className=" text-white text-sm md;mb-12  max-w-2xl mx-auto">
@@ -123,7 +123,7 @@ export default function AboutFoundationPage() {
                 </p>
               </div>
               <div className="block md:hidden ">
-                <h1 className="text-2xl flex-1 lg:text-4xl text-white  font-bold dark:text-white leading-tight mb-2">
+                <h1 className="text-2xl flex-1 lg:text-4xl font-bold text-primary leading-tight mb-2">
                   VISION
                 </h1>
                 <p className=" text-white flex md:hidden text-sm md;mb-12  max-w-2xl mx-auto">
@@ -145,7 +145,7 @@ export default function AboutFoundationPage() {
                 />
               </div>
               <div className="flex-1">
-                <h1 className="text-2xl md:flex hidden flex-1 lg:text-4xl text-white  font-bold dark:text-white leading-tight mb-2">
+                <h1 className="text-2xl md:flex hidden flex-1 lg:text-4xl font-bold text-primary leading-tight mb-2">
                   VISION
                 </h1>
                 <p className=" text-white md:flex hidden  text-sm md;mb-12  max-w-2xl mx-auto">

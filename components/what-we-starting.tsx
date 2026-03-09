@@ -57,7 +57,7 @@ export default function WhatWeStarting() {
               WHAT WE'RE STARTING WITH...
             </div> */}
           <div>
-            <p className=" text-sm md:px-[46px] px[20px] lg:text-[25px] text-gray-600 dark:text-gray-300 mb-12 max-w-2xl mx-auto">
+            <p className=" text-sm md:px-11.5 px[20px] lg:text-[25px] text-gray-600 dark:text-gray-300 md:mb-12 mb-0 max-w-2xl mx-auto">
               We’re beginning our journey with three key focus areas which are <span className="bg-secondary dark:bg-primary font-bold">Skills Acquisition, Education & Mentorship, and Sports Development</span>   all designed to build a strong foundation for every boy to reach his full potential.
             </p>
 
@@ -80,15 +80,15 @@ export default function WhatWeStarting() {
                   />
                   <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition"></div>
                 </div>
-                <div className="p-6">
+                <div className="md:p-6 p-3 py-6">
                   <div className="flex items-center gap-3 mb-3">
                     <IconRenderer icon={Icon} size={32} className="text-primary" />
-                    <h3 className="text-2xl text-gray-800  font-bold">{program.title}</h3>
+                    <h3 className="text-2xl text-gray-800 dark:text-primary  font-bold">{program.title}</h3>
                   </div>
                   <p className="text-muted-foreground text-sm mb-6">{program.description}</p>
                   <Link
                     href={program.href}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-gray-800 text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-gray-800 dark:bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/70 transition"
                   >
                     LEARN MORE
                     <ArrowRight className="w-4 h-4" />

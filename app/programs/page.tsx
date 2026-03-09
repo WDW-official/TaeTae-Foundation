@@ -39,7 +39,7 @@ export default function HowWeOperatePage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-4xl leading-8 md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-3 md:mb-6">
+            <h1 className="text-4xl md:leading-20 leading-8 md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-3 md:mb-6">
               SHAPING BOYS INTO<br/>
               <span className="text-primary dark:text-[#8bc97f]"> MEN OF PURPOSE</span>
             </h1>
