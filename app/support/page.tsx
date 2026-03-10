@@ -121,7 +121,7 @@ export default function SupportPage() {
             <div className="group bg-white dark:bg-gray-800 rounded-lg overflow-hidden border border-border hover:border-primary transition-all hover:shadow-lg">
               <div className="relative h-64 overflow-hidden">
                 <img
-                  src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764755431/Sponsor_1_thsfwb.png"
+                  src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1773143614/Sponsors_fm6ql3.svg"
                   alt="Sponsor"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                 />
