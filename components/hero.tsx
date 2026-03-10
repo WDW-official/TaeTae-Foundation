@@ -27,10 +27,10 @@ export default function Hero() {
               <span className="text-[#76b569] dark:text-[#8bc97f] font-semibold">Empowering Young Boys</span>
             </div> */}
 
-            <h1 className="text-6xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 md:leading-tight leading-15">
-              Building Tomorrow's{" "}
+            <h1 className="text-6xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 md:leading-17 leading-15">
+              BUILDING TOMORROW'S{" "}
               <span className="text-primary dark:text-[#8bc97f] relative">
-                Leaders
+                LEADERS
                 <svg
                   className="absolute -bottom-2 left-0 w-full"
                   height="12"
@@ -98,9 +98,9 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="absolute -bottom-6 -left-6 bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl max-w-[200px]"
             >
-              <Heart className="text-primary dark:text-[#8bc97f] mb-2" size={32} />
-              <div className="text-2xl font-bold text-gray-900 dark:text-white">1000+</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Lives Touched</div>
+              <Target className="text-primary dark:text-[#8bc97f] mb-2" size={32} />
+              <div className="text-2xl font-bold text-gray-900 dark:text-white">2500+</div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">Our Target</div>
             </motion.div>
 
             <motion.div

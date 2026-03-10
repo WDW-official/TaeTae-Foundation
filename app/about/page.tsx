@@ -38,15 +38,15 @@ export default function AboutFoundationPage() {
   
   const pillars = [
     {
-      title: "Get Involved",
+      title: "GET INVOLVED",
       icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617578/Support_hb7jin.svg",
-      description: "Partnership and collaboration, empowering communities to shape future men.",
+      description: "If you are enthusiastic about making a difference not just talking a good game, come and partner or collaborate with us to empower communities to shape future men.",
       href: "/support",
     },
     {
-      title: "Donate",
+      title: "DONATE OR SPONSOR",
       icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617709/Donate_1_bwz3lo.svg",
-      description: "Compassion and giving, help transform boys’ lives today.",
+      description: "Your donations are developing communities, and bringing dreams to life. Take your time and think about what you can commit to. Stay tuned for latest updates on the progress brought to life by your donations.",
       href: "/support",
     },
   ]
@@ -65,7 +65,7 @@ export default function AboutFoundationPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-2xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-tight mb-6">
+            <h1 className="text-3xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-tight mb-6">
               BUILDING BOYS OF{" "}
               <span className="text-primary md:text-[50px]">CHARACTER, COMPETENCE,</span>{" "}
               AND <span className="text-primary md:text-[50px]">CONFIDENCE</span>
@@ -97,7 +97,7 @@ export default function AboutFoundationPage() {
             className="rounded-2xl overflow-hidden lg:block hidden shadow-xl"
           >
             <img
-              src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764570529/freepik__a-black-teenage-boy-in-a-modern-classroom-assembli__14053_tqfmsn.jpg"
+              src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1773141580/Stem_Kit_2_my6qej.svg"
               className="w-full h-105 object-cover"
               alt="About the Foundation"
             />
@@ -196,12 +196,12 @@ export default function AboutFoundationPage() {
                 >
                   
                   {/* Title */}
-                  <h3 className="lg:text-2xl text-[11px] md:text-xl font-bold text-gray-600 dark:text-white mb-2">
+                  <h3 className="lg:text-2xl text-[13px] md:text-xl font-bold text-primary  mb-2">
                     {pillar.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="text-gray-600 dark:text-gray-400 lg:text-xl text-[10px] leading-relaxed mb-6">
+                  <p className="text-gray-600 dark:text-gray-400 lg:text-xl text-[10px] leading-relaxed mb-2">
                     {pillar.description}
                   </p>
 
@@ -229,7 +229,7 @@ export default function AboutFoundationPage() {
       <section className="container mx-auto py-2">
         {/* ABOUT SECTION */}
         <section className="container mx-auto px-4 py-10">
-            <h2 className="lg:text-7xl text-2xl font-bold text-gray-900 dark:text-white mb-2 text-center">
+            <h2 className="lg:text-7xl text-4xl font-bold text-gray-900 dark:text-white mb-2 text-center">
                 AN ACCOUNTABLE  <br/> DATA-DRIVEN NGO
             </h2>
             <p className="lg:text-5xl font-bold text-primary text-xl  md:leading-14 mb-4 text-center max-w-3xl mx-auto">
@@ -256,7 +256,7 @@ export default function AboutFoundationPage() {
 
                 {/* Highlighted Box */}
                 <div className="  ">
-                    <p className="text-sm lg:text-xl text-primary text-center leading-relaxed">
+                    <p className="text-sm font-extrabold lg:text-xl text-gray-900 text-center leading-relaxed">
                       PARTICIPANT PROGRESS & PROGRAMME MANAGEMENT
                     </p>
                     <p className="lg:text-lg hidden md:block text-center  text-sm text-gray-700 dark:text-gray-300 leading-relaxed ">
@@ -286,7 +286,7 @@ export default function AboutFoundationPage() {
                   className=""
                 >
                   <div className=" p-3 ">
-                    <p className="text-sm lg:text-xl text-primary text-center leading-relaxed">
+                    <p className="text-sm lg:text-xl font-extrabold text-gray-900 text-center leading-relaxed">
                       LIVE SPONSORSHIP & FUNDING DASHBOARD
                     </p>
                     <p className="lg:text-lg hidden md:block text-center text-sm text-gray-700 dark:text-gray-300 leading-relaxed ">
@@ -332,11 +332,11 @@ export default function AboutFoundationPage() {
 
             {/* LEFT GREEN PANEL */}
             <div className="bg-primary dark:bg-gray-900 text-white md:p-10 p-4">
-              <h2 className="sm:text-3xl drop-shadow-2xl text-xl font-bold mb-6">
-                80% Vocational or Digital Employability
+              <h2 className="sm:text-3xl drop-shadow-2xl text-4xl font-bold mb-6">
+                80% VOCATIONAL AND DIGITAL EMPLOYABILITY
               </h2>
 
-              <ul className="space-y-4 text-sm sm:text-lg">
+              <ul className="space-y-1 text-sm sm:text-lg">
                 <li>Participants placed into apprenticeships, internships, or paid work</li>
                 <li>Job-ready technical, digital, and creative skill sets</li>
                 <li>Early income-generation and entrepreneurship pathways</li>
@@ -345,15 +345,15 @@ export default function AboutFoundationPage() {
 
             {/* RIGHT LIGHT PANEL */}
             <div className="bg-gray-100 dark:bg-gray-800 md:p-10 p-4">
-              <h2 className="md:text-4xl text-2xl font-extrabold mb-6">
+              <h2 className="md:text-4xl text-4xl font-extrabold mb-6">
                 EVERY 5 YEARS
               </h2>
 
-              <h3 className="md:text-2xl text-lg font-bold text-green-700 mb-4">
+              <h3 className="md:text-2xl text-lg font-bold text-primary mb-4">
                 National Sports Representation Pathways
               </h3>
 
-              <ul className="space-y-4 md:text-lg text-sm">
+              <ul className="space-y-1 md:text-lg text-sm">
                 <li>Identified elite athletes progressing into pipelines</li>
                 <li>Structured exposure through tournaments</li>
                 <li>Discipline, leadership, and health outcomes</li>
@@ -409,15 +409,17 @@ export default function AboutFoundationPage() {
                 transition={{ delay: index * 0.1, duration: 0.5 }}
                 className="group p-8 bg-white dark:bg-gray-800 mb-8 rounded-2xl shadow-md border border-gray-200 dark:border-gray-700 hover:shadow-xl transition relative"
               >
-                {/* Icon */}
-                <div className="w-14 h-14 rounded-full bg-primary/15 dark:bg-primary/20 flex items-center justify-center mb-4">
-                  <IconRenderer icon={Icon} size={32} className="text-primary" />
-                </div>
+                <div className="flex items-center gap-3 justfiy-center">
+                  {/* Icon */}
+                  <div className="w-14 h-14 rounded-full bg-primary/15 dark:bg-primary/20 flex items-center justify-center mb-4">
+                    <IconRenderer icon={Icon} size={32} className="text-primary" />
+                  </div>
 
-                {/* Title */}
-                <h3 className="lg:text-2xl text-xl font-bold text-gray-900 dark:text-white mb-2">
-                  {pillar.title}
-                </h3>
+                  {/* Title */}
+                  <h3 className="lg:text-2xl text-xl font-bold text-gray-900 dark:text-white mb-2">
+                    {pillar.title}
+                  </h3>
+                </div>
 
                 {/* Description */}
                 <p className="text-gray-600 dark:text-gray-400 lg:text-base text-sm leading-relaxed mb-6">
@@ -430,7 +432,7 @@ export default function AboutFoundationPage() {
                     href={pillar.href}
                     className="inline-flex items-center gap-2 text-primary font-semibold text-sm hover:underline"
                   >
-                    Learn More
+                    LEARN MORE
                     <ArrowRight
                       className="w-4 h-4 transition-transform group-hover:translate-x-1"
                     />

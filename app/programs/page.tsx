@@ -13,17 +13,33 @@ export default function HowWeOperatePage() {
     {
       title: "SKILLS",
       icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617603/Our_Mission_akg8w9.svg",
-      description: "Hands-on workshops that develop creativity, problem-solving, and craftsmanship.",
+      description: (
+      <>
+        Hands-on workshops that develop creativity,
+        problem-solving, and craftsmanship. Boys learn practical abilities
+        through <strong>STEM, technical training, and vocational activities</strong>.
+        These skills build confidence, independence, and real-world capability.
+      </>
+    ),
     },
     {
       title: "EDUCATION",
       icon: "Eye",
-      description: "Learning support and literacy programs that strengthen academicconfidence.",
+      description: (
+      <> 
+      Learning support and literacy programmes that strengthen academic confidence. We reinforce foundations in <strong>mathematics, science, and communication skills. </strong>  Our goal is to help boys think critically, learn effectively, and pursue their potential.",
+      </>
+      ),
     },
     {
       title: "SPORTS",
       icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617622/Values_julkif.svg",
-      description: "Activities that promote teamwork, discipline, and resilience.",
+      description: (
+      <>     
+       Structured sporting activities that promote <strong>teamwork, discipline, and resilience. </strong>  Through <strong>football, athletics, boxing, </strong>  and other training, boys build strength and character. Sports teach perseverance, leadership, and the value of working together.",
+
+      </>
+      )
     },
   ]
 
@@ -31,7 +47,7 @@ export default function HowWeOperatePage() {
       <main className="bg-secondary dark:bg-gray-900 overflow-hidden">
         <Navigation />
       {/* HERO SECTION */}
-      <section className="relative flex items-center pt-24 pb-12 lg:pb-10 overflow-hidden">
+      <section className="relative flex items-center pt-24 md:pb-12 pb-1 lg:pb-10 overflow-hidden">
         <div className="container mx-auto px-4 grid lg:grid-cols-2 gap-1 items-center relative z-10">
           {/* Left Side */}
           <motion.div
@@ -39,7 +55,7 @@ export default function HowWeOperatePage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-4xl md:leading-20 leading-8 md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-3 md:mb-6">
+            <h1 className="text-4xl md:leading-15 leading-8 md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-3 md:mb-6">
               SHAPING BOYS INTO<br/>
               <span className="text-primary dark:text-[#8bc97f]"> MEN OF PURPOSE</span>
             </h1>
@@ -48,7 +64,7 @@ export default function HowWeOperatePage() {
               and opportunity, they grow into responsible men who uplift their families and
               communities.
             </p>
-            <div className="font-semibold mt-3 text-gray-800 mb-1 italic">
+            <div className="font-semibold mt-3 text-gray-800 dark:text-white mb-1 italic">
               JOIN US
             </div>
               
@@ -90,8 +106,8 @@ export default function HowWeOperatePage() {
       {/* ---------------------------------------- */}
             {/* SECTION 2 — HOW WE OPERATE */}
             {/* ---------------------------------------- */}
-            <section className="bg-secondary dark:bg-gray-800 lg:py-24 py-10">
-              <div className="container mx-auto px-4">
+            <section className="bg-white dark:bg-gray-800 lg:py-24 py-8 [clip-path:polygon(0_10%,100%_0,100%_90%,0_100%)] md:[clip-path:polygon(0_10%,100%_0,100%_90%,0_100%)]">
+              <div className="container pt-20  mx-auto px-4">
                 <h2 className="lg:text-6xl text-4xl  font-bold text-gray-800 dark:text-white mb-6 text-center">
                   HOW WE OPERATE
                 </h2>
@@ -105,7 +121,7 @@ export default function HowWeOperatePage() {
       
               </div>
                 {/* SUB SECTIONS */}
-                <div className=" mx-auto  px- sm:px-6 lg:px-8">
+                <div className=" mx-auto  px- sm:px-6 lg:px-12">
                 <div>
       
                   <div className="grid bg-whit grid-cols-1 sm:grid-cols-3">
@@ -122,17 +138,17 @@ export default function HowWeOperatePage() {
                             ${index !== 0 ? "border-t border-border sm:border-t-0" : ""}
       
                             /* DESKTOP — vertical separators between columns */
-                            ${index !== 0 ? "sm:border-l sm:border-border" : ""}
+                            ${index !== 0 ? "sm:border-l dark:border-gray-200 sm:border-border" : ""}
                           `}
                         >
                           <div className="text-lg items-center flex gap-3 sm:text-2xl font-bold">
       
-                          <h4 className="text-lg sm:text-2xl font-bold text-foreground mb-3">
+                          <h4 className="text-2xl sm:text-4xl rounded-[55px] shadow-lg px-4 border border-[#8f8f8f21] hover:border-primary  dark:text-primary font-bold text-foreground mb-3">
                             {pillar.title}
                           </h4>
                           </div>
       
-                          <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                          <p className="text-sm sm:text-base text-muted-foreground dark:text-white leading-relaxed">
                             {pillar.description}
                           </p>
                         </div>
@@ -143,12 +159,12 @@ export default function HowWeOperatePage() {
                 </div>
       
                 {/* CTA */}
-                <div className="text-center mt-12">
+                <div className="text-center mb-20 mt-5 md:mt-12">
                   <Link
                     href="/programs"
                     className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#5a8d4f] transition"
                   >
-                    Learn More <ArrowRight className="w-4 h-4" />
+                    LEARN MORE <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
               </div>

@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs"
 import { ObjectId } from "mongodb"
 import { getCollection } from "./mongodb"
 
-export type UserRole = "superAdmin" | "admin" | "volunteer"
+export type UserRole = "superAdmin" | "admin" | "volunteer" | "boy"
 
 export interface User {
   _id?: ObjectId

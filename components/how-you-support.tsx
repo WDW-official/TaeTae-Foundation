@@ -30,7 +30,7 @@ export default function HowYouSupport() {
       <div className="bg-secondary dark:bg-gray-800 py-6 md:py-10 md:[clip-path:polygon(0_10%,100%_0,100%_100%,0_100%)] ">
       <div className="max-w-6xl mx-auto px-4 ">
         <h2 className="text-5xl md:mt-20 md:text-6xl font-bold text-primary mb-8 text-center">HOW YOU CAN <span className="text-gray-800 dark:text-white drop-shadow-">SUPPORT</span> </h2>
-        <p className="text-center text-2xl text-foreground font-[100] mb-12 max-w-2xl mx-auto">
+        <p className="text-center text-2xl text-foreground  font-light mb-12 max-w-2xl mx-auto">
           There are three ways to support, Donations, Sponsorships, and Volunteering. Choose what works best for you and support us to make a real difference.
         </p>
 
@@ -39,7 +39,7 @@ export default function HowYouSupport() {
             return (
               <div
                 key={idx}
-                className="bg-white dark:bg-gray-900 p-8 rounded-[55px] shadow-lg border-12 border-[#8f8f8f21] hover:border-primary transition-all text-center group"
+                className="bg-white dark:bg-gray-900 md:p-8 p-5 rounded-[55px] shadow-lg border-12 border-[#8f8f8f21] hover:border-primary transition-all text-center group"
               >
                 <div className="flex items-center rounded-[55px] shadow-[11px] border-2 border-[#e4e4e4] justify-center gap-2 m-3">
                 <div className="w-16 h-16 bg-primary/10 dark:bg-primary/30 rounded-full flex items-center justify-center  m-2 group-hover:bg-primary/20 transition">
@@ -100,7 +100,7 @@ export default function HowYouSupport() {
               <div className="text-sm md:text-base">Possibilities</div>
             </div>
           </div>
-            <div className="text-center italic mt-12 text-sm md:text-2xl">Developing Tomorrow's Leaders</div>
+            <div className="text-center italic mt-12 text-xl md:text-2xl">Developing Tomorrow's Leaders</div>
           </div>
           <img
             src={"https://res.cloudinary.com/dzn1k1z8r/image/upload/v1770897318/freepik__35mm-film-photography-open-learning-space-with-nig__35804_ulheac.svg"}

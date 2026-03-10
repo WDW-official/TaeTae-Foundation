@@ -18,6 +18,7 @@ function OnboardContent() {
     date_of_birth: "",
     email: "",
     phone: "",
+    password: "",
     program: "skills",
     background: "",
     goals: "",
@@ -355,6 +356,18 @@ function OnboardContent() {
                   type="text"
                   name="guardianEmail"
                   value={formData.guardianEmail}
+                  onChange={handleChange}
+                  placeholder="Guardian's Email"
+                  className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-foreground font-semibold mb-2">Password</label>
+                <input
+                  type="text"
+                  name="guardianEmail"
+                  value={formData.password}
                   onChange={handleChange}
                   placeholder="Guardian's Email"
                   className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
