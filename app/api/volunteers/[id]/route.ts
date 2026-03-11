@@ -101,7 +101,7 @@ async function handleVolunteerApproval(volunteer: any) {
     let password: string | undefined = generateRandomPassword()
 
     if (!existingUser) {
-      await createUser(volunteer.email, password, "volunteer", volunteer.id)
+      await createUser(volunteer.email, password, "volunteer", undefined, undefined, volunteer.id)
     }
 
     try {

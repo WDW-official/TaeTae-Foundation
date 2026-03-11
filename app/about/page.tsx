@@ -8,9 +8,14 @@ import WhatWeStarting from "@/components/what-we-starting";
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import IconRenderer from "@/components/icon-renderer";
-import { Geist } from "next/font/google";
+import { Geist, Montserrat } from "next/font/google";
 
 const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+})
+
+const montserrat = Montserrat({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 })
@@ -65,7 +70,7 @@ export default function AboutFoundationPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-3xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-tight mb-6">
+            <h1 className={`${montserrat.className} text-3xl lg:text-5xl font-extrabold text-gray-900 dark:text-white leading-12 mb-6`}>
               BUILDING BOYS OF{" "}
               <span className="text-primary md:text-[50px]">CHARACTER, COMPETENCE,</span>{" "}
               AND <span className="text-primary md:text-[50px]">CONFIDENCE</span>
@@ -229,7 +234,7 @@ export default function AboutFoundationPage() {
       <section className="container mx-auto py-2">
         {/* ABOUT SECTION */}
         <section className="container mx-auto px-4 py-10">
-            <h2 className="lg:text-7xl text-4xl font-bold text-gray-900 dark:text-white mb-2 text-center">
+            <h2 className={`${montserrat.className} lg:text-7xl text-4xl font-extrabold text-gray-900 dark:text-white mb-2 text-center`}>
                 AN ACCOUNTABLE  <br/> DATA-DRIVEN NGO
             </h2>
             <p className="lg:text-5xl font-bold text-primary text-xl  md:leading-14 mb-4 text-center max-w-3xl mx-auto">

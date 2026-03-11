@@ -121,7 +121,8 @@ function OnboardContent() {
           date_of_birth: formData.date_of_birth,        // Using date of birth directly
           program_track: formData.program,
           guardian_name: formData.guardianName,
-          guardian_Email: formData.guardianEmail,
+          password: formData.password, // Added password to the payload
+          guardian_email: formData.guardianEmail,
           guardian_phone: formData.guardianPhone,
           school_name: formData.school_name,
           class_level: formData.class_level,
@@ -207,11 +208,11 @@ function OnboardContent() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-foreground font-semibold mb-2">Email</label>
+                  <label className="block text-foreground font-semibold mb-2">Email (Guardian Email)</label>
                   <input
                     type="email"
-                    name="email"
-                    value={formData.email}
+                    name="guardianEmail"
+                    value={formData.guardianEmail}
                     onChange={handleChange}
                     placeholder="your@email.com"
                     className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
@@ -351,13 +352,13 @@ function OnboardContent() {
               </div>
 
               <div>
-                <label className="block text-foreground font-semibold mb-2">Guardian Email</label>
+                <label className="block text-foreground font-semibold mb-2">Guardian Address</label>
                 <input
                   type="text"
-                  name="guardianEmail"
-                  value={formData.guardianEmail}
+                  name="address_city"
+                  value={formData.address_city}
                   onChange={handleChange}
-                  placeholder="Guardian's Email"
+                  placeholder="Guardian's address"
                   className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   required
                 />
@@ -366,10 +367,10 @@ function OnboardContent() {
                 <label className="block text-foreground font-semibold mb-2">Password</label>
                 <input
                   type="text"
-                  name="guardianEmail"
+                  name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  placeholder="Guardian's Email"
+                  placeholder="Password"
                   className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   required
                 />

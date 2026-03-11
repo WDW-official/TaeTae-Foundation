@@ -1,8 +1,9 @@
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime"
 
 type RolePayload = {
-  role: "admin" | "superAdmin" | "volunteer" | string
+  role: "admin" | "superAdmin" | "volunteer" | "boy" | string
   volunteerId?: string
+  boyId?: string
 }
 
 export function routeByRole(
@@ -20,6 +21,13 @@ export function routeByRole(
         throw new Error("Missing volunteerId")
       }
       router.replace(`/volunteer/dashboard/${data.volunteerId}`)
+      break
+
+    case "boy":
+      if (!data.boyId) {
+        throw new Error("Missing boyId")
+      }
+      router.replace(`/boy/dashboard/${data.boyId}`)
       break
 
     default:

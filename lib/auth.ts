@@ -11,6 +11,7 @@ export interface User {
   password: string // hashed
   role: UserRole
   name?: string
+  boyId?: string
   phone?: string
   resetOTP?: string
   volunteerId?: string
@@ -30,16 +31,21 @@ export async function createUser(
   name?: string,
   phone?: string,
   volunteerId?: string,
+  boyId?: string,
   allowSuperAdmin = false
 ) {
+  console.log("DEBUG createUser:", { email, password, role, boyId })
   if (role === "superAdmin" && !allowSuperAdmin) {
     throw new Error("Unauthorized to create superAdmin")
   }
 
   const users = await getCollection("users")
 
-  const exists = await users.findOne({ email })
-  if (exists) throw new Error("User already exists")
+  // Only enforce unique email for non-boy roles
+  if (role !== "boy") {
+    const exists = await users.findOne({ email })
+    if (exists) throw new Error("User already exists")
+  }
 
   const hashed = bcrypt.hashSync(password, 10)
   const newId = new ObjectId()
@@ -53,6 +59,7 @@ export async function createUser(
     name,
     phone,
     volunteerId,
+    boyId,
     createdAt: new Date().toISOString(),
   }
 

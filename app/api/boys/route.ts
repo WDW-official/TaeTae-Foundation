@@ -3,6 +3,7 @@ import { addRecord, getRecords } from "@/lib/db";
 import { uploadToCloudinary } from "@/lib/cloudinary";
 import { sendBoyEnrollmentEmail, sendAdminBoyEnrollmentNotification } from "@/lib/email";
 import { toast } from 'react-toastify';  // Import the toast notification
+import { createUser } from "@/lib/auth";
 
 export async function POST(request: NextRequest) {
   try {
@@ -41,6 +42,17 @@ export async function POST(request: NextRequest) {
       guardianSignatureUrl = result.secure_url;
     }
 
+    // ✅ CREATE BOY — DO NOT HASH HERE
+    const boyDetails = await createUser(
+      data.guardian_email,
+      data.password,     // ⚠️ plain password
+      "boy" ,      // role
+      `${data.first_name} ${data.last_name}`,          // name
+      data.phone,         // phone
+      undefined,         // volunteerId
+      boyId
+    )
+
     // Add boy record to database
     const boy = await addRecord("boys", {
       id: boyId,
@@ -73,14 +85,25 @@ export async function POST(request: NextRequest) {
     console.log("👦 Boy enrolled:", boy);
 
     // Send welcome email to guardian
-    if (data.guardian_email) {
-      await sendBoyEnrollmentEmail(boy, data.guardian_email);
-    }
+    
+    
 
+    if (data.guardian_email) {
+      await sendBoyEnrollmentEmail(boy, data.guardian_email, data.password);
+    }
     // Notify admin about new enrollment
     await sendAdminBoyEnrollmentNotification(boy);
+    
+      return NextResponse.json({
+        success: true,
+        boyId,
+        boy: {
+          id: boyDetails.id,
+          email: boyDetails.email,
+          role: boyDetails.role,
+        },
+      })
 
-    return NextResponse.json({ success: true, boy, boyId });
   } catch (error) {
     console.error("❌ Boy enrollment error:", error);
 

@@ -146,7 +146,7 @@ export default function AdminLogin() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center px-4">
+    <main className=" flex dark:bg-gray-800 items-center justify-center py-40">
       <div className="w-full max-w-md">
         <Navigation/>
         <motion.div
@@ -156,20 +156,20 @@ export default function AdminLogin() {
           transition={{ duration: 0.6 }}
           className="relative"
           >
-          {/* <div className="rounded-2xl overflow-hidden shadow-xl">
+          <div className=" overflow-hidden flex justify-center items-center ">
               <img
-              src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764570541/TaeTae_Elec_Elect_1_bvniay.png"
+              src="/Tae-Tae-logo.png"
               alt="Boys in leadership training"
-              className="w-full md:h-[380px] object-cover"
+              className="md:h-10 h-8 object-center object-cover"
               />
-          </div> */}
+          </div>
 
-          {/* <div className="absolute -bottom-6 text-sm lg:text-base left-6 bg-primary text-white px-6 py-3 rounded-xl shadow-lg">
+          <div className="text-center -bottom-6 text-sm lg:text-base left-6 b  px-6 py-3 mb-3 rounded-xl ">
               <p className="font-semibold"> Excellence • Growth • Integrity</p>
-          </div> */}
+          </div>
         </motion.div>
-        <div className="bg-card dark:bg-gray-900  rounded-lg p-8 shadow-lg">
-          <h1 className="text-xl font-semibold flex items-center gap-3 mb-2">
+        <div className="bg-card dark:bg-gray-900  rounded-4xl p-8 shadow-2xl">
+          <h1 className="text-xl font-semibold flex  items-center gap-3 mb-2">
             <Lock className="w-4 h-4 text-primary" />
             Sign in
           </h1>

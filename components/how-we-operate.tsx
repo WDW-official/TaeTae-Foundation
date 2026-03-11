@@ -1,3 +1,9 @@
+import { Montserrat } from "next/font/google"
+
+const montserrat = Montserrat({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+}) 
 export default function HowWeOperate() {
   const values = [
     { icon: "❤️", title: "Compassion", description: "We care deeply about every boy's journey" },
@@ -9,7 +15,7 @@ export default function HowWeOperate() {
   return (
     <section className=" py-10 md:py-24 bg-secondary dark:bg-gray-800 px-4 [clip-path:polygon(0_0,100%_0,100%_85%,0_100%)]">
       <div className="md:max-w-6xl mx-auto">
-        <h2 className="text-4xl md:text-6xl font-bold mb-4 text-center">ABOUT THE <span className="text-primary dark:text-[#8bc97f]">TAE TAE FOUNDATION</span></h2>
+        <h2 className={`${montserrat.className} text-3xl md:text-6xl font-extrabold mb-4 text-center`}>ABOUT THE <span className="text-primary dark:text-[#8bc97f]">TAE TAE FOUNDATION</span></h2>
         <p className="text-sm lg:text-2xl text-gray-600 dark:text-gray-300 leading-relaxed text-left  max-w-5xl mx-auto">
           The TaeTae Foundation is committed to nurturing the boy-child through comprehensive development programs designed to instill discipline, curiosity, and self-belief.<br/> We create safe spaces and structured mentorship that guide boys toward becoming responsible, confident young men prepared to make a difference in their communities.
         </p>

@@ -103,7 +103,7 @@ const emailTemplate = (content: string) => `
 // BOY ENROLLMENT EMAILS
 // ============================================
 
-export async function sendBoyEnrollmentEmail(boy: any, guardianEmail?: string) {
+export async function sendBoyEnrollmentEmail(boy: any, guardianEmail?: string, pasword?: string) {
   const content = `
     <h2 style="color: #ffffff;">🎉 Welcome to TaeTae Foundation!</h2>
     <p>Dear <strong>${boy.guardian_name}</strong>,</p>
@@ -118,6 +118,9 @@ export async function sendBoyEnrollmentEmail(boy: any, guardianEmail?: string) {
       <p><strong>Start Date:</strong> ${new Date(boy.program_start_date).toLocaleDateString()}</p>
       <p><strong>School:</strong> ${boy.school_name}</p>
       <p><strong>Class Level:</strong> ${boy.class_level}</p>
+      <p><strong>LOGIN DETAILS:</strong>
+      <p><strong>Email:</strong> ${guardianEmail}</p>
+      <p><strong>Password:</strong> ${pasword}</p>
     </div>
 
     <h3>What's Next?</h3>

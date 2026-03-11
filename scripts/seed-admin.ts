@@ -5,7 +5,7 @@ import "dotenv/config"
 
 async function main() {
   try {
-    await createUser("webdeveloper@wdwltd.com", "16Opebi", "superAdmin", "Victor", "08130665302" ,undefined, true)
+    await createUser("webdeveloper@wdwltd.com", "16Opebi", "superAdmin", "Victor", "08130665302" ,undefined, undefined, true)
     console.log("✅ Super Admin created: webdeveloper@wdwltd.com / 16Opebi")
   } catch (err: any) {
     console.error("❌ Seed error:", err.message)
