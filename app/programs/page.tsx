@@ -61,7 +61,7 @@ export default function HowWeOperatePage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className={`${montserrat.className} text-4xl md:leading-15 leading-8 md:text-4xl lg:text-[56px] font-extrabold text-gray-900 dark:text-white mb-3 md:mb-6`}>
+            <h1 className={`${montserrat.className} text-5xl md:leading-15 leading-11 md:text-4xl lg:text-[56px] font-extrabold text-gray-900 dark:text-white mb-3 md:mb-6`}>
               SHAPING BOYS INTO<br/>
               <span className="text-primary dark:text-[#8bc97f]"> MEN OF PURPOSE</span>
             </h1>
@@ -167,7 +167,7 @@ export default function HowWeOperatePage() {
                 {/* CTA */}
                 <div className="text-center mb-20 mt-5 md:mt-12">
                   <Link
-                    href="/programs"
+                    href="/operations"
                     className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#5a8d4f] transition"
                   >
                     LEARN MORE <ArrowRight className="w-4 h-4" />

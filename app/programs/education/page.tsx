@@ -6,28 +6,33 @@ import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import IconRenderer from "@/components/icon-renderer";
 import BackButton from "@/components/backButton";
+import { useState } from "react";
 
 export default function EducationPage() {
   const benefits = [
   {
     icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617611/Computer_Science_fdcsmf.svg",
     title: "Media",
-    description: "Digital media creation, editing, and storytelling",
+    short: "Media training introduces boys to digital storytelling, photography, video production, and content creation.",
+    rest: " Participants learn how to capture ideas, edit visual material, and communicate messages through modern digital platforms. Through guided projects and mentorship from experienced creators, boys develop creativity, technical skills, and confidence in expressing their perspectives while gaining valuable skills that are increasingly relevant in today’s digital world.",
   },
   {
     icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617708/Math_csmhst.svg",
     title: "Math",
-    description: "Numeracy, logic, and analytical problem-solving",
+    short: "Mathematics training strengthens numeracy, logic, and structured thinking.",
+    rest: " Through engaging exercises, practical examples, and problem-solving challenges, boys learn how mathematical concepts apply to real-life situations. By reinforcing foundational skills in arithmetic, reasoning, and analytical thinking, the program helps participants build confidence in tackling complex problems and prepares them for future academic, technical, and professional opportunities.",
   },
   {
     icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617569/Science_u6pqus.svg",
     title: "Science",
-    description: "Hands-on experiments and scientific exploration",
+    short: "Science learning focuses on curiosity, experimentation, and discovery.",
+    rest: " Through hands-on demonstrations and simple experiments, boys explore the principles that govern the natural and technological world around them. From basic physics and chemistry concepts to practical applications in engineering and everyday life, participants develop critical thinking skills while gaining a deeper understanding of how science shapes modern society.",
   },
   {
     icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617614/Communication_2_wllcto.svg",
     title: "Communication",
-    description: "Communication, comprehension, and multilingual learning",
+    short: "Communication training helps boys express ideas clearly and confidently.",
+    rest: " Participants practice reading comprehension, public speaking, and structured discussion while also developing listening skills and respectful dialogue. By strengthening language abilities and encouraging thoughtful expression, the program prepares participants to communicate effectively in academic settings, professional environments, and leadership roles within their communities.",
   },
 ];
 
@@ -38,6 +43,8 @@ export default function EducationPage() {
     { metric: "300+", label: "Boys Mentored" },
     { metric: "99%", label: "Confidence Growth" },
   ]
+
+  const [openBenefit, setOpenBenefit] = useState<number | null>(null);
 
   return (
     <main className="bg-white dark:bg-gray-900">
@@ -62,7 +69,7 @@ export default function EducationPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             <p className="lg:text-lg text-sm text-muted-foreground mb-8 leading-relaxed">
-              Supporting and supplementing formal education through programs that focus on Science, Mathematics, Language, and Technology. We help boys build confidence in learning and creativity.
+              Through partnerships with schools, educators, and experienced professionals, we support boys in strengthening the academic and creative skills that shape future leaders. Our programs combine practical learning, mentorship, and real-world exposure to help boys develop confidence, curiosity, and problem-solving ability. By blending foundational education with modern digital skills, we prepare participants to think critically, communicate effectively, and explore opportunities across science, technology, and creative industries.
             </p>
 
             <div className="grid grid-cols-4 md:grid-cols-4 gap-4 mb-12 bg-secondary dark:bg-gray-800 lg:p-8 p-2 rounded-lg border border-border">
@@ -78,18 +85,36 @@ export default function EducationPage() {
               What Boys Receive
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-              {benefits.map((benefit) => {
+              {benefits.map((benefit, index) => {
                 const Icon = benefit.icon
                 return (
                   <div
                     key={benefit.title}
-                    className="dark:bg-gray-800  border border-border p-6 rounded-lg hover:border-primary transition"
+                    className="dark:bg-gray-800 border border-border p-6 rounded-lg hover:border-primary transition"
                   >
-                    <div className="flex gap-4 items-center">
+                    <div className="flex gap-4 items-center mb-2">
                       <IconRenderer icon={Icon} size={32} className="text-primary" />
-                    <h3 className="text-xl font-bold text-foreground">{benefit.title}</h3>
+
+                      <h3 className="text-xl font-bold text-foreground">
+                        {benefit.title}
+                      </h3>
                     </div>
-                    <p className="text-muted-foreground">{benefit.description}</p>
+
+                    <p className="text-muted-foreground">
+                      {benefit.short}
+                      {openBenefit === index && benefit.rest}
+                    </p>
+
+                    {benefit.rest && (
+                      <button
+                        onClick={() =>
+                          setOpenBenefit(openBenefit === index ? null : index)
+                        }
+                        className="text-primary text-sm mt-2 hover:underline"
+                      >
+                        {openBenefit === index ? "Read less" : "Read more"}
+                      </button>
+                    )}
                   </div>
                 )
               })}
@@ -103,8 +128,8 @@ export default function EducationPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-3">
 
-                  {benefits.map((value, index) => {
-                    const Icon = value.icon;
+                  {benefits.map((benefit, index) => {
+                    const Icon = benefit.icon;
 
                     return (
                       <div
@@ -125,13 +150,25 @@ export default function EducationPage() {
                         </div>
 
                         <h4 className="text-lg sm:text-2xl font-bold text-foreground mb-3">
-                          {value.title}
+                          {benefit.title}
                         </h4>
                         </div>
 
-                        <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                          {value.description}
+                        <p className="text-muted-foreground">
+                          {benefit.short}
+                          {openBenefit === index && benefit.rest}
                         </p>
+
+                        {benefit.rest && (
+                          <button
+                            onClick={() =>
+                              setOpenBenefit(openBenefit === index ? null : index)
+                            }
+                            className="text-primary text-sm mt-2 hover:underline"
+                          >
+                            {openBenefit === index ? "Read less" : "Read more"}
+                          </button>
+                        )}
                       </div>
                     );
                   })}

@@ -70,7 +70,7 @@ export default function AboutFoundationPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className={`${montserrat.className} text-3xl lg:text-5xl font-extrabold text-gray-900 dark:text-white leading-12 mb-6`}>
+            <h1 className={`${montserrat.className} text-3xl lg:text-5xl font-extrabold text-gray-900 dark:text-white leading-9 md:leading-15 mb-6`}>
               BUILDING BOYS OF{" "}
               <span className="text-primary md:text-[50px]">CHARACTER, COMPETENCE,</span>{" "}
               AND <span className="text-primary md:text-[50px]">CONFIDENCE</span>
@@ -112,7 +112,7 @@ export default function AboutFoundationPage() {
       <section className="from-[#2f5129] bg-linear-to-br to-[#2a6f1a] dark:from-[#0a1421] dark:to-[#0a1421] grid-cols-1 gap-12 grid md:grid-cols-2 dark:bg-gray-900 p-4 md:p-14 md:[clip-path:polygon(0_10%,100%_0,100%_100%,0_100%)]">
         <div className="relative md:mt-20 group overflow-hidden">
           <div>
-            <h1 className="text-2xl lg:text-5xl text-white text-center font-bold dark:text-white leading-tight mb-6">
+            <h1 className="text-5xl lg:text-5xl text-white text-center font-bold dark:text-white leading-12 md:leading-15 mb-6">
               WHAT WE <span className="text-primary">MUST ACHIEVE</span> 
             </h1>
             <p className="text-center text-white text-xl md;mb-12 mb-5 max-w-2xl mx-auto">

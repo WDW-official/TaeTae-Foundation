@@ -30,9 +30,9 @@ export default function SupportPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className={`${montserrat.className} text-4xl lg:text-6xl font-extrabold text-gray-900 dark:text-white leading-13 mb-6`}>
+            <h1 className={`${montserrat.className} text-[40px] lg:text-6xl font-extrabold text-gray-900 dark:text-white leading-9 md:leading-13 mb-6`}>
               HOW YOU CAN{" "}
-              <span className="text-primary dark:text-[#8bc97f]">SUPPORT</span>
+              <span className="text-primary dark:text-[#8bc97f]"> SUPPORT</span>
             </h1>
 
             <p className="lg:text-lg text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
@@ -94,13 +94,21 @@ export default function SupportPage() {
 
             {/* DONATE */}
             <div className="group bg-white dark:bg-gray-800 rounded-lg overflow-hidden border border-border hover:border-primary transition-all hover:shadow-lg">
-              <div className="relative h-64 overflow-hidden">
+              <div className="relative h-64 text-white hover:text-primary overflow-hidden">
                 <img
                   src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764755445/Donate_1_ptppnd.png"
                   alt="Donate"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                 />
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition"></div>
+                <div className="absolute inset-0 bg-black/70 flex items-center justify-center text-center px-6
+                    opacity-70 group-hover:opacity-100
+                    transition-opacity duration-700 ease-in-out">
+
+                    <div className="">
+                      <h4 className=" text-3xl font-[700] mb-2">YOUR SUPPORT</h4>
+                    </div>
+
+                  </div>
               </div>
 
               <div className="p-6">
@@ -125,13 +133,21 @@ export default function SupportPage() {
 
             {/* SPONSOR */}
             <div className="group bg-white dark:bg-gray-800 rounded-lg overflow-hidden border border-border hover:border-primary transition-all hover:shadow-lg">
-              <div className="relative h-64 overflow-hidden">
+              <div className="relative h-64 text-white hover:text-primary overflow-hidden">
                 <img
                   src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1773143614/Sponsors_fm6ql3.svg"
                   alt="Sponsor"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                 />
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition"></div>
+                <div className="absolute inset-0 bg-black/70 flex items-center justify-center text-center px-6
+                    opacity-70 group-hover:opacity-100
+                    transition-opacity duration-700 ease-in-out">
+
+                    <div className="">
+                      <h4 className=" text-3xl font-[700] mb-2">GIVES HOPE</h4>
+                    </div>
+
+                  </div>
               </div>
 
               <div className="p-6">
@@ -156,13 +172,21 @@ export default function SupportPage() {
 
             {/* VOLUNTEER */}
             <div className="group bg-white dark:bg-gray-800 rounded-lg overflow-hidden border border-border hover:border-primary transition-all hover:shadow-lg">
-              <div className="relative h-64 overflow-hidden">
+              <div className="relative h-64 text-white hover:text-primary overflow-hidden">
                 <img
                   src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764570531/Education_3_y4l5kp.jpg"
                   alt="Volunteer"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                 />
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition"></div>
+                <div className="absolute inset-0 bg-black/70 flex items-center justify-center text-center px-6
+                    opacity-70 group-hover:opacity-100
+                    transition-opacity duration-700 ease-in-out">
+
+                    <div className="">
+                      <h4 className=" text-3xl font-[700] mb-2">TO THE FUTURE</h4>
+                    </div>
+
+                  </div>
               </div>
 
               <div className="p-6">

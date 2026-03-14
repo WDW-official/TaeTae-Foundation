@@ -19,7 +19,7 @@ export default function Navigation() {
   ]
 
   const programLinks = [
-    { href: "/programs/skills", label: "Skills" },
+    { href: "/programs/skills", label: "SKILLS ACQUISITION" },
     { href: "/programs/education", label: "Education" },
     { href: "/programs/sports", label: "Sports" },
   ]

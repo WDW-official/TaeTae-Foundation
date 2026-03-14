@@ -5,13 +5,22 @@ import { ArrowLeft, Hammer, Code, Palette, Wrench, TrendingUp, Cog, Lightbulb, }
 import Navigation from "@/components/navigation"
 import Footer from "@/components/footer"
 import IconRenderer from "@/components/icon-renderer"
+import { useState } from "react"
 
 export default function SkillsPage() {
   const skills = [
-    { name: "Coding", icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617658/Coding_xjwkrq.svg", description: "Foundational programming skills to build digital solutions." },
-    { name: "Mechanics", icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617663/Mechanics_tn0fsu.svg", description: "Automotive and machinery repair skills learned through hands-on experience." },
-    { name: "Carpentry", icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617613/Carpentry_xlivwz.svg", description: "Woodworking fundamentals and practical construction projects." },
-    { name: "Electrical Engineering", icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617631/Lightbulb_with_gear_wzfwcm.svg", description: "Understanding circuits, wiring, and basic electrical systems." },
+    { name: "Coding", icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617658/Coding_xjwkrq.svg", 
+      short: "Participants are introduced to the fundamentals of electrical systems, including circuits, wiring, power distribution, and safety practices.",
+    rest: " Through guided workshops and practical demonstrations, boys learn how electricity flows through homes, machines, and devices. As they progress, they work with tools, testing equipment, and simple installations under supervision, building both technical understanding and responsibility while gaining confidence in solving real-world electrical challenges."},
+    { name: "Mechanics", icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617663/Mechanics_tn0fsu.svg", 
+      short: "Mechanical training focuses on understanding machines, engines, and the principles that allow them to move and operate",
+    rest: " Through exposure to automotive basics, tools, and machinery, participants learn how components interact within mechanical systems. With supervision from experienced mechanics, boys practice disassembly, maintenance, and repair techniques while developing problem-solving skills and a strong appreciation for precision, safety, and disciplined workmanship.",},
+    { name: "Carpentry", icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617613/Carpentry_xlivwz.svg", 
+      short: "Carpentry training provides hands-on experience in woodworking, measurement, and construction techniques.",
+    rest: " Participants learn how to use essential tools safely while building simple furniture, frames, and functional structures. Over time, boys develop craftsmanship, patience, and attention to detail as they transform raw materials into useful creations, fostering pride in practical skills and encouraging the creativity needed to design and build independently." },
+    { name: "Electrical Engineering", icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617631/Lightbulb_with_gear_wzfwcm.svg", 
+      short: "Young athletes receive guidance from experienced mentors.",
+    rest: " This helps them develop discipline, leadership, and life skills that go beyond sports.",},
   ]
 
   const impact = [
@@ -20,6 +29,8 @@ export default function SkillsPage() {
     { metric: "150+", label: "Skills Taught" },
     { metric: "500+", label: "Boys Trained" },
   ]
+
+  const [openBenefit, setOpenBenefit] = useState<number | null>(null);
 
   return (
     <main className="bg-white dark:bg-gray-900">
@@ -47,10 +58,7 @@ export default function SkillsPage() {
           <div className="lg:col-span-2">
             {/* Intro Section */}
             <p className="lg:text-lg text-sm text-muted-foreground mb-8 leading-relaxed">
-              <strong>Building pathways to jobs through vocational training.</strong> Our Skills Program empowers boys with hands-on
-              experience in trades such as coding, mechanics, carpentry, plumbing, and sewing, preparing them for a
-              productive and sustainable future. Through mentorship and structured learning, participants gain real-world
-              skills they can use to uplift themselves and their communities.
+              We continue to collaborate with existing workshops, technical institutions, and experienced professionals while also establishing selected TaeTae Foundation led training initiatives. Through these partnerships, boys get to access to real tools, equipment, and structured learning materials. With guidance from skilled tradespeople, engineers, and university-level mentors, the young men develop practical abilities, discipline, and creative thinking gradually refining their talents over several years while building the confidence to design, build, and innovate.
             </p>
 
             {/* Impact Stats */}
@@ -69,7 +77,7 @@ export default function SkillsPage() {
                 What Boys Learn
               </h2>
               <div className="grid grid-cols-1   md:grid-cols-2 gap-6 mb-12">
-                {skills.map((skill) => {
+                {skills.map((skill, index) => {
                   const Icon = skill.icon
                   return (
                     <div
@@ -80,7 +88,21 @@ export default function SkillsPage() {
                         <IconRenderer icon={Icon} size={32} className="text-primary" />
                         <h3 className="text-xl font-bold text-foreground">{skill.name}</h3>
                       </div>
-                      <p className="text-muted-foreground">{skill.description}</p>
+                       <p className="text-muted-foreground">
+                          {skill.short}
+                          {openBenefit === index && skill.rest}
+                        </p>
+
+                        {skill.rest && (
+                          <button
+                            onClick={() =>
+                              setOpenBenefit(openBenefit === index ? null : index)
+                            }
+                            className="text-primary text-sm mt-2 hover:underline"
+                          >
+                            {openBenefit === index ? "Read less" : "Read more"}
+                          </button>
+                        )}
                     </div>
                   )
                 })}
@@ -120,9 +142,21 @@ export default function SkillsPage() {
                         </h4>
                         </div>
 
-                        <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                          {value.description}
-                        </p>
+                         <p className="text-muted-foreground">
+                            {value.short}
+                            {openBenefit === index && value.rest}
+                          </p>
+
+                          {value.rest && (
+                            <button
+                              onClick={() =>
+                                setOpenBenefit(openBenefit === index ? null : index)
+                              }
+                              className="text-primary text-sm mt-2 hover:underline"
+                            >
+                              {openBenefit === index ? "Read less" : "Read more"}
+                            </button>
+                          )}
                       </div>
                     );
                   })}

@@ -5,13 +5,22 @@ import { ArrowLeft, Trophy, Users, Heart, TrendingUp } from "lucide-react"
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import IconRenderer from "@/components/icon-renderer";
+import { useState } from "react";
 
 export default function SportsPage() {
   const activities = [
-    { icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617696/Football_Training_kzedoq.svg", title: "Football Training", description: "Team skills and competitive spirit development" },
-    { icon: 'https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617699/Track_and_Field_clhlfx.svg', title: "Athletics", description: "Individual achievement and personal records" },
-    { icon: 'https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617656/Combat_Sports_wdixm7.svg', title: "Combat Sport", description: "Collaboration and communication skills" },
-    { icon: 'https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617617/Healthy_Living_ckvcrs.svg', title: "Healthy Living", description: "Fitness, discipline, and wellness habits" },
+    { icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617696/Football_Training_kzedoq.svg", title: "Football Training", 
+      short: "Our efforts with the football track focuses on teamwork, discipline, and strategic thinking.",
+      rest: " We partner with local clubs and school teams, to help improve the quality of training environments through better equipment, coaching support, and structured development opportunities. At the same time, we identify promising players who show exceptional ability and dedication, helping them refine their skills while encouraging leadership, teamwork, and a strong competitive spirit."},
+    { icon: 'https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617699/Track_and_Field_clhlfx.svg', title: "Athletics", 
+      short: "Boys are introduced to proper running techniques, speed development, endurance training, and race discipline.",
+      rest: " Our athletics program focuses primarily on sprint and middle-distance development, specially the 100m, 200m, 400m, 800m and Long jump events Through school competitions and structured coaching, participants gradually improve their performance while learning the importance of consistency, resilience, and personal progress as they strive to break their own records.", },
+    { icon: 'https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617656/Combat_Sports_wdixm7.svg', title: "Combat Sport", 
+      short: "From experience and research we found that combat sports training teaches discipline, restraint, and self-control while building strength, agility, and mental focus.",
+      rest: " Through structured coaching in sports such as boxing, taekwondo, and judo, boys learn to channel their energy positively while respecting opponents and understanding the responsibility that comes with physical ability." },
+    { icon: 'https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617617/Healthy_Living_ckvcrs.svg', title: "Healthy Living", 
+      short: "Boys are introduced to the importance of nutrition, physical recovery, and responsible lifestyle habits that support growth and performance.",
+      rest: " Healthy living is an essential part of physical development, through partnerships with health professionals and organizations, we encourage balanced diets, proper hydration, and positive wellbeing practices that help participants maintain both physical strength and long-term health as they develop."},
   ]
 
   const achievements = [
@@ -20,6 +29,8 @@ export default function SportsPage() {
     { metric: "45", label: "Championships Won" },
     { metric: "100%", label: "Leadership Growth" },
   ]
+
+  const [openBenefit, setOpenBenefit] = useState<number | null>(null);
 
   return (
     <main className="bg-white dark:bg-gray-900">
@@ -46,7 +57,7 @@ export default function SportsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             <p className="lg:text-lg text-sm text-muted-foreground mb-8 leading-relaxed">
-              Encouraging optimum health, teamwork, and camaraderie. The TaeTae Foundation’s sports programs inspire boys to embrace discipline, resilience, and unity.
+              By collaborating with existing sports teams, coaches, and community leaders, we support boys already participating in football, athletics, and combat sports while also creating initiatives to discover new talent. Through school competitions, community events, and local training sessions, we identify promising young athletes and help them grow. We also work with health organizations and industry partners to support proper nutrition, physical development, and overall wellbeing throughout their training journey.
             </p>
 
             <div className="grid grid-cols-4 md:grid-cols-4 gap-4 mb-12 bg-secondary dark:bg-gray-800 lg:p-8 p-2 rounded-lg border border-border">
@@ -62,7 +73,7 @@ export default function SportsPage() {
                 What Boys Experience
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-                {activities.map((activity) => {
+                {activities.map((activity, index) => {
                   const Icon = activity.icon
                   return (
                     <div
@@ -73,7 +84,21 @@ export default function SportsPage() {
                       <IconRenderer icon={activity.icon} size={32} className="text-primary" />
                       <h3 className="text-xl font-bold text-foreground ">{activity.title}</h3>
                       </div>
-                      <p className="text-muted-foreground">{activity.description}</p>
+                      <p className="text-muted-foreground">
+                          {activity.short}
+                          {openBenefit === index && activity.rest}
+                        </p>
+
+                        {activity.rest && (
+                          <button
+                            onClick={() =>
+                              setOpenBenefit(openBenefit === index ? null : index)
+                            }
+                            className="text-primary text-sm mt-2 hover:underline"
+                          >
+                            {openBenefit === index ? "Read less" : "Read more"}
+                          </button>
+                        )}
                     </div>
                   )
                 })}
@@ -113,9 +138,21 @@ export default function SportsPage() {
                         </h4>
                         </div>
 
-                        <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                          {value.description}
+                        <p className="text-muted-foreground">
+                          {value.short}
+                          {openBenefit === index && value.rest}
                         </p>
+
+                        {value.rest && (
+                          <button
+                            onClick={() =>
+                              setOpenBenefit(openBenefit === index ? null : index)
+                            }
+                            className="text-primary text-sm mt-2 hover:underline"
+                          >
+                            {openBenefit === index ? "Read less" : "Read more"}
+                          </button>
+                        )}
                       </div>
                     );
                   })}

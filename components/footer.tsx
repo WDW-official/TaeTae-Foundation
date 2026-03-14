@@ -56,11 +56,11 @@ export default function Footer() {
           <div>
             <h4 className="text-lg text-primary font-bold mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              <li>
+              {/* <li>
                 <Link href="/news" className="text-white/80 hover:text-white transition-colors">
                   News
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link href="/contact" className="text-white/80 hover:text-white transition-colors">
                   Contact
@@ -73,10 +73,21 @@ export default function Footer() {
           <div>
             <h4 className="text-lg text-primary font-bold mb-4">Our Programs</h4>
             <ul className="space-y-2">
-              <li className="text-white/80">Sports Development</li>
-              <li className="text-white/80">Education & Literacy</li>
-              <li className="text-white/80">Skills Acquisition</li>
-              <li className="text-white/80">Mentorship Programs</li>
+              <li className="text-white/80">
+                <Link href="/programs/skills" className="text-white/80 hover:text-white transition-colors">
+                  SKILLS ACQUISITION
+                </Link>
+              </li>
+              <li className="text-white/80">
+                <Link href="/programs/education" className="text-white/80 hover:text-white transition-colors">
+                  EDUCATION & MENTORSHIP
+                </Link>
+              </li>
+              <li className="text-white/80">
+                <Link href="/programs/sports" className="text-white/80 hover:text-white transition-colors">
+                  SPORTS DEVELOPMENT
+                </Link>
+              </li>
             </ul>
           </div>
 
