@@ -6,6 +6,8 @@ import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import IconRenderer from "@/components/icon-renderer";
 import { useState } from "react";
+import { motion } from "framer-motion";
+import BackButton from "@/components/backButton";
 
 export default function SportsPage() {
   const activities = [
@@ -36,22 +38,26 @@ export default function SportsPage() {
     <main className="bg-white dark:bg-gray-900">
       <Navigation />
       <div className="max-w-6xl mx-auto px-4 py-12">
-        <Link href="/" className="inline-flex items-center gap-2 text-primary hover:underline mb-8">
-          {/* <ArrowLeft className="w-4 h-4" />
-          Back Home */}
-        </Link>
+        <BackButton label="Back"/>
 
-        <h1 className="lg:text-5xl text-2xl font-bold text-foreground mb-6">Sports Program</h1>
-        <div className="bg-linear-to-br from-primary/10 via-accent/10 to-background rounded-lg overflow-hidden mb-12 border border-border h-96 flex items-center justify-center">
-          <img
-            src={"https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764570544/freepik__realistic-image-of-young-african-boys-playing-foot__14050_safojl.jpg"}
-            alt={""}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-          />
-          {/* <div className="text-center">
-            <Hammer className="w-24 h-24 text-primary/30 mx-auto mb-4" />
-            <p className="text-muted-foreground">Skills Training Program</p>
-          </div> */}
+        <div className="bg-linear-to-br from-primary/10 via-accent/10 to-background md:h-96 rounded-lg overflow-hidden mb-12 border border-border flex items-center justify-center">
+          <div
+            className="relative overflow-hidden lg:block shadow-xl"
+          >
+            <img
+              src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764570544/freepik__realistic-image-of-young-african-boys-playing-foot__14050_safojl.jpg"
+              alt="Support Illustration"
+              className="w-full  object-cover"
+            />
+
+            {/* Overlay */}
+            <div className="absolute hover:bg-black/40 inset-0 bg-black/50"></div>
+            <div className="absolute inset-0 flex items-center justify-center">
+            <h2 className="text-white text-center font-bold lg:text-5xl text-2xl ">
+              Sports Program
+            </h2>
+          </div>
+          </div>  
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

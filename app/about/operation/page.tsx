@@ -62,7 +62,7 @@ function Divider({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-3 my-7">
       <div className="flex-1 h-px bg-linear-to-r from-transparent dark:to-primary to-gray-900" />
-      <span className="dark:text-primary text-gray-900 uppercase tracking-[0.2em] text-sm md:text-3xl font-bold whitespace-nowrap">
+      <span className="dark:text-primary text-gray-900 uppercase tracking-[0.2em] text-[10px] md:text-3xl font-bold whitespace-nowrap">
         {label}
       </span>
       <div className="flex-1 h-px bg-linear-to-l from-transparent dark:to-primary to-gray-900" />
@@ -335,13 +335,13 @@ export default function TaeTaeFoundationPage() {
 function PipelineCard({number,title,text}:{number:string,title:string,text:string}) {
   return (
     <div className="bg-linear-to-br from-[#15232b] to-[#131c23]
-      border border-[#4aa34466] rounded-lg p-4">
+      border border-[#4aa34466] rounded-lg p-2">
 
       <div className="flex items-center gap-3 mb-3">
 
         <div className="w-7 h-7 rounded-full
         bg-[#4aa34426] border border-primary
-        flex items-center justify-center text-primary font-bold">
+        flex items-center justify-center text-[10px] text-primary font-bold">
           {number}
         </div>
 

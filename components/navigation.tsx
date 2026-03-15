@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from "react"
@@ -8,31 +9,34 @@ import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 
 export default function Navigation() {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpenProgram, setIsOpenProgram] = useState(false)
+  const [isOpenAbout, setIsOpenAbout] = useState(false)
   const [programOpen, setProgramOpen] = useState(false)
   const pathname = usePathname() ?? ""
 
   const navLinks = [
     { href: "/", label: "Home" },
-    { href: "/about", label: "About Us" },
     { href: "/support", label: "Support" },
   ]
 
   const programLinks = [
-    { href: "/programs/skills", label: "SKILLS ACQUISITION" },
+    { href: "/programs/skills", label: "Skills" },
     { href: "/programs/education", label: "Education" },
     { href: "/programs/sports", label: "Sports" },
   ]
 
-  // Fixes "home always active" bug
+  const aboutLinks = [
+    { href: "/about/operation", label: "How We Operate" },
+  ]
+
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/"
     return pathname === href || pathname.startsWith(`${href}/`)
   }
 
-  // Close menu when page changes
   useEffect(() => {
-    setIsOpen(false)
+    setIsOpenProgram(false)
+    setIsOpenAbout(false)
   }, [pathname])
 
   return (
@@ -46,42 +50,94 @@ export default function Navigation() {
             href="/"
             className="flex p-1 rounded-full bg-white border dark:border-white dark:bg-gray-900 items-center"
           >
-            {/* Logo for light mode */}
             <img
               src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764783363/Tae_Tae_2_a52zrp.svg"
               alt="TaeTae Foundation Logo"
-              className="md:h-10 pr-1 h-8 w-auto dark:hidden"  // This will hide in dark mode
+              className="md:h-10 pr-1 h-8 w-auto dark:hidden"
             />
-            
-            {/* Logo for dark mode */}
+
             <img
               src="/Tae-Tae-logo.png"
               alt="TaeTae Foundation Logo"
-              className="md:h-10 h-8 pr-1 w-auto hidden dark:block"  // This will show only in dark mode
+              className="md:h-10 h-8 pr-1 w-auto hidden dark:block"
             />
           </Link>
 
-          {/* DESKTOP NAVIGATION */}
+          {/* DESKTOP NAV */}
           <div className="hidden lg:flex items-center gap-8">
 
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  "text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-[#8bc97f] transition-colors font-medium relative py-2",
-                  isActive(link.href) &&
-                    "text-primary dark:text-[#8bc97f] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary dark:after:bg-[#8bc97f]"
-                )}
-              >
-                {link.label}
-              </Link>
-            ))}
+            <Link
+              href="/"
+              className={cn(
+                "text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-[#8bc97f] transition-colors font-medium relative py-2",
+                isActive("/") &&
+                  "text-primary dark:text-[#8bc97f] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary dark:after:bg-[#8bc97f]"
+              )}
+            >
+              Home
+            </Link>
 
-            {/* OUR PROGRAMS (desktop) */}
+            {/* ABOUT US */}
             <div className="relative flex items-center gap-1">
 
-              {/* Clicking TEXT goes to /programs */}
+              <Link
+                href="/about"
+                className={cn(
+                  "text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-[#8bc97f] transition-colors font-medium py-2",
+                  pathname.startsWith("/about") &&
+                    "text-primary dark:text-[#8bc97f]"
+                )}
+              >
+                About Us
+              </Link>
+
+              <button
+                onClick={() => setIsOpenAbout(!isOpenAbout)}
+                className="p-1 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-[#8bc97f]"
+              >
+                <ChevronDown
+                  size={16}
+                  className={cn(
+                    "transition-transform duration-300",
+                    isOpenAbout && "rotate-180"
+                  )}
+                />
+              </button>
+
+              {isOpenAbout && (
+                <div className="absolute top-full left-0 mt-2 bg-white dark:bg-gray-800 shadow-lg rounded-lg border border-gray-200 dark:border-gray-700 w-48 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                  {aboutLinks.map((sub) => (
+                    <Link
+                      key={sub.href}
+                      href={sub.href}
+                      className={cn(
+                        "block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors",
+                        pathname === sub.href &&
+                          "text-primary dark:text-[#8bc97f]"
+                      )}
+                      onClick={() => setIsOpenAbout(false)}
+                    >
+                      {sub.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <Link
+              href="/support"
+              className={cn(
+                "text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-[#8bc97f] transition-colors font-medium relative py-2",
+                isActive("/support") &&
+                  "text-primary dark:text-[#8bc97f]"
+              )}
+            >
+              Support
+            </Link>
+
+            {/* PROGRAMS */}
+            <div className="relative flex items-center gap-1">
+
               <Link
                 href="/programs"
                 className={cn(
@@ -93,33 +149,37 @@ export default function Navigation() {
                 Our Programs
               </Link>
 
-              {/* Arrow toggles dropdown ONLY */}
               <button
                 onClick={() => setProgramOpen(!programOpen)}
                 className="p-1 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-[#8bc97f]"
               >
                 <ChevronDown
                   size={16}
-                  className={cn("transition-transform", programOpen && "rotate-180")}
+                  className={cn(
+                    "transition-transform duration-300",
+                    programOpen && "rotate-180"
+                  )}
                 />
               </button>
 
-              {/* DROPDOWN MENU */}
               {programOpen && (
-                <div className="absolute top-full left-0 mt-2 bg-white dark:bg-gray-800 shadow-lg rounded-lg border border-gray-200 dark:border-gray-700 w-44 py-2 z-50">
+                <div className="absolute top-full left-0 mt-2 bg-white dark:bg-gray-800 shadow-lg rounded-lg border border-gray-200 dark:border-gray-700 w-44 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                   {programLinks.map((sub) => (
                     <Link
                       key={sub.href}
                       href={sub.href}
                       className={cn(
-                        "block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors",
-                        pathname === sub.href && "text-primary dark:text-[#8bc97f]"
+                        "block px-4 py-2 text-sm rounded-md transition-colors",
+                        pathname === sub.href
+                          ? "text-primary dark:text-[#8bc97f] bg-gray-100 dark:bg-gray-700 font-medium"
+                          : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                       )}
                       onClick={() => setProgramOpen(false)}
                     >
                       {sub.label}
                     </Link>
                   ))}
+
                 </div>
               )}
             </div>
@@ -127,81 +187,118 @@ export default function Navigation() {
             <ThemeToggle />
           </div>
 
-          {/* MOBILE MENU BUTTON */}
+          {/* MOBILE BUTTON */}
           <div className="flex items-center gap-2 lg:hidden">
             <ThemeToggle />
             <button
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={() => setIsOpenProgram(!isOpenProgram)}
               className="p-2 text-gray-700 dark:text-gray-300"
             >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
+              {isOpenProgram ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
 
         {/* MOBILE NAV */}
-        {isOpen && (
-          <div className="lg:hidden py-4 border-t border-gray-200 dark:border-gray-800 animate-fade-in-up">
+        {isOpenProgram && (
+          <div className="lg:hidden py-4 border-t border-gray-200 dark:border-gray-800 animate-in slide-in-from-top-3 duration-300">
             <div className="flex flex-col gap-4">
 
-              {/* Normal nav links */}
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className={cn(
-                    "text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-[#8bc97f] transition-colors font-medium",
-                    isActive(link.href) && "text-primary dark:text-[#8bc97f]"
-                  )}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              <Link
+                href="/"
+                onClick={() => setIsOpenProgram(false)}
+                className="text-gray-700 dark:text-gray-300 font-medium"
+              >
+                Home
+              </Link>
 
-              {/* MOBILE OUR PROGRAMS */}
+              {/* MOBILE ABOUT */}
               <div className="flex items-center justify-between">
                 <Link
-                  href="/programs"
-                  onClick={() => setIsOpen(false)}
-                  className={cn(
-                    "text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-[#8bc97f] transition-colors font-medium",
-                    pathname.startsWith("/programs") && "text-primary dark:text-[#8bc97f]"
-                  )}
+                  href="/about"
+                  className="text-gray-700 dark:text-gray-300 font-medium"
                 >
-                  Our Programs
+                  About Us
                 </Link>
 
-                {/* Arrow toggles submenu */}
                 <button
-                  onClick={() => setProgramOpen(!programOpen)}
-                  className="text-gray-500 dark:text-gray-400"
+                  onClick={() => setIsOpenAbout(!isOpenAbout)}
                 >
                   <ChevronDown
                     size={20}
-                    className={cn("transition-transform", programOpen && "rotate-180")}
+                    className={cn(
+                      "transition-transform duration-300",
+                      isOpenAbout && "rotate-180"
+                    )}
                   />
                 </button>
               </div>
 
-              {/* MOBILE SUBLINKS */}
-              {programOpen && (
-                <div className="flex flex-col pl-4 gap-2 mt-2">
-                  {programLinks.map((sub) => (
+              {isOpenAbout && (
+                <div className="flex flex-col pl-4 gap-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                  {aboutLinks.map((sub) => (
                     <Link
                       key={sub.href}
                       href={sub.href}
-                      onClick={() => setIsOpen(false)}
-                      className={cn(
-                        "text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-[#8bc97f] text-sm transition-colors",
-                        pathname === sub.href && "text-primary dark:text-[#8bc97f]"
-                      )}
+                      onClick={() => setIsOpenProgram(false)}
+                      className="text-gray-600 dark:text-gray-400 text-sm"
                     >
                       • {sub.label}
                     </Link>
                   ))}
                 </div>
               )}
+
+              {/* MOBILE PROGRAMS */}
+              <div className="flex items-center justify-between">
+                <Link
+                  href="/programs"
+                  className="text-gray-700 dark:text-gray-300 font-medium"
+                >
+                  Our Programs
+                </Link>
+
+                <button
+                  onClick={() => setProgramOpen(!programOpen)}
+                >
+                  <ChevronDown
+                    size={20}
+                    className={cn(
+                      "transition-transform duration-300",
+                      programOpen && "rotate-180"
+                    )}
+                  />
+                </button>
+              </div>
+
+              {programOpen && (
+                <div className="flex flex-col pl-4 gap-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                  {programLinks.map((sub) => (
+                    <Link
+                      key={sub.href}
+                      href={sub.href}
+                      onClick={() => setIsOpenProgram(false)}
+                      className={cn(
+                        "text-sm transition-colors",
+                        pathname === sub.href
+                          ? "text-primary dark:text-[#8bc97f] font-medium"
+                          : "text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-[#8bc97f]"
+                      )}
+                    >
+                      • {sub.label}
+                    </Link>
+                  ))}
+
+                </div>
+              )}
+
+              <Link
+                href="/support"
+                onClick={() => setIsOpenProgram(false)}
+                className="text-gray-700 dark:text-gray-300 font-medium"
+              >
+                Support
+              </Link>
 
             </div>
           </div>

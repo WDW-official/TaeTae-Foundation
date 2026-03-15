@@ -167,7 +167,7 @@ export default function HowWeOperatePage() {
                 {/* CTA */}
                 <div className="text-center mb-20 mt-5 md:mt-12">
                   <Link
-                    href="/operations"
+                    href="/about/operation"
                     className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#5a8d4f] transition"
                   >
                     LEARN MORE <ArrowRight className="w-4 h-4" />

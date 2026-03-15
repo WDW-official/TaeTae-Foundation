@@ -62,9 +62,9 @@ export default function PublicStatsSection() {
     datasets: [
       {
         data: [
-          stats.donationsByProgram.skills,
-          stats.donationsByProgram.education,
-          stats.donationsByProgram.sports,
+          stats.donationsByProgram?.skills,
+          stats.donationsByProgram?.education,
+          stats.donationsByProgram?.sports,
         ],
         backgroundColor: ["#3b82f6", "#10b981", "#f59e0b"],
         borderWidth: 0,
@@ -80,7 +80,7 @@ export default function PublicStatsSection() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17 20v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2m14-10a4 4 0 11-8 0 4 4 0 018 0z" />
         </svg>
       ),
-      value: stats.totals.totalVolunteers,
+      value: stats.totals?.totalVolunteers,
       label: "Dedicated Volunteers ",
       color: "blue"
     },
@@ -90,7 +90,7 @@ export default function PublicStatsSection() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M5 13l4 4L19 7" />
         </svg>
       ),
-      value: stats.totals.totalSponsors,
+      value: stats.totals?.totalSponsors,
       label: "Active Sponsors",
       color: "purple"
     },
@@ -100,7 +100,7 @@ export default function PublicStatsSection() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 14l9-5-9-5-9 5 9 5zm0 0v6" />
         </svg>
       ),
-      value: stats.totals.totalBoys,
+      value: stats.totals?.totalBoys,
       label: "Registered Boys",
       color: "green"
     },
@@ -110,7 +110,7 @@ export default function PublicStatsSection() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 8c1.657 0 3-.895 3-2s-1.343-2-3-2-3 .895-3 2 1.343 2 3 2zm0 0v12m-4-6h8" />
         </svg>
       ),
-      value: stats.totals.totalDonations,
+      value: stats.totals?.totalDonations,
       label: "Donations received",
       color: "orange"
     }
@@ -151,7 +151,7 @@ export default function PublicStatsSection() {
               </div>
 
               <p className={`text-4xl font-bold text-${item.color}-700 dark:text-${item.color}-300 mb-2`}>
-                {item.value.toLocaleString()}
+                {item.value?.toLocaleString()}
               </p>
               <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                 {item.label}
@@ -176,7 +176,7 @@ export default function PublicStatsSection() {
             </div>
             <h3 className="text-xl font-bold text-gray-900 dark:text-white">Boys Registered by Program</h3>
           </div>
-          <div className="relative w-full h-[260px] sm:h-80 md:h-80">
+          <div className="relative w-full h-65 sm:h-80 md:h-80">
             <Bar
               data={boysBarData}
               options={{
@@ -262,7 +262,7 @@ export default function PublicStatsSection() {
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Our Volunteers</h3>
           </div>
 
-          {stats.topVolunteers.length === 0 ? (
+          {stats.topVolunteers?.length === 0 ? (
             <div className="text-center py-12">
               <div className="w-20 h-20 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -273,14 +273,14 @@ export default function PublicStatsSection() {
             </div>
           ) : (
             <div className="space-y-4">
-              {stats.topVolunteers.map((vol: any, idx: number) => (
+              {stats.topVolunteers?.map((vol: any, idx: number) => (
                 <div
                   key={idx}
                   className="group flex items-center gap-4 bg-linear-to-r from-gray-50 to-white dark:from-gray-800 dark:to-gray-600 dark:to-gray-850 p-5 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-purple-300 dark:hover:border-purple-700 transition-all duration-300 hover:shadow-md hover:scale-[1.02]"
                 >
                   <div className="relative">
                     <img
-                      src={vol.profilePhoto}
+                      src={vol.profilePhoto.replace("/upload/", "/upload/f_auto,q_auto/")}
                       alt={vol.name}
                       className="w-16 h-16 rounded-full object-cover border-2 border-purple-200 dark:border-purple-800 shadow-sm group-hover:scale-110 transition-transform duration-300"
                     />
@@ -319,7 +319,7 @@ export default function PublicStatsSection() {
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Sponsored Items</h3>
           </div>
 
-          {stats.itemsSponsored.length === 0 ? (
+          {stats.itemsSponsored?.length === 0 ? (
             <div className="text-center py-12">
               <div className="w-20 h-20 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -330,7 +330,7 @@ export default function PublicStatsSection() {
             </div>
           ) : (
             <div className="space-y-5">
-              {stats.itemsSponsored.map((item: any, idx: number) => {
+              {stats.itemsSponsored?.map((item: any, idx: number) => {
                 const maxQty = Math.max(...stats.itemsSponsored.map((x: any) => x.quantity));
                 const percentage = (item.quantity / maxQty) * 100;
 
