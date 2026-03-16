@@ -185,7 +185,7 @@ export default function TaeTaeFoundationPage() {
 
               {/* TEXT */}
               <div className="relative z-10  mx-auto px-">
-                <h1 className={`${montserrat.className} md:text-7xl text-gray-900 dark:text-white text-[40px] font-black uppercase leading-[1.05]`}>
+                <h1 className={`${montserrat.className} md:text-7xl text-gray-900 dark:text-white text-[34px] font-black uppercase leading-[1.05]`}>
                   Empowering <br /> The <span className="text-primary">Ecosystem </span> 
                 </h1>
 

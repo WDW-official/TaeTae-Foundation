@@ -33,7 +33,7 @@ export default function HowWeOperatePage() {
       icon: "Eye",
       description: (
       <> 
-      Learning support and literacy programmes that strengthen academic confidence. We reinforce foundations in <strong>mathematics, science, and communication skills. </strong>  Our goal is to help boys think critically, learn effectively, and pursue their potential.",
+      Learning support and literacy programmes that strengthen academic confidence. We reinforce foundations in <strong>mathematics, science, and communication skills. </strong>  Our goal is to help boys think critically, learn effectively, and pursue their potential.
       </>
       ),
     },
@@ -42,7 +42,7 @@ export default function HowWeOperatePage() {
       icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617622/Values_julkif.svg",
       description: (
       <>     
-       Structured sporting activities that promote <strong>teamwork, discipline, and resilience. </strong>  Through <strong>football, athletics, boxing, </strong>  and other training, boys build strength and character. Sports teach perseverance, leadership, and the value of working together.",
+       Structured sporting activities that promote <strong>teamwork, discipline, and resilience. </strong>  Through <strong>football, athletics, boxing, </strong>  and other training, boys build strength and character. Sports teach perseverance, leadership, and the value of working together.
 
       </>
       )

@@ -207,7 +207,12 @@ export default function Navigation() {
               <Link
                 href="/"
                 onClick={() => setIsOpenProgram(false)}
-                className="text-gray-700 dark:text-gray-300 font-medium"
+                className={cn(
+                  "font-medium transition-colors",
+                  isActive("/")
+                    ? "text-primary dark:text-[#8bc97f]"
+                    : "text-gray-700 dark:text-gray-300"
+                )}
               >
                 Home
               </Link>
@@ -216,7 +221,12 @@ export default function Navigation() {
               <div className="flex items-center justify-between">
                 <Link
                   href="/about"
-                  className="text-gray-700 dark:text-gray-300 font-medium"
+                  className={cn(
+                    "font-medium transition-colors",
+                    pathname.startsWith("/about")
+                      ? "text-primary dark:text-[#8bc97f]"
+                      : "text-gray-700 dark:text-gray-300"
+                  )}
                 >
                   About Us
                 </Link>
@@ -253,7 +263,12 @@ export default function Navigation() {
               <div className="flex items-center justify-between">
                 <Link
                   href="/programs"
-                  className="text-gray-700 dark:text-gray-300 font-medium"
+                  className={cn(
+                    "font-medium transition-colors",
+                    pathname.startsWith("/programs")
+                      ? "text-primary dark:text-[#8bc97f]"
+                      : "text-gray-700 dark:text-gray-300"
+                  )}
                 >
                   Our Programs
                 </Link>
@@ -295,7 +310,12 @@ export default function Navigation() {
               <Link
                 href="/support"
                 onClick={() => setIsOpenProgram(false)}
-                className="text-gray-700 dark:text-gray-300 font-medium"
+                className={cn(
+                  "font-medium transition-colors",
+                  isActive("/support")
+                    ? "text-primary dark:text-[#8bc97f]"
+                    : "text-gray-700 dark:text-gray-300"
+                )}
               >
                 Support
               </Link>
