@@ -4,6 +4,7 @@ import { uploadToCloudinary } from "@/lib/cloudinary";
 import { sendBoyEnrollmentEmail, sendAdminBoyEnrollmentNotification } from "@/lib/email";
 import { toast } from 'react-toastify';  // Import the toast notification
 import { createUser } from "@/lib/auth";
+import { getCollection } from "@/lib/mongodb";
 
 export async function POST(request: NextRequest) {
   try {
@@ -21,6 +22,10 @@ export async function POST(request: NextRequest) {
 
     // Generate a unique boyId
     const boyId = `BOY-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    const assignedVolunteerId =
+      typeof data.assignedVolunteerId === "string" && data.assignedVolunteerId.trim()
+        ? data.assignedVolunteerId.trim()
+        : undefined
 
     // Handle profile photo upload if present
     let profilePhotoUrl = data.profile_photo_url;
@@ -77,10 +82,36 @@ export async function POST(request: NextRequest) {
       consent_form_signed: true, // Consent is implied by signature
       profile_photo_url: profilePhotoUrl,
       guardian_signature_url: guardianSignatureUrl, // Save signature URL
+      assignedVolunteerId,
+      volunteerId: assignedVolunteerId,
       notes: data.notes,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     });
+
+    if (assignedVolunteerId) {
+      const volunteers = await getCollection("volunteers")
+      const assignedVolunteer = await volunteers.findOne({ id: assignedVolunteerId })
+
+      if (assignedVolunteer) {
+        const existingAssignedBoyIds = Array.isArray(assignedVolunteer.assignedBoyIds)
+          ? assignedVolunteer.assignedBoyIds.filter((value: unknown) => typeof value === "string")
+          : []
+
+        const nextAssignedBoyIds = Array.from(new Set([...existingAssignedBoyIds, boyId]))
+
+        await volunteers.updateOne(
+          { id: assignedVolunteerId },
+          {
+            $set: {
+              assignedBoyIds: nextAssignedBoyIds,
+              assignedBoys: nextAssignedBoyIds.length,
+              updatedAt: new Date().toISOString(),
+            },
+          }
+        )
+      }
+    }
 
     console.log("👦 Boy enrolled:", boy);
 

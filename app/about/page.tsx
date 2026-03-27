@@ -109,8 +109,8 @@ export default function AboutFoundationPage() {
           </motion.div>
         </div>
       </section>
-      <section className="from-[#2f5129] bg-linear-to-br to-[#2a6f1a] dark:from-[#0a1421] dark:to-[#0a1421] grid-cols-1 gap-12 grid md:grid-cols-2 dark:bg-gray-900 p-4 md:p-14 md:[clip-path:polygon(0_10%,100%_0,100%_100%,0_100%)]">
-        <div className="relative md:mt-20 group overflow-hidden">
+      <section className="from-[#2f5129] pb-12 md:pb-24 bg-linear-to-br to-[#2a6f1a] dark:from-[#0a1421] dark:to-[#0a1421] grid-cols-1 gap-12 grid md:grid-cols-2 dark:bg-gray-900 p-4 md:p-14 [clip-path:polygon(0_5%,100%_0,100%_95%,0_100%)] md:[clip-path:polygon(0_10%,100%_0,100%_90%,0_100%)]">
+        <div className="relative md:mt-20 mt-20  group overflow-hidden">
           <div>
             <h1 className="text-5xl lg:text-5xl text-white text-center font-bold dark:text-white leading-12 md:leading-15 mb-6">
               WHAT WE <span className="text-primary">MUST ACHIEVE</span> 
@@ -233,7 +233,7 @@ export default function AboutFoundationPage() {
       {/* MAIN CONTENT */}
       <section className="container mx-auto py-2">
         {/* ABOUT SECTION */}
-        <section className="container mx-auto px-4 py-10">
+        <section className="container mx-auto px-4 md:py-10 py-0">
             <h2 className={`${montserrat.className} lg:text-7xl text-4xl font-extrabold text-gray-900 dark:text-white mb-2 text-center`}>
                 AN ACCOUNTABLE  <br/> DATA-DRIVEN NGO
             </h2>
@@ -344,7 +344,7 @@ export default function AboutFoundationPage() {
               <ul className="space-y-1 text-sm sm:text-lg">
                 <li>Participants placed into apprenticeships, internships, or paid work</li>
                 <li>Job-ready technical, digital, and creative skill sets</li>
-                <li>Early income-generation and entrepreneurship pathways</li>
+                <li>Early income-generation and entrepreneurship pathways.</li>
               </ul>
             </div>
 
@@ -361,7 +361,7 @@ export default function AboutFoundationPage() {
               <ul className="space-y-1 md:text-lg text-sm">
                 <li>Identified elite athletes progressing into pipelines</li>
                 <li>Structured exposure through tournaments</li>
-                <li>Discipline, leadership, and health outcomes</li>
+                <li>Discipline, leadership, and health outcomes.</li>
               </ul>
             </div>
 
@@ -369,31 +369,16 @@ export default function AboutFoundationPage() {
 
 
           {/* BOTTOM IMAGE ROW */}
-          <div className="grid md:grid-cols-3 gap-6 bg-primary/20 p-8">
+          <div className=" gap-6 bg-primary/20 p-4">
 
-            {/* BIG ROUNDED IMAGE */}
-            {/* <div className="md:col-span-1">
-              <img
-                src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1770915530/iPhone_17_Pro_Mockup_Free_1_kthlrc.svg"
-                className="w-full h-[320px] object-cover rounded-bl-[60px] rounded-tr-[60px]"
-              />
-            </div> */}
-
-            {/* SLANTED IMAGE 1 */}
-            {/* <div className="h-[320px] overflow-hidden">
-              <img
-                src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1770915530/iPhone_17_Pro_Mockup_Free_1_kthlrc.svg"
-                className="w-full h-full object-cover clip-slant"
-              />
-            </div> */}
-
-            {/* SLANTED IMAGE 2 */}
-            {/* <div className="h-[320px] overflow-hidden">
-              <img
-                src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1770915530/iPhone_17_Pro_Mockup_Free_1_kthlrc.svg"
-                className="w-full h-full object-cover clip-slant-reverse"
-              />
-            </div> */}
+            <div className="text-center md:mb-2 mb-1">
+                  <Link
+                    href="/about/the-plan"
+                    className="inline-flex gap-2 bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#5a8d4f] transition"
+                  >
+                    LEARN MORE <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
 
           </div>
 
@@ -402,7 +387,7 @@ export default function AboutFoundationPage() {
         </motion.div>
 
         {/* PILLARS */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:mx-0 mx-3 sm:grid-cols-2 lg:grid-cols-3 gap-10">
           {pillars.map((pillar, index) => {
             const Icon = pillar.icon
 

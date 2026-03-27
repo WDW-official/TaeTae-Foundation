@@ -1,18 +1,27 @@
 "use client"
 
 import type React from "react"
-import { useState, Suspense } from "react"
+import { useEffect, useState, Suspense } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { ArrowRight, User } from "lucide-react"
 import { toast } from "react-toastify"
 import SignatureCanvas from "react-signature-canvas"
 
+type VolunteerOption = {
+  id: string
+  name: string
+  email: string
+  status: "pending" | "approved" | "rejected"
+}
+
 function OnboardContent() {
   const router = useRouter()
   const [step, setStep] = useState(1)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSaving, setIsSaving] = useState(true)
+  const [volunteers, setVolunteers] = useState<VolunteerOption[]>([])
+  const [loadingVolunteers, setLoadingVolunteers] = useState(true)
   const [formData, setFormData] = useState({
     fullName: "",
     date_of_birth: "",
@@ -38,6 +47,7 @@ function OnboardContent() {
     consent_form_signed: false,  // Added to track consent form checkbox
     notes: "",
     guardian_signature: "", // To store the signature
+    assignedVolunteerId: "",
   })
 
   const [signaturePad, setSignaturePad] = useState<any>(null); // to manage the signature canvas
@@ -46,6 +56,25 @@ function OnboardContent() {
     { id: "education", name: "Education", description: "Academic mentoring & tutoring" },
     { id: "sports", name: "Sports", description: "Athletics & team building" },
   ]
+
+  useEffect(() => {
+    async function fetchVolunteers() {
+      try {
+        const res = await fetch("/api/volunteers", { cache: "no-store" })
+        const data = await res.json()
+        const approved = Array.isArray(data.volunteers)
+          ? data.volunteers.filter((volunteer: VolunteerOption) => volunteer.status === "approved")
+          : []
+        setVolunteers(approved)
+      } catch (error) {
+        console.error("Error fetching volunteers:", error)
+      } finally {
+        setLoadingVolunteers(false)
+      }
+    }
+
+    fetchVolunteers()
+  }, [])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
@@ -135,6 +164,7 @@ function OnboardContent() {
           profile_photo_base64: formData.profile_photo_base64,  // Sending profile image
           notes: formData.notes,
           guardian_signature: formData.guardian_signature, // Sending the signature
+          assignedVolunteerId: formData.assignedVolunteerId,
         }),
       })
 
@@ -306,6 +336,30 @@ function OnboardContent() {
                   className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   rows={3}
                 />
+              </div>
+
+              <div>
+                <label className="block text-foreground font-semibold mb-2">Assign Volunteer</label>
+                <select
+                  name="assignedVolunteerId"
+                  value={formData.assignedVolunteerId}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                  required
+                  disabled={loadingVolunteers}
+                >
+                  <option value="">
+                    {loadingVolunteers ? "Loading volunteers..." : "Select an approved volunteer"}
+                  </option>
+                  {volunteers.map((volunteer) => (
+                    <option key={volunteer.id} value={volunteer.id}>
+                      {volunteer.name} ({volunteer.email})
+                    </option>
+                  ))}
+                </select>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  This volunteer will be the only volunteer allowed to chat with this boy.
+                </p>
               </div>
 
               <div className="flex gap-4">

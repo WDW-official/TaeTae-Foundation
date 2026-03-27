@@ -21,9 +21,12 @@ export default function Hero() {
 
 
   return (
-    <section className="relative flex items-center overflow-hidden bg-linear-to-br from-primary/10 via-white to-primary/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      <video autoPlay loop muted playsInline className="absolute w-full h-full object-cover">
-        <source src="https://res.cloudinary.com/dzn1k1z8r/video/upload/v1764880315/Web_Banner_TaeTae_uxmbfw.mp4" type="video/mp4" />
+    <section className="relative md:mt-20 mt-16 flex items-center overflow-hidden bg-linear-to-br from-primary/10 via-white to-primary/10 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <video autoPlay loop muted playsInline className="absolute w-full hidden md:block h-full object-cover">
+        <source src="https://res.cloudinary.com/dzn1k1z8r/video/upload/v1774456894/Tae_Tae_Homepage_Desktop_3_vl0vei.mp4" type="video/mp4" />
+      </video>
+      <video autoPlay loop muted playsInline className="absolute w-full md:hidden block h-full object-cover">
+        <source src="https://res.cloudinary.com/dzn1k1z8r/video/upload/v1773793014/Tae_Tae_Homepage_Mobile_znzmhf.mp4" type="video/mp4" />
       </video>
       <div className="absolute inset-0 bg-black/60 z-0" />
       <div className="container mx-auto px-4 lg:pt-28 lg:pb-10 pt-20 pb-8 relative z-10">

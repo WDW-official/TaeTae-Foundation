@@ -10,6 +10,7 @@ import {
   Heart,
   Handshake,
   UserPlus,
+  MessageSquare,
 } from "lucide-react"
 import ChangePasswordModal from "@/components/ChangePasswordModal"
 import { cn } from "@/lib/utils"
@@ -17,6 +18,7 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import LogoutButton from "@/components/LogoutButton"
 import { useAuthStore } from "../store/auth.store"
 import { useState } from "react"
+import MessageNotificationIndicator from "@/components/chat/message-notification-indicator"
 
 export default function Sidebar({
   isSidebarOpen,
@@ -25,7 +27,7 @@ export default function Sidebar({
   isSidebarOpen: boolean
   setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>
 }) {
-  const pathname = usePathname()
+  const pathname = usePathname() ?? ""
   const role = useAuthStore((s) => s.role)
   const [showChangePassword, setShowChangePassword] = useState(false)
 
@@ -65,7 +67,13 @@ export default function Sidebar({
       label: "Users",
       icon: Users,
       roles: ["superAdmin"],
-    }
+    },
+    // {
+    //   href: "/admin/dashboard/messages",
+    //   label: "Messages",
+    //   icon: MessageSquare,
+    //   roles: ["admin", "superAdmin"],
+    // }
   ]
 
 
@@ -125,6 +133,7 @@ export default function Sidebar({
             .filter((link) => link.roles.includes(role as string))
             .map(({ href, label, icon: Icon }) => {
             const active = isActive(href)
+            const isMessagesLink = href === "/admin/dashboard/messages"
 
             return (
               <Link
@@ -139,7 +148,10 @@ export default function Sidebar({
                 )}
               >
                 <Icon size={18} />
-                {label}
+                <span className="flex flex-1 items-center justify-between gap-3">
+                  <span>{label}</span>
+                  {isMessagesLink ? <MessageNotificationIndicator /> : null}
+                </span>
               </Link>
               
             )

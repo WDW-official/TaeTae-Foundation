@@ -7,9 +7,15 @@ export async function startPaystackTransaction(
   metadata: Record<string, any>
 ) {
 
-  const callbackUrl = `${process.env.FRONTEND_URL}/checkout-paystack/callback`
+  if (!amount || amount <= 0) {
+    throw new Error("Invalid payment amount")
+  }
 
-  console.log("Paystack callback:", callbackUrl) 
+  const callbackUrl =
+    `${process.env.FRONTEND_UR || "http://localhost:3000"}/checkout-paystack/callback`
+
+  console.log("Paystack callback:", callbackUrl)
+
   const res = await fetch("https://api.paystack.co/transaction/initialize", {
     method: "POST",
     headers: {
@@ -27,7 +33,8 @@ export async function startPaystackTransaction(
   const data = await res.json()
 
   if (!data.status) {
-    throw new Error("Paystack initialization failed")
+    console.error("Paystack initialization error:", data)
+    throw new Error(data.message || "Paystack initialization failed")
   }
 
   return data.data.authorization_url

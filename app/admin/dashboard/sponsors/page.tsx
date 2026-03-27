@@ -61,6 +61,7 @@ export default function SponsorsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
   const [filterPayment, setFilterPayment] = useState("all");
+  
 
   useEffect(() => {
     fetchSponsorships();
@@ -194,11 +195,18 @@ export default function SponsorsPage() {
             Sponsorships
           </h1>
           <div className="flex gap-3">
+          </div>
+          <div className="flex gap-3">
             <button
               onClick={exportToCSV}
               className="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-secondary/80 border border-border rounded-lg transition font-medium"
             >
               <Download className="w-4 h-4" /> Export CSV
+            </button>
+            <button className="flex items-center text-sm md:text-base gap-2 px-4 py-2 bg-primary hover:bg-secondary/80 border border-border rounded-lg transition font-medium">
+              <Link href="/admin/dashboard/sponsors/add-sponsorship">
+                Add Sponsorship Items
+              </Link> 
             </button>
           </div>
         </div>

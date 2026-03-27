@@ -42,7 +42,7 @@ export default function WhatWeStarting() {
   ]
 
   return (
-    <section id="programs" className="bg-card dark:bg-gray-900 md:py-10 px-4">
+    <section id="programs" className="bg-card dark:bg-gray-900 md:py-10 pb-10 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="grid md:grid-cols-2 grid-cols-1 gap-3 mb-12">
           <div className="relative h-40 md:h-64">

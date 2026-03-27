@@ -6,7 +6,7 @@ export interface Donation {
   program: "skills" | "education" | "sports"
   amount: number
   currency: "USD" | "NGN"
-  paymentMethod: "stripe" | "paystack"
+  paymentMethod: "paystack" | "kora" | "stripe"
   transactionId?: string
   message?: string
   reference: string
@@ -14,6 +14,12 @@ export interface Donation {
   status: "pending" | "completed" | "failed"
   createdAt: string
   updatedAt?: string
+  duration: "one-time" | "monthly" | "quarterly" | "annually"
+  nextDonationDate?: Date
+  reminder3Sent?: boolean
+  reminder1Sent?: boolean
+  reminderToken?: string
+  reminderTokenExpiresAt?: Date
 }
 
 export interface Volunteer {

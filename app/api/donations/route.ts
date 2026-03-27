@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from "next/server"
 import { addRecord, getRecords } from "@/lib/db"
 import type { Donation } from "@/lib/schemas"
 import { sendEmail } from "@/lib/email"
+import { generateDonationToken } from "@/lib/token"
 
 /**
  * POST /api/donations
@@ -19,6 +20,7 @@ import { sendEmail } from "@/lib/email"
  */
 export async function POST(request: NextRequest) {
   try {
+    const reminderToken = generateDonationToken()
     const data = await request.json()
 
     // ✅ Validate required fields
@@ -37,7 +39,10 @@ export async function POST(request: NextRequest) {
       reference: data.reference,
       message: data.message,
       donationMode: data.donationMode,
+      duration: data.duration || "one-time",
       status: data.status || "pending",
+      reminderToken,
+      reminderTokenExpiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
     }
 
     // ✅ Save donation to DB
@@ -55,6 +60,7 @@ export async function POST(request: NextRequest) {
           <p>Here are your donation details:</p>
           <ul>
             <li><b>Amount:</b> ${data.currency || "USD"} ${data.amount}</li>
+            <li><b>Duration:</b> ${data.duration}</li>
             <li><b>Payment Method:</b> ${data.paymentMethod}</li>
             <li><b>Status:</b> Pending</li>
           </ul>

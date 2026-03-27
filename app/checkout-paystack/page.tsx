@@ -73,7 +73,7 @@ export default function CheckoutPage() {
         return
       }
       
-
+      
       const authorizationUrl = await startPaystackTransaction(
         Number.parseFloat(mode === "donation" ? amount : totalAmount),
         email,
@@ -81,7 +81,11 @@ export default function CheckoutPage() {
         { program, donorName: name ?? undefined }
       )
 
-      window.location.href = authorizationUrl
+      if (!authorizationUrl) {
+      throw new Error("Paystack did not return redirect URL")
+    }
+
+      window.location.assign(authorizationUrl)
     } catch (err) {
       console.error("Error initializing Paystack payment:", err)
       setError("Failed to initialize payment. Please try again.")

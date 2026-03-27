@@ -154,6 +154,32 @@ export async function sendBoyEnrollmentEmail(boy: any, guardianEmail?: string, p
     )
   }
 }
+
+export async function sendReminderEmail(donation:any){
+
+  const link = `${process.env.NEXT_PUBLIC_SITE_URL}/reminder-donation/${donation.reminderToken}`
+
+  await sendEmail(
+    donation.email,
+    "Upcoming Donation Reminder ❤️",
+    `
+      <h2>Hello ${donation.name}</h2>
+
+      <p>Your ${donation.duration} donation is coming soon.</p>
+
+      <p><b>Program:</b> ${donation.program}</p>
+      <p><b>Amount:</b> ${donation.currency} ${donation.amount}</p>
+
+      <br/>
+
+      <a href="${link}"
+      style="padding:12px 20px;background:#22c55e;color:white;border-radius:6px;text-decoration:none;">
+      Donate Now
+      </a>
+    `
+  )
+}
+
 export async function sendSponsorshipEmail(sponsorship: any, sponsorEmail?: string) {
   const content = `
     <h2style="color: #ffffff;">🎉 Welcome to TaeTae Foundation!</h2>

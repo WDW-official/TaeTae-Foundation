@@ -75,11 +75,11 @@ export default function SupportPage() {
             />
 
             {/* Overlay */}
-            <div className="absolute hover:bg-black/40 inset-0 bg-black/70"></div>
+            {/* <div className="absolute hover:bg-black/40 inset-0 bg-black/70"></div> */}
             <div className="absolute inset-0 flex items-center justify-center">
-            <h2 className="text-white text-center italic text-3xl ">
+            {/* <h2 className="text-white text-center italic text-3xl ">
               When you support a boy,<br/> you build a nation.
-            </h2>
+            </h2> */}
           </div>
           </motion.div>
         </div>

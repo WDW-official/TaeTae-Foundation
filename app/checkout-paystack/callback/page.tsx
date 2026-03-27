@@ -9,7 +9,7 @@ export default function PaystackCallbackPage() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    const reference = searchParams.get("reference")
+    const reference = searchParams?.get("reference")
     if (!reference) {
       setError("Missing payment reference.")
       return

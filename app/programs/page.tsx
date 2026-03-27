@@ -112,7 +112,7 @@ export default function HowWeOperatePage() {
       {/* ---------------------------------------- */}
             {/* SECTION 2 — HOW WE OPERATE */}
             {/* ---------------------------------------- */}
-            <section className="bg-white dark:bg-gray-800 lg:py-24 py-8 [clip-path:polygon(0_10%,100%_0,100%_90%,0_100%)] md:[clip-path:polygon(0_10%,100%_0,100%_90%,0_100%)]">
+            <section className="bg-white dark:bg-gray-800 lg:py-24 py-8  md:[clip-path:polygon(0_10%,100%_0,100%_90%,0_100%)]">
               <div className="container pt-20  mx-auto px-4">
                 <h2 className="lg:text-6xl text-4xl  font-bold text-gray-800 dark:text-white mb-6 text-center">
                   HOW WE OPERATE
@@ -165,7 +165,7 @@ export default function HowWeOperatePage() {
                 </div>
       
                 {/* CTA */}
-                <div className="text-center mb-20 mt-5 md:mt-12">
+                <div className="text-center md:mb-20 mb-1 mt-5 md:mt-12">
                   <Link
                     href="/about/operation"
                     className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#5a8d4f] transition"

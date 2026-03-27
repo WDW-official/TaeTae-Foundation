@@ -9,29 +9,112 @@ const montserrat = Montserrat({
 })
 
 export default function HowYouSupport() {
+
+  const actions = [
+  {
+    icon: "💰",
+    title: "Donate",
+    description:
+      "Help fund programmes, training, and development.",
+    points: [
+      "One-time or monthly giving",
+      "Direct impact tracking",
+    ],
+    gradient: "from-[#eef6ee] to-[#dcebdc]",
+    button: {
+      text: "Donate Now",
+      color: "bg-[#6f9f6f] hover:bg-[#5c8a5c]",
+    },
+  },
+  {
+    icon: "🤝",
+    title: "Sponsor",
+    description:
+      "Partner with us to support cohorts and programmes.",
+    points: [
+      "Brand visibility",
+      "Impact reporting dashboard",
+    ],
+    gradient: "from-[#f1f3f5] to-[#e4e7ea]",
+    button: {
+      text: "Become a Partner",
+      color: "bg-[#d1d5db] hover:bg-[#bfc4cb] text-gray-700",
+    },
+  },
+  {
+    icon: "✋",
+    title: "Volunteer",
+    description:
+      "Give your time, skills, and mentorship.",
+    points: [
+      "Coaching",
+      "Teaching",
+      "Mentorship",
+    ],
+    gradient: "from-[#f7f3e8] to-[#efe6c9]",
+    button: {
+      text: "Join as Volunteer",
+      color: "bg-[#e6d8a8] hover:bg-[#d6c88f] text-[#6b5d2e]",
+    },
+  },
+]
   const ways = [
   {
     title: "DONATE",
-    description: "Direct financial support to fund programs and operations, donations come two forms Occasional and Routine.",
-    icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617660/Donate_enmtx9.svg",
+    description:
+      "Help fund programmes, training, and development.",
+    points: [
+      "One-time or monthly giving",
+      "Direct impact tracking",
+    ],
+    icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1774451701/donate_q97ool.svg",
     href: "/support/donate",
+    from: "#eef6ee",
+    to: "#dcebdc",
+    button: {
+      text: "Donate Now",
+      color: "#6f9f6f",
+    },
   },
   {
     title: "SPONSOR",
-    description: "When you sponsor you pick specific items the boys need, such as tools, STEM kits, books, sports kits, and much more.",
+    description:
+      "Partner with us to support cohorts and programmes.",
+    points: [
+      "Brand visibility",
+      "Impact reporting dashboard",
+    ],
     icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617667/Sponsor_1_goyphq.svg",
     href: "/support/sponsor",
+    from: "#f1f3f5",
+    to: "#e4e7ea",
+    button: {
+      text: "Become a Partner",
+      color: "#d1d5db",
+    },
   },
   {
     title: "VOLUNTEER",
-    description: "The heartbeat of our activities, given the ultimate commitment, your time, skills, and passion to mentor and guide boys.",
-    icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617618/Volunteer_izlode.svg",
+    description:
+      "Give your time, skills, and mentorship.",
+    points: [
+      "Coaching",
+      "Teaching",
+      "Mentorship",
+    ],
+    icon: "https://res.cloudinary.com/dzn1k1z8r/image/upload/v1774451701/volunteer_wv40vn.svg",
     href: "/support/volunteer",
+    from: "#f7f3e8",
+    to: "#efe6c9",
+    button: {
+      text: "Join as Volunteer",
+      color: "#e6d8a8",
+    },
   },
 ]
 
   return (
-    <section className="bg-linear-to-br from-green-600 via-primary to-green-600">
+    <section className="bg-white dark:bg-gray-900">
       <div className="bg-secondary dark:bg-gray-800 py-6 md:py-10 md:[clip-path:polygon(0_10%,100%_0,100%_100%,0_100%)] ">
       <div className="max-w-6xl mx-auto px-4 ">
         <h2 className={`${montserrat.className} text-4xl md:mt-20 md:text-6xl font-extrabold text-primary mb-8 text-center`}>HOW YOU CAN <span className="text-gray-800 dark:text-white drop-shadow-">SUPPORT</span> </h2>
@@ -39,7 +122,7 @@ export default function HowYouSupport() {
           There are three ways to support, Donations, Sponsorships, and Volunteering. Choose what works best for you and support us to make a real difference.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        {/* <div className="grid grid-cols-3 md:grid-cols-3 gap-8 mb-12">
           {ways.map((way, idx) => {
             return (
               <div
@@ -57,16 +140,82 @@ export default function HowYouSupport() {
                   href={way.href}
                   className="inline-flex items-center gap-2 px-6 py-2 bg-gray-800 dark:bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition"
                 >
-                  GET STARTED
+                  {way.button}
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
             )
           })}
-        </div>
+        </div> */}
+        <div className="grid text-center grid-cols-3 mb-16 gap-3 md:gap-6">
+        {ways.map((value, idx) => (
+          <div
+            key={idx}
+            className="md:p-6 p-2 rounded-2xl bg-white dark:bg-gray-900 shadow-md border border-gray-100 dark:border-gray-700 flex flex-col h-full"
+          >
+            {/* Content */}
+            <div className="flex-1">
+              <div className="rounded-full flex items-center justify-center">
+                <IconRenderer
+                  icon={value.icon}
+                  size={40}
+                  className="rounded-full p-2 bg-gray-200 mb-3 text-primary"
+                />
+              </div>
+
+              <h3 className="font-bold md:text-2xl dark:text-white text-gray-900 mb-2">
+                {value.title}
+              </h3>
+
+              <p className="text-[10px] md:text-xl text-muted-foreground">
+                {value.description}
+              </p>
+
+              <ul className="text-[10px] md:text-lg hidden md:block text-left text-gray-600 space-y-2 mt-4 mb-6">
+                {value.points.map((point, i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <span
+                      style={{ backgroundColor: "#8ea583", marginTop: "10px" }}
+                      className="inline-block  mt-2.5 w-2 h-2 rounded-full"
+                    ></span>
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+              <ul className="text-[10px] md:text-lg md:hidden block text-left text-gray-600 space-y-2 mt-4 mb-6">
+                {value.points.map((point, i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <span
+                      style={{ backgroundColor: "#8ea583", marginTop: "4px" }}
+                      className="inline-block w-1 mt-2.5 h-1 md:w-2 md:h-2 rounded-full"
+                    ></span>
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Button */}
+            <Link
+              href={value.href}
+              style={{ backgroundColor: value.button.color, fontSize: "9px" }}
+              className="mt-auto flex md:hidden  items-center justify-center gap-2 w-full md:text-[12px]! py-2 rounded-lg font-medium text-gray-900"
+            >
+              {value.button.text} 
+            </Link>
+            <Link
+              href={value.href}
+              style={{ backgroundColor: value.button.color, fontSize: "20px" }}
+              className="mt-auto md:flex hidden  items-center justify-center gap-2 w-full md:text-[12px]! py-2 rounded-lg font-medium text-gray-900"
+            >
+              {value.button.text} 
+            </Link>
+          </div>
+        ))}
+      </div>
 
       </div>
-        <div className="bg-linear-to-br from-primary to-[#173510] dark:from-[#0a1421] dark:to-[#0a1421] text-white p-8 md:p-12  text-center">
+        <div className="bg-linear-to-br from-primary to-[#173510] dark:from-[#0a1421] dark:to-[#0a1421] text-white p-8 md:p-12  text-center md:[clip-path:polygon(0_0,100%_10%,100%_100%,0_100%)]">
           <h3 className={`${montserrat.className} text-4xl md:text-5xl font-extrabold md:mb-3 mb-10`}>YOUR CONTRIBUTION MATTERS</h3>
           <div className="grid md:grid-cols-3 grid-cols-1  gap-6 ">
             <div className="relative group w-full h-full md:rounded-4xl rounded-2xl overflow-hidden">

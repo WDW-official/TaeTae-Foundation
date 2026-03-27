@@ -3,6 +3,8 @@ import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 import Link from "next/link"
 import LogoutButton from "@/components/LogoutButton";
+import { MessageSquare } from "lucide-react"
+import MessageNotificationIndicator from "@/components/chat/message-notification-indicator"
 
 export default async function VolunteerLayout({
   children,
@@ -53,8 +55,18 @@ export default async function VolunteerLayout({
             Volunteer Portal
           </Link>
 
-          {/* LOGOUT */}
-          <LogoutButton />
+          <div className="flex items-center gap-3">
+            <Link
+              href="/volunteer/messages"
+              className="flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm font-medium text-foreground transition hover:bg-muted"
+            >
+              <MessageSquare className="h-4 w-4" />
+              Messages
+              <MessageNotificationIndicator />
+            </Link>
+
+            <LogoutButton />
+          </div>
         </div>
       </header>
 
