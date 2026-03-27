@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 
-export default function PaypalCallbackPage() {
+function PaypalCallbackContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const [error, setError] = useState<string | null>(null)
@@ -108,5 +108,13 @@ export default function PaypalCallbackPage() {
         <p className="text-green-600">Payment successful! Redirecting...</p>
       )}
     </div>
+  )
+}
+
+export default function PaypalCallbackPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Finalizing payment...</div>}>
+      <PaypalCallbackContent />
+    </Suspense>
   )
 }

@@ -4,6 +4,12 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  --font-body: "Signika", "Inter", "Segoe UI", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --font-heading: "Montserrat", "Geist", "Inter", "Segoe UI", Arial, sans-serif;
+  --font-display: "Exo 2", "Montserrat", "Geist", sans-serif;
+  --font-brand: "Keania One", "Montserrat", cursive;
+  --font-ui: "Signika", "Inter", "Segoe UI", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --font-code: "Geist Mono", "SFMono-Regular", "Consolas", "Liberation Mono", monospace;
   --background: oklch(0.99 0 0);
   --foreground: oklch(0.15 0 0);
   --card: oklch(1 0 0);
@@ -40,8 +46,8 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-code);
 
   /* Primary green color */
   --color-primary: #789d62;
@@ -110,6 +116,7 @@
 }
 
 body {
+  font-family: var(--font-body);
   font-feature-settings: "rlig" 1, "calt" 1;
   background-color: var(--color-background);
   color: var(--color-foreground);
@@ -122,6 +129,24 @@ body {
   }
   body {
     @apply bg-card dark:bg-gray-900 text-foreground;
+  }
+}
+
+@layer utilities {
+  .font-heading {
+    font-family: var(--font-heading);
+  }
+
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .font-brand {
+    font-family: var(--font-brand);
+  }
+
+  .font-ui {
+    font-family: var(--font-ui);
   }
 }
 

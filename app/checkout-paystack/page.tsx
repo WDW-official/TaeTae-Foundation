@@ -1,6 +1,6 @@
 "use client"
 
-import { useSearchParams, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
 import BackButton from "@/components/backButton"
 import { startPaystackTransaction } from "@/app/actions/paystack"
@@ -15,7 +15,6 @@ type SponsorshipFormData = {
 }
 
 export default function CheckoutPage() {
-  const searchParams = useSearchParams()
   const router = useRouter()
 
   const [isLoading, setIsLoading] = useState(false)

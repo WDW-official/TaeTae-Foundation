@@ -1,17 +1,7 @@
 import Link from "next/link"
 import { ArrowRight, Hammer, BookOpen, Trophy } from "lucide-react"
 import IconRenderer from "./icon-renderer"
-import { Exo_2, Geist_Mono, Keania_One, Signika } from "next/font/google";
 import { Overlay } from "vaul";
-
-const exo2 = Exo_2({
-  subsets: ["latin"],
-});
-
-const signika= Signika({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-})
 
 export default function WhatWeStarting() {
   const programs = [
@@ -51,7 +41,7 @@ export default function WhatWeStarting() {
               className="absolute inset-0 w-full h-full opacity-40 object-contain"
             />
 
-            <div className={`${exo2.className} relative text-3xl md:text-[64px] md:leading-16 font-[500] text-gray-700 dark:text-white px-[31px] md:py-[42px] py-[30px] text-center`}>
+            <div className="font-display relative text-3xl md:text-[64px] md:leading-16 font-[500] text-gray-700 dark:text-white px-[31px] md:py-[42px] py-[30px] text-center">
               WHAT WE'RE STARTING WITH...
             </div>
           </div>
@@ -95,7 +85,7 @@ export default function WhatWeStarting() {
                                   transition-opacity duration-700 ease-in-out">
 
                     <div className="text-white">
-                      <h4 className={`${exo2.className} text-2xl font-[500] mb-2`}>{program.overlay}</h4>
+                      <h4 className="font-display text-2xl font-[500] mb-2">{program.overlay}</h4>
                     </div>
 
                   </div>

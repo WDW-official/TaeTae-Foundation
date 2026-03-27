@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 
-export default function PaystackCallbackPage() {
+function PaystackCallbackContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const [error, setError] = useState<string | null>(null)
@@ -78,5 +78,13 @@ export default function PaystackCallbackPage() {
         <p>Finalizing payment…</p>
       )}
     </div>
+  )
+}
+
+export default function PaystackCallbackPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Finalizing payment...</div>}>
+      <PaystackCallbackContent />
+    </Suspense>
   )
 }

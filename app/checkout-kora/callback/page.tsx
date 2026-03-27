@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 
-export default function KoraCallbackPage() {
+function KoraCallbackContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const [error, setError] = useState<string | null>(null)
@@ -68,5 +68,13 @@ export default function KoraCallbackPage() {
     <div className="min-h-screen flex items-center justify-center">
       {error ? <p className="text-red-600">{error}</p> : <p>Finalizing payment…</p>}
     </div>
+  )
+}
+
+export default function KoraCallbackPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Finalizing payment...</div>}>
+      <KoraCallbackContent />
+    </Suspense>
   )
 }

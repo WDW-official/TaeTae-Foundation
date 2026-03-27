@@ -3,13 +3,7 @@ import GoogleSlides from "@/components/GoogleSlides";
 import TaetaeLegalComplianceUI from "@/components/legalPage";
 import Navigation from "@/components/navigation";
 import { ArrowRight } from "lucide-react";
-import { Montserrat } from "next/font/google";
 import Link from "next/link";
-
-const montserrat = Montserrat({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-})
 
 export default function Page() {
   return (
@@ -25,7 +19,7 @@ export default function Page() {
    
                  {/* TEXT */}
                  <div className="relative z-10 mx-auto px-">
-                   <h1 className={`${montserrat.className} md:text-7xl text-center text-gray-900 dark:text-white text-[40px] font-black uppercase leading-[1.05]`}>
+                   <h1 className="font-heading md:text-7xl text-center text-gray-900 dark:text-white text-[40px] font-black uppercase leading-[1.05]">
                      The  <span className="text-primary">Plan</span> 
                    </h1>
                    <h1 className=" md:text-3xl mx-5 text-sm mt-3 text-center text-gray-900 dark:text-white font-medium leading-[1.05]">

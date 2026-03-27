@@ -8,17 +8,6 @@ import WhatWeStarting from "@/components/what-we-starting";
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
 import IconRenderer from "@/components/icon-renderer";
-import { Geist, Montserrat } from "next/font/google";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-})
-
-const montserrat = Montserrat({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-})
 
 export default function AboutFoundationPage() {
 
@@ -62,7 +51,7 @@ export default function AboutFoundationPage() {
       {/* SECTION 1 — ABOUT THE FOUNDATION */}
       {/* ---------------------------------------- */}
       <section className="container mx-auto px-4 pt-24 lg:pb-12  pb-2">
-        <div className={`grid ${geistSans.variable}  lg:grid-cols-2 gap-12 items-center`}>
+        <div className="grid font-ui lg:grid-cols-2 gap-12 items-center">
           {/* LEFT */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
@@ -70,7 +59,7 @@ export default function AboutFoundationPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className={`${montserrat.className} text-3xl lg:text-5xl font-extrabold text-gray-900 dark:text-white leading-9 md:leading-15 mb-6`}>
+            <h1 className="font-heading text-3xl lg:text-5xl font-extrabold text-gray-900 dark:text-white leading-9 md:leading-15 mb-6">
               BUILDING BOYS OF{" "}
               <span className="text-primary md:text-[50px]">CHARACTER, COMPETENCE,</span>{" "}
               AND <span className="text-primary md:text-[50px]">CONFIDENCE</span>
@@ -234,7 +223,7 @@ export default function AboutFoundationPage() {
       <section className="container mx-auto py-2">
         {/* ABOUT SECTION */}
         <section className="container mx-auto px-4 md:py-10 py-0">
-            <h2 className={`${montserrat.className} lg:text-7xl text-4xl font-extrabold text-gray-900 dark:text-white mb-2 text-center`}>
+            <h2 className="font-heading lg:text-7xl text-4xl font-extrabold text-gray-900 dark:text-white mb-2 text-center">
                 AN ACCOUNTABLE  <br/> DATA-DRIVEN NGO
             </h2>
             <p className="lg:text-5xl font-bold text-primary text-xl  md:leading-14 mb-4 text-center max-w-3xl mx-auto">

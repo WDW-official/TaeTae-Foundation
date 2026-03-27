@@ -6,13 +6,7 @@ import Navigation from "@/components/navigation"
 import WhatWeStarting from "@/components/what-we-starting"
 import { motion } from "framer-motion"
 import { Globe, Eye, Diamond, Calendar, Handshake, HeartHandshake, ArrowRight } from "lucide-react"
-import { Montserrat } from "next/font/google"
 import Link from "next/link"
-
-const montserrat = Montserrat({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-})
 
 export default function HowWeOperatePage() {
   const pillars = [
@@ -61,7 +55,7 @@ export default function HowWeOperatePage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className={`${montserrat.className} text-5xl md:leading-15 leading-11 md:text-4xl lg:text-[56px] font-extrabold text-gray-900 dark:text-white mb-3 md:mb-6`}>
+            <h1 className="font-heading text-5xl md:leading-15 leading-11 md:text-4xl lg:text-[56px] font-extrabold text-gray-900 dark:text-white mb-3 md:mb-6">
               SHAPING BOYS INTO<br/>
               <span className="text-primary dark:text-[#8bc97f]"> MEN OF PURPOSE</span>
             </h1>

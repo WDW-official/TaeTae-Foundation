@@ -510,7 +510,7 @@ function closeModal() {
         </div>
 
         {/* ================= PAYMENT ================= */}
-        <div>
+        {/* <div>
           <h2 className="text-2xl font-bold text-primary mb-4">
             Select Payment Method
           </h2>
@@ -552,6 +552,93 @@ function closeModal() {
               PayPal (USD)
             </button>
           </div>
+        </div> */}
+        <div className="grid grid-cols-3 md:grid-cols-3 gap-4">
+
+          {/* Paystack */}
+          <button
+            type="button"
+            onClick={() => setPaymentMethod("paystack")}
+            className={`relative md:p-3 p-1 rounded-lg md:rounded-xl border-2 transition-all text-left group
+              ${
+                paymentMethod === "paystack"
+                  ? "border-primary bg-primary/5 shadow-sm"
+                  : "border-border hover:border-primary hover:shadow-sm"
+              }`}
+          >
+            {paymentMethod === "paystack" && (
+              <span className="absolute right-3 text-primary text-sm font-semibold">
+                ✓
+              </span>
+            )}
+
+            <div className="flex items-center gap-1 md:gap-3 ">
+              <img
+                src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1774481327/Paystack_ocqxrn.svg"
+                alt="Paystack"
+                className="md:h-6 h-3 w-auto"
+              />
+              <span className="font-semibold text-[11px] md:text-lg">Paystack</span>
+            </div>
+              <span className="font-semibold ml-4 md:ml-10 text-[11px] md:text-lg">(NGN)</span>
+          </button>
+
+          {/* Kora */}
+          <button
+            type="button"
+            onClick={() => setPaymentMethod("kora")}
+            className={`relative md:p-3 p-1 rounded-lg md:rounded-xl border-2 transition-all text-left group
+              ${
+                paymentMethod === "kora"
+                  ? "border-primary bg-primary/5 shadow-sm"
+                  : "border-border hover:border-primary hover:shadow-sm"
+              }`}
+          >
+            {paymentMethod === "kora" && (
+              <span className="absolute right-3 text-primary text-sm font-semibold">
+                ✓
+              </span>
+            )}
+
+            <div className="flex items-center gap-1 md:gap-3 ">
+              <img
+                src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1774481327/Korapay_femvsw.svg"
+                alt="Kora"
+                className="md:h-6 h-3 w-auto"
+              />
+              <span className="font-semibold text-[11px] md:text-lg">Kora</span>
+            </div>
+            <span className="font-semibold ml-2 md:ml-6 text-[11px] md:text-lg">(USD)</span>
+          </button>
+
+          {/* PayPal */}
+          <button
+            type="button"
+            onClick={() => setPaymentMethod("paypal")}
+            className={`relative md:p-3 p-1 rounded-lg md:rounded-xl border-2 transition-all text-left group
+              ${
+                paymentMethod === "paypal"
+                  ? "border-primary bg-primary/5 shadow-sm"
+                  : "border-border hover:border-primary hover:shadow-sm"
+              }`}
+          >
+            {paymentMethod === "paypal" && (
+              <span className="absolute right-3 text-primary text-sm font-semibold">
+                ✓
+              </span>
+            )}
+
+            <div className="flex items-center gap-1 md:gap-3">
+              <img
+                src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1774481327/paypal_rwadmf.svg"
+                alt="PayPal"
+                className=" md:h-6 h-3 w-auto"
+              />
+              <span className="font-semibold text-[11px] md:text-lg">PayPal</span>
+            </div>
+            <span className="font-semibold ml-4 md:ml-10 text-[11px] md:text-lg">(USD)</span>
+          </button>
+
         </div>
 
         {/* ================= TOTAL ================= */}

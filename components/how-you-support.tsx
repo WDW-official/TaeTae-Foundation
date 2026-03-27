@@ -1,12 +1,6 @@
 import Link from "next/link"
 import { Heart, Gift, Users, ArrowRight } from "lucide-react"
 import IconRenderer from "./icon-renderer"
-import { Montserrat } from "next/font/google"
-
-const montserrat = Montserrat({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-})
 
 export default function HowYouSupport() {
 
@@ -117,7 +111,7 @@ export default function HowYouSupport() {
     <section className="bg-white dark:bg-gray-900">
       <div className="bg-secondary dark:bg-gray-800 py-6 md:py-10 md:[clip-path:polygon(0_10%,100%_0,100%_100%,0_100%)] ">
       <div className="max-w-6xl mx-auto px-4 ">
-        <h2 className={`${montserrat.className} text-4xl md:mt-20 md:text-6xl font-extrabold text-primary mb-8 text-center`}>HOW YOU CAN <span className="text-gray-800 dark:text-white drop-shadow-">SUPPORT</span> </h2>
+        <h2 className="font-heading text-4xl md:mt-20 md:text-6xl font-extrabold text-primary mb-8 text-center">HOW YOU CAN <span className="text-gray-800 dark:text-white drop-shadow-">SUPPORT</span> </h2>
         <p className="text-center text-2xl text-foreground  font-light mb-12 max-w-2xl mx-auto">
           There are three ways to support, Donations, Sponsorships, and Volunteering. Choose what works best for you and support us to make a real difference.
         </p>
@@ -216,7 +210,7 @@ export default function HowYouSupport() {
 
       </div>
         <div className="bg-linear-to-br from-primary to-[#173510] dark:from-[#0a1421] dark:to-[#0a1421] text-white p-8 md:p-12  text-center md:[clip-path:polygon(0_0,100%_10%,100%_100%,0_100%)]">
-          <h3 className={`${montserrat.className} text-4xl md:text-5xl font-extrabold md:mb-3 mb-10`}>YOUR CONTRIBUTION MATTERS</h3>
+          <h3 className="font-heading text-4xl md:text-5xl font-extrabold md:mb-3 mb-10">YOUR CONTRIBUTION MATTERS</h3>
           <div className="grid md:grid-cols-3 grid-cols-1  gap-6 ">
             <div className="relative group w-full h-full md:rounded-4xl rounded-2xl overflow-hidden">
 

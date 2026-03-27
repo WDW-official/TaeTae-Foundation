@@ -2,15 +2,9 @@
 "use client";
 import Footer from "@/components/footer";
 import Navigation from "@/components/navigation";
-import { Montserrat } from "next/font/google";
 import { useState } from "react";
 
 type AssessmentKey = "Football" | "Athletics" | "Combat Sports";
-
-const montserrat = Montserrat({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-})
 
 const assessmentData = {
   "Skills Development": {
@@ -92,7 +86,7 @@ export default function TaeTaeFoundationPage() {
 
               {/* TEXT */}
               <div className="relative z-10 mx-auto px-">
-                <h1 className={`${montserrat.className} md:text-7xl text-gray-900 dark:text-white text-[40px] font-black uppercase leading-[1.05]`}>
+                <h1 className="font-heading md:text-7xl text-gray-900 dark:text-white text-[40px] font-black uppercase leading-[1.05]">
                   OUR OPERATIONAL <br /> <span className="text-primary">PHILOSOPHY</span> 
                 </h1>
 
@@ -185,7 +179,7 @@ export default function TaeTaeFoundationPage() {
 
               {/* TEXT */}
               <div className="relative z-10  mx-auto px-">
-                <h1 className={`${montserrat.className} md:text-7xl text-gray-900 dark:text-white text-[34px] font-black uppercase leading-[1.05]`}>
+                <h1 className="font-heading md:text-7xl text-gray-900 dark:text-white text-[34px] font-black uppercase leading-[1.05]">
                   Empowering <br /> The <span className="text-primary">Ecosystem </span> 
                 </h1>
 

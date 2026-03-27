@@ -6,12 +6,6 @@ import { ArrowRight, Heart, Target } from "lucide-react"
 import { Button } from "./ui/button"
 import { motion } from "framer-motion"
 import { useCallback } from "react"
-import { Montserrat } from "next/font/google"
-
-const montserrat = Montserrat({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-})
 export default function Hero() {
   // Refactor scroll function with useCallback for performance
   const scrollToPrograms = useCallback(() => {
@@ -37,9 +31,9 @@ export default function Hero() {
               <span className="text-[#76b569] dark:text-[#8bc97f] font-semibold">Empowering Young Boys</span>
             </div> */}
 
-            <h1 className={`${montserrat.className} text-[40px] md:text-6xl lg:text-7xl font-extrabold text-white mb-6 md:leading-17 leading-10`}>
+            <h1 className="font-heading text-[40px] md:text-6xl lg:text-7xl font-extrabold text-white mb-6 md:leading-17 leading-10">
               BUILDING TOMORROW'S{" "}
-              <span className={`${montserrat.className} text-primary dark:text-[#8bc97f] relative`}>
+              <span className="font-heading text-primary dark:text-[#8bc97f] relative">
                 LEADERS
                 <svg
                   className="absolute -bottom-2 left-0 w-full"
@@ -129,4 +123,3 @@ export default function Hero() {
     </section>
   )
 }
-

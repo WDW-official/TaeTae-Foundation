@@ -1,6 +1,5 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Geist, Geist_Mono, Inter, Keania_One, Signika } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -8,27 +7,6 @@ import Navigation from "@/components/navigation"
 import Footer from "@/components/footer"
 import NextTopLoader from "nextjs-toploader";
 import { ToastContainer } from "react-toastify"
-
-const _geist = Geist({ subsets: ["latin"] })
-const _geistMono = Geist_Mono({ subsets: ["latin"] })
-const _inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-})
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-})
-const signika = Signika({
-  subsets: ["latin"],
-})
-
-const keaniaOne = Keania_One({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-keania-one",
-});
 
 export const metadata: Metadata = {
   title: "TaeTae Foundation - Building Tomorrow's Leaders",
@@ -50,7 +28,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${signika.className} ${geistMono.variable} font-sans`}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;700;800&family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;800&family=Keania+One&family=Montserrat:wght@400;500;600;700;800;900&family=Signika:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="font-sans">
         <NextTopLoader
           color="#8bc97f"
           initialPosition={0.08}

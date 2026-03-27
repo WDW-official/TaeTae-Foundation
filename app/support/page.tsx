@@ -7,12 +7,6 @@ import Footer from "@/components/footer"
 import { motion } from "framer-motion"
 import IconRenderer from "@/components/icon-renderer"
 import PublicImpactSection from "@/components/PublicImpactSection"
-import { Montserrat } from "next/font/google"
-
-const montserrat = Montserrat({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-})
 
 export default function SupportPage() {
   return (
@@ -30,7 +24,7 @@ export default function SupportPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className={`${montserrat.className} text-[40px] lg:text-6xl font-extrabold text-gray-900 dark:text-white leading-9 md:leading-13 mb-6`}>
+            <h1 className="font-heading text-[40px] lg:text-6xl font-extrabold text-gray-900 dark:text-white leading-9 md:leading-13 mb-6">
               HOW YOU CAN{" "}
               <span className="text-primary dark:text-[#8bc97f]"> SUPPORT</span>
             </h1>
