@@ -31,7 +31,7 @@ export default function Page() {
 
             {/* 📄 PDF VIEWER */}
             <div className="w-full h-[70vh] md:h-[85vh] mt-8 rounded-2xl overflow-auto shadow-2xl border border-gray-200 dark:border-gray-800">
-              <PDFViewer src="/The TaeTae Foundation Profile 2026..pdf" />
+              <PDFViewer src="/taetae-profile-2026.pdf" />
             </div>
 
             {/* 🔽 TEXT BELOW PDF */}
