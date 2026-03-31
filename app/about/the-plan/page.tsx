@@ -1,10 +1,14 @@
 "use client"
 
 import Footer from "@/components/footer"
-import PDFViewer from "@/components/PDFViewer"
 import Navigation from "@/components/navigation"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
+import dynamic from "next/dynamic"
+
+const PDFViewer = dynamic(() => import("@/components/PDFViewer"), {
+  ssr: false,
+})
 
 export default function Page() {
   return (
