@@ -317,7 +317,7 @@ export default function AboutFoundationPage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="bg-white dark:bg-gray-800 rounded-2xl md:p-10 p-2 shadow-md border  border-gray-200 dark:border-gray-700 mb-20"
+          className="bg-white dark:bg-gray-800 rounded-2xl md:p-10 p-2 shadow-md border  border-gray-200 dark:border-gray-700 md:mb-20 mb-10"
         >
           <section className="w-full">
 
@@ -376,7 +376,7 @@ export default function AboutFoundationPage() {
         </motion.div>
 
         {/* PILLARS */}
-        <div className="grid grid-cols-1 md:mx-0 mx-3 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:mx-0 mx-3 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-10">
           {pillars.map((pillar, index) => {
             const Icon = pillar.icon
 

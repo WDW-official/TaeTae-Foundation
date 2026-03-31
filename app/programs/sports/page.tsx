@@ -40,40 +40,50 @@ export default function SportsPage() {
       <div className="max-w-6xl mx-auto px-4 py-12">
         <BackButton label="Back"/>
 
-        <div className="bg-linear-to-br from-primary/10 via-accent/10 to-background md:h-96 rounded-lg overflow-hidden mb-12 border border-border flex items-center justify-center">
-          <div
-            className="relative overflow-hidden lg:block shadow-xl"
-          >
+        <div className="bg-linear-to-br from-primary/10 via-accent/10 to-background md:h-96 rounded-lg overflow-hidden mb-12 border border-border">
+          <div className="relative w-full h-full">
+
+            {/* IMAGE */}
             <img
               src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764570544/freepik__realistic-image-of-young-african-boys-playing-foot__14050_safojl.jpg"
               alt="Support Illustration"
-              className="w-full  object-cover"
+              className="w-full h-full object-cover"
             />
 
-            {/* Overlay */}
-            <div className="absolute hover:bg-black/40 inset-0 bg-black/50"></div>
+            {/* DARK OVERLAY */}
+            <div className="absolute inset-0 bg-black/60 hover:bg-black/40"></div>
+
+            {/* CENTER TITLE */}
             <div className="absolute inset-0 flex items-center justify-center">
-            <h2 className="text-white text-center font-bold lg:text-5xl text-2xl ">
-              Sports Program
-            </h2>
+              <h2 className="text-white text-center lg:text-5xl text-2xl font-bold">
+                Sports Program
+              </h2>
+            </div>
+
+            {/* BOTTOM TEXT */}
+            <div className="absolute bottom-0 md:bottom-14 left-0 w-full px-1 pt-4 md:p-6 text-center">
+              <p className="text-white text-sm md:text-base max-w-2xl mx-auto">
+                 By collaborating with existing sports teams, coaches, and community leaders, we support boys already participating in football, athletics, and combat sports while also creating initiatives to discover new talent. 
+              </p>
+            </div>
+
           </div>
-          </div>  
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             <p className="lg:text-lg text-sm text-muted-foreground mb-8 leading-relaxed">
-              By collaborating with existing sports teams, coaches, and community leaders, we support boys already participating in football, athletics, and combat sports while also creating initiatives to discover new talent. Through school competitions, community events, and local training sessions, we identify promising young athletes and help them grow. We also work with health organizations and industry partners to support proper nutrition, physical development, and overall wellbeing throughout their training journey.
+             Through school competitions, community events, and local training sessions, we identify promising young athletes and help them grow. We also work with health organizations and industry partners to support proper nutrition, physical development, and overall wellbeing throughout their training journey.
             </p>
 
-            <div className="grid grid-cols-4 md:grid-cols-4 gap-4 mb-12 bg-secondary dark:bg-gray-800 lg:p-8 p-2 rounded-lg border border-border">
+            {/* <div className="grid grid-cols-4 md:grid-cols-4 gap-4 mb-12 bg-secondary dark:bg-gray-800 lg:p-8 p-2 rounded-lg border border-border">
               {achievements.map((item) => (
                 <div key={item.metric} className="text-center">
                   <p className="lg:text-3xl text-xl font-bold text-primary ">{item.metric}</p>
                   <p className="text-[10px] text-muted-foreground">{item.label}</p>
                 </div>
               ))}
-            </div>
+            </div> */}
             <div  className="hidden md:block">
               <h2 className="lg:text-5xl text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
                 What Boys Experience
@@ -181,28 +191,43 @@ export default function SportsPage() {
           </div>
 
           <div>
-            <div className="bg-secondary dark:bg-gray-800 border border-border p-8 rounded-lg sticky top-24">
-              <h3 className="text-2xl font-bold mb-4">Support This Program</h3>
-              <p className="text-foreground text-sm mb-6">Help boys develop through sports.</p>
+            <div className="bg-gray-200 dark:bg-gray-800 border border-border p-8 rounded-lg sticky top-24">
+              
+              <h3 className="text-[23px] uppercase font-bold mb-4">Support This Program</h3>
+              
+              <p className="text-foreground text-sm mb-6">
+                Help boys develop through sports.
+              </p>
+
               <div className="space-y-3">
+
+                {/* Donate */}
                 <Link
-                  href="/support/donate?program=sports"
-                  className="block w-full px-4 py-3 bg-primary text-primary-foreground rounded-lg text-center font-semibold hover:bg-primary/90 transition"
+                  href="/support/donate?program=education"
+                  className="flex items-center justify-center uppercase gap-2 w-full px-4 py-3 bg-[#6f9f6f]/70 hover:bg-[#5c8a5c] text-primary-foreground rounded-lg font-semibold transition"
                 >
+                  <IconRenderer icon={"https://res.cloudinary.com/dzn1k1z8r/image/upload/v1774451701/donate_q97ool.svg"} size={20} className="text-white" />
                   Donate
                 </Link>
+
+                {/* Sponsor */}
                 <Link
-                  href="/support/sponsor?program=sports"
-                  className="block w-full px-4 py-3 border-2 border-primary text-primary rounded-lg text-center font-semibold hover:bg-primary/5 transition"
+                  href="/support/sponsor?program=education"
+                  className="flex items-center uppercase justify-center gap-2 w-full px-4 py-3 border-2 bg-[#d1d5db] hover:bg-[#bfc4cb] text-gray-700 border-primary/10 rounded-lg font-semibold transition"
                 >
+                  <IconRenderer icon={"https://res.cloudinary.com/dzn1k1z8r/image/upload/v1764617667/Sponsor_1_goyphq.svg"} size={20} className="text-gray-700" />
                   Sponsor
                 </Link>
+
+                {/* Volunteer */}
                 <Link
                   href="/support/volunteer"
-                  className="block w-full px-4 py-3 border-2 border-accent text-accent rounded-lg text-center font-semibold hover:bg-accent/5 transition"
+                  className="flex items-center uppercase justify-center gap-2 w-full px-4 py-3 border-2 bg-[#e6d8a8] hover:bg-[#d6c88f] text-gray-900 border-accent/10 rounded-lg font-semibold transition"
                 >
+                  <IconRenderer icon={"https://res.cloudinary.com/dzn1k1z8r/image/upload/v1774451701/volunteer_wv40vn.svg"} size={20} className="text-gray-900" />
                   Volunteer
                 </Link>
+
               </div>
             </div>
           </div>

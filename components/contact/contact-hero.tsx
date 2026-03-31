@@ -5,8 +5,8 @@ import { Mail, Phone, MapPin, MessageCircle } from "lucide-react"
 
 export function ContactHero() {
   return (
-    <section className="relative min-h-[70vh] flex items-center bg-[#e8f5e6] dark:bg-gray-900 overflow-hidden pt-20">
-      <div className="container mx-auto px-4 lg:py-20 py-10">
+    <section className="relative md:min-h-[70vh] pt-[97px] flex items-center bg-[#e8f5e6] md:dark:bg-gray-900 dark:bg-gray-800 overflow-hidden md:pt-20">
+      <div className="container mx-auto px-4 lg:py-20 py-0">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left - Content */}
           <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>

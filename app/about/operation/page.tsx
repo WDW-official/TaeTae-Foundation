@@ -4,7 +4,7 @@ import Footer from "@/components/footer";
 import Navigation from "@/components/navigation";
 import { useState } from "react";
 
-type AssessmentKey = "Football" | "Athletics" | "Combat Sports";
+type AssessmentKey = "Skills Development" | "Football" | "Athletics" | "Combat Sports";
 
 const assessmentData = {
   "Skills Development": {
@@ -67,7 +67,7 @@ function Divider({ label }: { label: string }) {
 export default function TaeTaeFoundationPage() {
 
   const [activeTab, setActiveTab] =
-    useState<AssessmentKey>("Athletics");
+    useState<AssessmentKey>("Skills Development");
 
   return (
     <main className="bg-secondary dark:bg-gray-900 overflow-hidden">
@@ -90,13 +90,13 @@ export default function TaeTaeFoundationPage() {
                   OUR OPERATIONAL <br /> <span className="text-primary">PHILOSOPHY</span> 
                 </h1>
 
-                <p className="mt-6 text-lg  max-w-xl leading-relaxed">
+                <p className="mt-6 text-lg  max-w-xl leading-6">
                   At TaeTae Foundation, we focus on practical education,
                   skill-building, and teamwork through sports, vocational
                   exposure, and structured mentorship.
                 </p>
 
-                <p className="mt-4 text-lg  max-w-xl leading-relaxed">
+                <p className="mt-4 text-lg  max-w-xl leading-6">
                   Each program is designed to shape a well-rounded young man
                   who is physically capable, intellectually curious, and
                   prepared to contribute meaningfully to society.
@@ -183,15 +183,15 @@ export default function TaeTaeFoundationPage() {
                   Empowering <br /> The <span className="text-primary">Ecosystem </span> 
                 </h1>
 
-                <p className="mt-6 text-lg  max-w-xl leading-relaxed">
+                <p className="mt-6 text-lg  max-w-xl leading-6">
                   Our impact extends beyond the participants.
                 </p>
-                <p className="mt-6 text-lg  max-w-xl leading-relaxed">
+                <p className="mt-6 text-lg  max-w-xl leading-6">
                   By engaging local and international experts we strengthen the
                   capabilities of facilitators, coaches and mentors.
                 </p>
 
-                <p className="mt-4 text-lg  max-w-xl leading-relaxed">
+                <p className="mt-4 text-lg  max-w-xl leading-6">
                   This collaborative model builds a wider network of skilled leaders
                   and stronger community structures.
                 </p>
@@ -345,7 +345,7 @@ function PipelineCard({number,title,text}:{number:string,title:string,text:strin
 
       </div>
 
-      <p className="md:text-2xl text-sm text-white/70 leading-relaxed">
+      <p className="md:text-2xl text-sm text-white/70 leading-6">
         {text}
       </p>
 
@@ -363,7 +363,7 @@ function EcoCard({title,text}:{title:string,text:string}) {
         </p>
       </div>
 
-      <p className="md:text-2xl text-sm text-white/70 leading-relaxed">
+      <p className="md:text-2xl text-sm text-white/70 leading-6">
         {text}
       </p>
 

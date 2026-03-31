@@ -22,7 +22,6 @@ import {
   CommandList,
 } from "@/components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { ScrollArea } from "@/components/ui/scroll-area"
 import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 
@@ -101,9 +100,12 @@ export default function ChatShell({
   const [sending, setSending] = useState(false)
   const [error, setError] = useState("")
   const [contactPickerOpen, setContactPickerOpen] = useState(false)
+  const messageScrollRef = useRef<HTMLDivElement | null>(null)
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
   const previousMessageSignatureRef = useRef("")
   const shouldAutoScrollRef = useRef(true)
+  const forceAutoScrollRef = useRef(true)
+  const isNearBottomRef = useRef(true)
 
   const selectedConversation = useMemo(
     () => conversations.find((item) => item.id === selectedConversationId) ?? null,
@@ -225,12 +227,28 @@ export default function ChatShell({
       nextMessages.map((message) => [message.id, message.createdAt, message.content])
     )
 
-    shouldAutoScrollRef.current =
+    const hasChanged =
       previousMessageSignatureRef.current !== "" &&
       previousMessageSignatureRef.current !== nextSignature
 
+    shouldAutoScrollRef.current =
+      forceAutoScrollRef.current || (hasChanged && isNearBottomRef.current)
+
+    forceAutoScrollRef.current = false
     previousMessageSignatureRef.current = nextSignature
     setMessages(nextMessages)
+  }
+
+  function updateNearBottomState() {
+    const container = messageScrollRef.current
+    if (!container) {
+      return
+    }
+
+    const distanceFromBottom =
+      container.scrollHeight - container.scrollTop - container.clientHeight
+
+    isNearBottomRef.current = distanceFromBottom < 120
   }
 
   useEffect(() => {
@@ -263,6 +281,7 @@ export default function ChatShell({
       return
     }
 
+    forceAutoScrollRef.current = true
     loadMessages(selectedConversationId).catch((err) => {
       setError(err instanceof Error ? err.message : "We couldn't refresh this conversation.")
     })
@@ -294,9 +313,15 @@ export default function ChatShell({
       return
     }
 
+    const container = messageScrollRef.current
+    if (!container) {
+      return
+    }
+
     messagesEndRef.current?.scrollIntoView({
       behavior: shouldAutoScrollRef.current ? "smooth" : "auto",
     })
+    updateNearBottomState()
   }, [messages, selectedConversationId])
 
   async function startConversation(contact: ChatParticipant) {
@@ -316,7 +341,7 @@ export default function ChatShell({
 
       const nextId = data.conversation.id as string
       setContactPickerOpen(false)
-      shouldAutoScrollRef.current = true
+      forceAutoScrollRef.current = true
       setSelectedConversationId(nextId)
       await loadConversations(nextId)
       await loadMessages(nextId)
@@ -349,7 +374,7 @@ export default function ChatShell({
       }
 
       setDraft("")
-      shouldAutoScrollRef.current = true
+      forceAutoScrollRef.current = true
       await loadMessages(selectedConversationId)
       await loadConversations(selectedConversationId)
     } catch (err) {
@@ -461,7 +486,10 @@ export default function ChatShell({
                     return (
                       <button
                         key={conversation.id}
-                        onClick={() => setSelectedConversationId(conversation.id)}
+                        onClick={() => {
+                          forceAutoScrollRef.current = true
+                          setSelectedConversationId(conversation.id)
+                        }}
                         className={cn(
                           "inline-flex shrink-0 items-center gap-2 rounded-full border px-3 py-2 text-sm transition",
                           active
@@ -522,7 +550,11 @@ export default function ChatShell({
               </div>
             </div>
 
-            <ScrollArea className="flex-1 px-5 py-5 md:px-8">
+            <div
+              ref={messageScrollRef}
+              onScroll={updateNearBottomState}
+              className="flex-1 min-h-0 overflow-y-auto px-5 py-5 md:px-8"
+            >
               <div className="space-y-4">
                 {messages.length === 0 ? (
                   <div className="flex min-h-[320px] items-center justify-center rounded-[2rem] border border-dashed border-border bg-background/50 px-6 text-center text-sm text-muted-foreground">
@@ -568,7 +600,7 @@ export default function ChatShell({
                 )}
                 <div ref={messagesEndRef} />
               </div>
-            </ScrollArea>
+            </div>
 
             <div className="border-t border-border/70 bg-background/70 px-5 py-4 md:px-8">
               {isTrackingConversation ? (

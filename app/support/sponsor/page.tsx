@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import BackButton from "@/components/backButton"
 import Link from "next/link"
 
-type SponsorItemsKey = "equipment" | "materials" | "support"
+type SponsorItemsKey = "skill" | "sport" | "education" | "nutrient" 
 
 type SponsorItem = {
   id: string
@@ -28,10 +28,11 @@ type SponsorData = Record<SponsorItemsKey, SponsorSection[]>
 
 type SelectedState = Record<string, { selected: boolean; quantity: number }>
 
+
 const plans = [
-  { label: "Sponsor 1 Boy", multiplier: 1 },
-  { label: "Sponsor 10 Boys", multiplier: 10 },
-  { label: "Sponsor Full Cohort", multiplier: 100 },
+  { label: <>Sponsor<br className="block md:hidden" /> 1 Boy</>, multiplier: 1 },
+  { label: <>Sponsor<br className="block md:hidden" /> 10 Boys</>, multiplier: 10 },
+  { label: <>Sponsor<br className="block md:hidden" /> Full Cohort</>, multiplier: 100 },
 ]
 
 function SponsorContent() {
@@ -45,12 +46,13 @@ function SponsorContent() {
   const [email, setEmail] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const [activeTab, setActiveTab] = useState<SponsorItemsKey>("equipment")
+  const [activeTab, setActiveTab] = useState<SponsorItemsKey>("skill")
   const [selectedItems, setSelectedItems] = useState<SelectedState>({})
   const [sponsorItems, setSponsorItems] = useState<SponsorData>({
-    equipment: [],
-    materials: [],
-    support: [],
+    skill: [],
+    sport: [],
+    education: [],
+    nutrient: [],
   })
   const [selectedItem, setSelectedItem] = useState<SponsorItem | null>(null)
   const [currentImage, setCurrentImage] = useState(0)
@@ -325,7 +327,7 @@ function closeModal() {
               key={plan.multiplier}
               type="button"
               onClick={() => setMultiplier(plan.multiplier)}
-              className={`p-4 rounded-xl border md:text-2xl text-base text-bold ${
+              className={`p-4 rounded-xl border md:text-2xl text-[13px] text-bold ${
                 multiplier === plan.multiplier
                   ? "bg-primary text-white"
                   : "bg-primary/10 text-primary dark:text-primary"
@@ -341,10 +343,118 @@ function closeModal() {
           )
         })}
       </div>
+      <label className="pb-5 text-xl" htmlFor="">Pay With:</label>
+      <div className="grid grid-cols-3 md:grid-cols-3 md:mb-10 mb-5 gap-4">
+
+        {/* Paystack */}
+        <button
+          type="button"
+          onClick={() => setPaymentMethod("paystack")}
+          className={`relative md:p-3 p-1 rounded-lg md:rounded-xl border-2 transition-all text-left group
+            ${
+              paymentMethod === "paystack"
+                ? "border-primary bg-primary/5 shadow-sm"
+                : "border-border hover:border-primary hover:shadow-sm"
+            }`}
+        >
+          {paymentMethod === "paystack" && (
+            <span className="absolute right-3 text-primary text-sm font-semibold">
+              ✓
+            </span>
+          )}
+
+          <div className="flex items-center gap-1 md:gap-3 ">
+            <img
+              src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1774481327/Paystack_ocqxrn.svg"
+              alt="Paystack"
+              className="md:h-6 h-3 w-auto"
+            />
+            <span className="font-semibold text-[11px] md:text-lg">Paystack</span>
+          </div>
+            <span className="font-semibold ml-4 md:ml-10 text-[11px] md:text-lg">(NGN)</span>
+        </button>
+
+        {/* Kora */}
+        <button
+          type="button"
+          onClick={() => setPaymentMethod("kora")}
+          className={`relative md:p-3 p-1 rounded-lg md:rounded-xl border-2 transition-all text-left group
+            ${
+              paymentMethod === "kora"
+                ? "border-primary bg-primary/5 shadow-sm"
+                : "border-border hover:border-primary hover:shadow-sm"
+            }`}
+        >
+          {paymentMethod === "kora" && (
+            <span className="absolute right-3 text-primary text-sm font-semibold">
+              ✓
+            </span>
+          )}
+
+          <div className="flex items-center gap-1 md:gap-3 ">
+            <img
+              src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1774481327/Korapay_femvsw.svg"
+              alt="Kora"
+              className="md:h-6 h-3 w-auto"
+            />
+            <span className="font-semibold text-[11px] md:text-lg">Kora</span>
+          </div>
+          <span className="font-semibold ml-2 md:ml-6 text-[11px] md:text-lg">(USD)</span>
+        </button>
+
+        {/* PayPal */}
+        <button
+          type="button"
+          onClick={() => setPaymentMethod("paypal")}
+          className={`relative md:p-3 p-1 rounded-lg md:rounded-xl border-2 transition-all text-left group
+            ${
+              paymentMethod === "paypal"
+                ? "border-primary bg-primary/5 shadow-sm"
+                : "border-border hover:border-primary hover:shadow-sm"
+            }`}
+        >
+          {paymentMethod === "paypal" && (
+            <span className="absolute right-3 text-primary text-sm font-semibold">
+              ✓
+            </span>
+          )}
+
+          <div className="flex items-center gap-1 md:gap-3">
+            <img
+              src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1774481327/paypal_rwadmf.svg"
+              alt="PayPal"
+              className=" md:h-6 h-3 w-auto"
+            />
+            <span className="font-semibold text-[11px] md:text-lg">PayPal</span>
+          </div>
+          <span className="font-semibold ml-4 md:ml-10 text-[11px] md:text-lg">(USD)</span>
+        </button>
+
+      </div>
+      {/* ================= FORM ================= */}
+      <label className="pb-5 text-xl" htmlFor="">Details:</label>
+      <div className="grid md:grid-cols-2 md:mb-10 mb-5 gap-4">
+        <input
+          placeholder="Full Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="border px-4 py-2 rounded-lg"
+          required
+        />
+
+        <input
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="border px-4 py-2 rounded-lg"
+          required
+        />
+      </div>
 
       {/* ================= TABS ================= */}
+      <label className="pb-5 text-xl" htmlFor="">Select Categories:</label>
       <div className="mb-4">
-        {(["equipment", "materials", "support"] as SponsorItemsKey[]).map(tab => (
+        {(["skill", "sport", "education", "nutrient"] as SponsorItemsKey[]).map(tab => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -362,7 +472,7 @@ function closeModal() {
       <form onSubmit={handleSubmit} className="space-y-8">
 
         {/* ================= ITEMS ================= */}
-        {sponsorItems[activeTab].map((section) => (
+        {sponsorItems[activeTab]?.map((section) => (
           <div key={section.id} className="mb-8">
             <h2 className="text-xl font-bold text-primary mb-4">
               {section.title}
@@ -490,24 +600,7 @@ function closeModal() {
           </div>
         ))}
 
-        {/* ================= FORM ================= */}
-        <div className="grid md:grid-cols-2 gap-4">
-          <input
-            placeholder="Full Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="border px-4 py-2 rounded-lg"
-            required
-          />
-
-          <input
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="border px-4 py-2 rounded-lg"
-            required
-          />
-        </div>
+        
 
         {/* ================= PAYMENT ================= */}
         {/* <div>
@@ -553,93 +646,7 @@ function closeModal() {
             </button>
           </div>
         </div> */}
-        <div className="grid grid-cols-3 md:grid-cols-3 gap-4">
-
-          {/* Paystack */}
-          <button
-            type="button"
-            onClick={() => setPaymentMethod("paystack")}
-            className={`relative md:p-3 p-1 rounded-lg md:rounded-xl border-2 transition-all text-left group
-              ${
-                paymentMethod === "paystack"
-                  ? "border-primary bg-primary/5 shadow-sm"
-                  : "border-border hover:border-primary hover:shadow-sm"
-              }`}
-          >
-            {paymentMethod === "paystack" && (
-              <span className="absolute right-3 text-primary text-sm font-semibold">
-                ✓
-              </span>
-            )}
-
-            <div className="flex items-center gap-1 md:gap-3 ">
-              <img
-                src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1774481327/Paystack_ocqxrn.svg"
-                alt="Paystack"
-                className="md:h-6 h-3 w-auto"
-              />
-              <span className="font-semibold text-[11px] md:text-lg">Paystack</span>
-            </div>
-              <span className="font-semibold ml-4 md:ml-10 text-[11px] md:text-lg">(NGN)</span>
-          </button>
-
-          {/* Kora */}
-          <button
-            type="button"
-            onClick={() => setPaymentMethod("kora")}
-            className={`relative md:p-3 p-1 rounded-lg md:rounded-xl border-2 transition-all text-left group
-              ${
-                paymentMethod === "kora"
-                  ? "border-primary bg-primary/5 shadow-sm"
-                  : "border-border hover:border-primary hover:shadow-sm"
-              }`}
-          >
-            {paymentMethod === "kora" && (
-              <span className="absolute right-3 text-primary text-sm font-semibold">
-                ✓
-              </span>
-            )}
-
-            <div className="flex items-center gap-1 md:gap-3 ">
-              <img
-                src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1774481327/Korapay_femvsw.svg"
-                alt="Kora"
-                className="md:h-6 h-3 w-auto"
-              />
-              <span className="font-semibold text-[11px] md:text-lg">Kora</span>
-            </div>
-            <span className="font-semibold ml-2 md:ml-6 text-[11px] md:text-lg">(USD)</span>
-          </button>
-
-          {/* PayPal */}
-          <button
-            type="button"
-            onClick={() => setPaymentMethod("paypal")}
-            className={`relative md:p-3 p-1 rounded-lg md:rounded-xl border-2 transition-all text-left group
-              ${
-                paymentMethod === "paypal"
-                  ? "border-primary bg-primary/5 shadow-sm"
-                  : "border-border hover:border-primary hover:shadow-sm"
-              }`}
-          >
-            {paymentMethod === "paypal" && (
-              <span className="absolute right-3 text-primary text-sm font-semibold">
-                ✓
-              </span>
-            )}
-
-            <div className="flex items-center gap-1 md:gap-3">
-              <img
-                src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1774481327/paypal_rwadmf.svg"
-                alt="PayPal"
-                className=" md:h-6 h-3 w-auto"
-              />
-              <span className="font-semibold text-[11px] md:text-lg">PayPal</span>
-            </div>
-            <span className="font-semibold ml-4 md:ml-10 text-[11px] md:text-lg">(USD)</span>
-          </button>
-
-        </div>
+        
 
         {/* ================= TOTAL ================= */}
         <div className="text-right font-semibold text-lg text-primary">

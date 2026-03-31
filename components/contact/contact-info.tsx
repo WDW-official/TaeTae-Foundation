@@ -34,7 +34,7 @@ export function ContactInfo() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden px-5">
     <motion.div
       ref={ref}
       initial={{ opacity: 0, x: 50 }}

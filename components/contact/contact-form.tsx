@@ -81,7 +81,7 @@ export function ContactForm() {
     >
       <Card  className="border-none dark:bg-gray-900 bg-white shadow-xl">
         <CardContent className="lg:p-8 px-1">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Send Us a Message</h2>
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white px-5 mb-6">Send Us a Message</h2>
 
           {isSuccess && (
             <motion.div
@@ -94,7 +94,7 @@ export function ContactForm() {
             </motion.div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6 px-5">
             <div className="grid md:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="firstName">First Name</Label>

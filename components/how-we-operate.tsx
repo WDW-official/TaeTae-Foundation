@@ -1,4 +1,6 @@
+import Link from "next/link"
 import IconRenderer from "./icon-renderer"
+import { ArrowRight } from "lucide-react"
 export default function HowWeOperate() {
  const values = [
     {
@@ -34,12 +36,23 @@ export default function HowWeOperate() {
         <p className="text-sm lg:text-2xl text-gray-600 dark:text-gray-300 leading-relaxed text-left  max-w-5xl mx-auto">
           The TaeTae Foundation is committed to nurturing the boy-child through comprehensive development programs designed to instill discipline, curiosity, and self-belief.<br/> We create safe spaces and structured mentorship that guide boys toward becoming responsible, confident young men prepared to make a difference in their communities.
         </p>
+        <div className="text-center md:mb-8 mb-3 mt-5 md:mt-8">
+          <Link
+            href="/about"
+            className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#5a8d4f] transition"
+          >
+            ABOUT US <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
       </div>
     </section>
     <section>
-      <div className="max-w-6xl lg:p-24 p-5  dark:bg-gray-800 mx-auto">
+      <div className="max-w-6xl lg:p-24 p-5 mb-10 md:mb-3  dark:bg-gray-800 mx-auto">
         <h2 className="text-2xl md:text-5xl font-bold mb-4 text-center">Our Mission Snapshot.</h2>
-        <p className="text-center text-foreground md:mb-12 mb-6 max-w-2xl mx-auto">
+        <p className="text-center md:hidden block text-foreground md:mb-12 mb-6 max-w-2xl mx-auto">
+          We build structure, consistency,<br/> and a strong foundation.
+        </p>
+        <p className="text-center hidden md:block text-foreground md:mb-12 mb-6 max-w-2xl mx-auto">
           We build structure, consistency, and a strong foundation.
         </p>
 

@@ -113,7 +113,7 @@ export default function HowYouSupport() {
       <div className="max-w-6xl mx-auto px-4 ">
         <h2 className="font-heading text-4xl md:mt-20 md:text-6xl font-extrabold text-primary mb-8 text-center">HOW YOU CAN <span className="text-gray-800 dark:text-white drop-shadow-">SUPPORT</span> </h2>
         <p className="text-center text-2xl text-foreground  font-light mb-12 max-w-2xl mx-auto">
-          There are three ways to support, Donations, Sponsorships, and Volunteering. Choose what works best for you and support us to make a real difference.
+          There are three ways to support, <b>Donations, Sponsorships, </b>  and <b>Volunteering. </b> Choose what works best for you and support us to make a real difference.
         </p>
 
         {/* <div className="grid grid-cols-3 md:grid-cols-3 gap-8 mb-12">

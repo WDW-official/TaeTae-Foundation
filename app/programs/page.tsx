@@ -106,7 +106,7 @@ export default function HowWeOperatePage() {
       {/* ---------------------------------------- */}
             {/* SECTION 2 — HOW WE OPERATE */}
             {/* ---------------------------------------- */}
-            <section className="bg-white dark:bg-gray-800 lg:py-24 py-8  md:[clip-path:polygon(0_10%,100%_0,100%_90%,0_100%)]">
+            <section className="bg-white dark:bg-gray-800 lg:py-24 py-8  md:[clip-path:polygon(0_10%,100%_0,100%_90%,0_100%)] [clip-path:polygon(0_10%,100%_0,100%_100%,0_100%)]">
               <div className="container pt-20  mx-auto px-4">
                 <h2 className="lg:text-6xl text-4xl  font-bold text-gray-800 dark:text-white mb-6 text-center">
                   HOW WE OPERATE

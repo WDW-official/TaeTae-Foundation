@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
 
-type CategoryKey = "equipment" | "materials" | "support"
+type CategoryKey = "skill" | "sport" | "education" | "nutrient" 
 
 type Section = {
   id: string
@@ -102,7 +102,7 @@ export default function AdminSponsorshipPage() {
 
     setNewSection({
       title: "",
-      categoryKey: "equipment",
+      categoryKey: "skill",
     })
 
     await loadData()
@@ -127,7 +127,7 @@ export default function AdminSponsorshipPage() {
     setNewItem({
       name: "",
       description: "",
-      categoryKey: "equipment",
+      categoryKey: "skill",
       sectionId: "",
       priceUSD: 0,
       totalNeeded: 0,
@@ -205,9 +205,10 @@ export default function AdminSponsorshipPage() {
             }
             className="w-full border rounded-lg px-4 py-2"
             >
-            <option value="equipment">Equipment</option>
-            <option value="materials">Materials</option>
-            <option value="support">Support</option>
+            <option value="skill">Skill</option>
+            <option value="sport">Sport</option>
+            <option value="education">Education</option>
+            <option value="nutrient">Nutrient</option>
             </select>
         </div>
 
