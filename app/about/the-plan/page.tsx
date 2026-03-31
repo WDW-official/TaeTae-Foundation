@@ -8,7 +8,7 @@ import Link from "next/link"
 
 export default function Page() {
   return (
-    <main className="bg-secondary dark:bg-gray-900 overflow-hidden">
+    <main className="bg-secondary dark:bg-gray-900 ">
       
       <Navigation />
 
@@ -30,7 +30,7 @@ export default function Page() {
             </div>
 
             {/* 📄 PDF VIEWER */}
-            <div className="w-full h-[75vh] md:h-[85vh] mt-8 rounded-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-800">
+            <div className="w-full h-[70vh] md:h-[85vh] mt-8 rounded-2xl overflow-auto shadow-2xl border border-gray-200 dark:border-gray-800">
               <PDFViewer src="/The TaeTae Foundation Profile 2026..pdf" />
             </div>
 
