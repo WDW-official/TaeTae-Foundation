@@ -180,3 +180,32 @@ body {
 .clip-slant-reverse {
   clip-path: polygon(0 0, 88% 0, 100% 100%, 12% 100%);
 }
+
+@keyframes donate-rainbow-spin {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+.donate-rainbow-border {
+  background-image: linear-gradient(
+    90deg,
+    #5f8cff 0%,
+    #ffc371 16%,
+    #ffe66d 32%,
+    #7ee787 48%,
+    #6dd5fa 64%,
+    #7b61ff 82%,
+    #5f8cff 100%
+  );
+  background-size: 200% 200%;
+  animation: donate-rainbow-spin 4s linear infinite;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.65),
+    0 0 18px rgba(255, 95, 109, 0.35),
+    0 0 30px rgba(109, 213, 250, 0.28),
+    0 0 42px rgba(123, 97, 255, 0.22);
+}

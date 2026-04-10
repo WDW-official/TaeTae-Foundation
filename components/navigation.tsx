@@ -14,11 +14,6 @@ export default function Navigation() {
   const [programOpen, setProgramOpen] = useState(false)
   const pathname = usePathname() ?? ""
 
-  const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/support", label: "Support" },
-  ]
-
   const programLinks = [
     { href: "/programs/skills", label: "Skills" },
     { href: "/programs/education", label: "Education" },
@@ -185,6 +180,17 @@ export default function Navigation() {
               )}
             </div>
 
+            <Link
+              href="/contact"
+              className={cn(
+                "text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-[#8bc97f] transition-colors font-medium relative py-2",
+                isActive("/contact") &&
+                  "text-primary dark:text-[#8bc97f]"
+              )}
+            >
+              Contact Us
+            </Link>
+
             <ThemeToggle />
           </div>
 
@@ -319,6 +325,19 @@ export default function Navigation() {
                 )}
               >
                 Support
+              </Link>
+
+              <Link
+                href="/contact"
+                onClick={() => setIsOpenProgram(false)}
+                className={cn(
+                  "font-medium transition-colors",
+                  isActive("/contact")
+                    ? "text-primary dark:text-[#8bc97f]"
+                    : "text-gray-700 dark:text-gray-300"
+                )}
+              >
+                Contact Us
               </Link>
 
             </div>

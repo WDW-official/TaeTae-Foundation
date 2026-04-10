@@ -32,6 +32,12 @@ export function middleware(req: NextRequest) {
   }
 }
 
+  if (pathname.startsWith("/admin/dashboard/sponsors/procurement/approvals")) {
+    if (role !== "superAdmin") {
+      return NextResponse.redirect(new URL("/login", req.url))
+    }
+  }
+
   const token = req.cookies.get("auth_token")?.value
 
   // 🔐 Only check presence of cookie here

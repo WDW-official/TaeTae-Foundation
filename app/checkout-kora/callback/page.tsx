@@ -10,51 +10,34 @@ function KoraCallbackContent() {
 
   useEffect(() => {
     const reference = searchParams?.get("reference")
+    const checkoutId = searchParams?.get("checkoutId")
     if (!reference) {
       setError("Missing payment reference.")
       return
     }
-
-    const stored = localStorage.getItem("sponsorshipFormData")
-    if (!stored) {
-      setError("Missing payment data.")
+    if (!checkoutId) {
+      setError("Missing checkout reference.")
       return
     }
 
     const submit = async () => {
       try {
-        const formData = JSON.parse(stored)
-
-        const endpoint =
-          formData.mode === "donation"
-            ? "/api/donations"
-            : "/api/sponsorships"
-
-        const res = await fetch(endpoint, {
+        const res = await fetch(`/api/checkout-drafts/${checkoutId}/finalize`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            ...formData,
             reference,
-            currency: "USD",
-            status: "completed",
-            gateway: "kora",
           }),
         })
 
         const data = await res.json()
 
-        if (!data.success) {
-          setError("Payment verification failed.")
+        if (!res.ok || !data.success || !data.redirectUrl) {
+          setError(data.error || "Payment verification failed.")
           return
         }
 
-        localStorage.removeItem("sponsorshipFormData")
-        const redirect_url =
-          formData.mode === "donation"
-            ? "/support/donate"
-            : "/support/sponsor"
-        router.replace(redirect_url)
+        router.replace(data.redirectUrl)
       } catch (err) {
         console.error(err)
         setError("Something went wrong.")

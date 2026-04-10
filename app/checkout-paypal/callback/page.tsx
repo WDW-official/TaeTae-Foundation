@@ -11,6 +11,7 @@ function PaypalCallbackContent() {
 
   useEffect(() => {
     const orderID = searchParams?.get("token") // PayPal sends ?token=ORDER_ID
+    const checkoutId = searchParams?.get("checkoutId")
 
     if (!orderID) {
       setError("Missing PayPal order ID.")
@@ -18,10 +19,15 @@ function PaypalCallbackContent() {
       return
     }
 
+    if (!checkoutId) {
+      setError("Missing checkout reference.")
+      setLoading(false)
+      return
+    }
+
     const handlePayment = async () => {
       try {
-        // 🔥 STEP 1: Capture & verify payment on backend
-        const verifyRes = await fetch("/api/paypal-capture", {
+        const verifyRes = await fetch(`/api/checkout-drafts/${checkoutId}/finalize`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -31,63 +37,12 @@ function PaypalCallbackContent() {
 
         const verifyData = await verifyRes.json()
 
-        if (!verifyRes.ok || !verifyData.success) {
-          setError("Payment verification failed.")
+        if (!verifyRes.ok || !verifyData.success || !verifyData.redirectUrl) {
+          setError(verifyData.error || "Payment verification failed.")
           setLoading(false)
           return
         }
-
-        // 🔐 STEP 2: Get stored form data
-        const stored = localStorage.getItem("sponsorshipFormData")
-        if (!stored) {
-          setError("Missing saved form data.")
-          setLoading(false)
-          return
-        }
-
-        const formData = JSON.parse(stored)
-
-        // 🎯 STEP 3: Choose endpoint
-        const endpoint =
-          formData.mode === "donation"
-            ? "/api/donations"
-            : "/api/sponsorships"
-
-        // ✅ STEP 4: Save after verification
-        const res = await fetch(endpoint, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ...formData,
-            orderID: orderID,
-            paymentMethod: "paypal",
-            status: "completed",
-            payerEmail: verifyData.payerEmail,
-            amount: verifyData.amount,
-          }),
-        })
-
-        const data = await res.json()
-
-        if (!res.ok || !data.success) {
-          setError("Saving donation failed.")
-          setLoading(false)
-          return
-        }
-
-        // 🧹 Cleanup
-        localStorage.removeItem("sponsorshipFormData")
-        localStorage.removeItem("paypalOrderID")
-
-        // 🚀 Redirect
-        const redirectUrl =
-          formData.mode === "donation"
-            ? "/support/donate"
-            : "/support/sponsor"
-
-        router.replace(redirectUrl)
+        router.replace(verifyData.redirectUrl)
       } catch (err) {
         console.error(err)
         setError("Something went wrong.")

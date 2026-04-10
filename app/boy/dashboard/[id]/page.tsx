@@ -174,8 +174,8 @@ export default function BoyDashboard() {
   );
 
   return (
-    <main className="min-h-screen ">
-      <div className="max-w-7xl mx-auto px-4 py-8">
+    <main className="min-h-screen px-3 py-4">
+      <div className="max-w-7xl mx-auto ">
         {/* Profile Header */}
         <div className="bg-card dark:bg-gray-900 dark:bg-gray-900 border border-border rounded-2xl shadow-sm overflow-hidden mb-6">
           <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent h-32"></div>

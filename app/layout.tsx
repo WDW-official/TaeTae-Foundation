@@ -3,10 +3,9 @@ import type { Metadata } from "next"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import Navigation from "@/components/navigation"
-import Footer from "@/components/footer"
 import NextTopLoader from "nextjs-toploader";
 import { ToastContainer } from "react-toastify"
+import FloatingDonateButton from "@/components/floating-donate-button"
 
 export const metadata: Metadata = {
   title: "TaeTae Foundation - Building Tomorrow's Leaders",
@@ -52,6 +51,7 @@ export default function RootLayout({
           <div className="min-h-screen dark:bg-gray-800">
             {children} {/* This will render the page content */}
           </div>
+          <FloatingDonateButton />
           <Analytics />
         </ThemeProvider>
 

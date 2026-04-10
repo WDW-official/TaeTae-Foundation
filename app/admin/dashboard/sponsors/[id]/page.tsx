@@ -58,14 +58,18 @@ export default function SponsorshipViewPage() {
   const [sponsorship, setSponsorship] = useState<Sponsorship | null>(null);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
+  const sponsorshipId = params?.id as string | undefined
 
   useEffect(() => {
-    fetchSponsorship();
-  }, [params.id]);
+    if (sponsorshipId) {
+      fetchSponsorship();
+    }
+  }, [sponsorshipId]);
 
   const fetchSponsorship = async () => {
+    if (!sponsorshipId) return
     try {
-      const res = await fetch(`/api/sponsorships/${params.id}`);
+      const res = await fetch(`/api/sponsorships/${sponsorshipId}`);
       if (res.ok) {
         const data = await res.json();
         setSponsorship(data.sponsorship);
@@ -79,10 +83,11 @@ export default function SponsorshipViewPage() {
 
   const handleStatusUpdate = async (newStatus: "pending" | "completed" | "cancelled") => {
     if (!confirm(`Are you sure you want to mark this sponsorship as ${newStatus}?`)) return;
+    if (!sponsorshipId) return
     
     setUpdating(true);
     try {
-      const res = await fetch(`/api/sponsorships/${params.id}`, {
+      const res = await fetch(`/api/sponsorships/${sponsorshipId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus })
@@ -99,11 +104,12 @@ export default function SponsorshipViewPage() {
 
   const handleDelete = async () => {
     if (!confirm("Are you sure you want to delete this sponsorship? This action cannot be undone.")) return;
+    if (!sponsorshipId) return
     
     try {
-      const res = await fetch(`/api/sponsorships/${params.id}`, { method: "DELETE" });
+      const res = await fetch(`/api/sponsorships/${sponsorshipId}`, { method: "DELETE" });
       if (res.ok) {
-        router.push("/admin/sponsors");
+        router.push("/admin/dashboard/sponsors");
       }
     } catch (error) {
       console.error("Error deleting sponsorship:", error);

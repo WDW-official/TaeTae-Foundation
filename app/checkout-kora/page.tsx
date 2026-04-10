@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import BackButton from "@/components/backButton"
 
 type SponsorshipFormData = {
@@ -13,6 +14,9 @@ type SponsorshipFormData = {
 }
 
 export default function CheckoutKoraPage() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const checkoutId = searchParams?.get("checkoutId") || ""
   const [formData, setFormData] = useState<SponsorshipFormData | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -21,18 +25,34 @@ export default function CheckoutKoraPage() {
    * Load saved form data
    * ------------------------------------- */
   useEffect(() => {
-    const stored = localStorage.getItem("sponsorshipFormData")
-    if (!stored) {
-      setError("No payment data found. Please start again.")
+    if (!checkoutId) {
+      setError("Missing checkout reference.")
       return
     }
 
-    try {
-      setFormData(JSON.parse(stored))
-    } catch {
-      setError("Invalid payment data.")
+    const loadDraft = async () => {
+      try {
+        const res = await fetch(`/api/checkout-drafts/${checkoutId}`, { cache: "no-store" })
+        const data = await res.json()
+
+        if (!res.ok || !data.draft?.payload) {
+          setError("No payment data found. Please start again.")
+          return
+        }
+
+        if (data.draft.status === "completed") {
+          router.replace(data.draft.mode === "donation" ? "/support/donate" : "/support/sponsor")
+          return
+        }
+
+        setFormData(data.draft.payload)
+      } catch {
+        setError("Invalid payment data.")
+      }
     }
-  }, [])
+
+    void loadDraft()
+  }, [checkoutId, router])
 
   /* ----------------------------------------
    * Load Korapay script
@@ -76,14 +96,9 @@ export default function CheckoutKoraPage() {
       onSuccess(data: any) {
         console.log("Payment success:", data)
 
-        localStorage.setItem(
-          "sponsorshipFormData",
-          JSON.stringify(formData)
-        )
-
         const reference = data?.reference
         window.location.href =
-          `/checkout-kora/callback?reference=${reference}`
+          `/checkout-kora/callback?reference=${reference}&checkoutId=${encodeURIComponent(checkoutId)}`
       },
 
       onFailed(data: any) {

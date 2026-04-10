@@ -5,8 +5,10 @@ import { cn } from "@/lib/utils"
 
 export default function MessageNotificationIndicator({
   className,
+  dotOnly = false,
 }: {
   className?: string
+  dotOnly?: boolean
 }) {
   const [unreadTotal, setUnreadTotal] = useState(0)
 
@@ -43,11 +45,13 @@ export default function MessageNotificationIndicator({
   return (
     <span
       className={cn(
-        "inline-flex min-w-5 items-center justify-center rounded-full bg-red-500 px-1.5 py-0.5 text-[11px] font-semibold leading-none text-white",
+        dotOnly
+          ? "inline-flex h-2.5 w-2.5 rounded-full bg-red-500"
+          : "inline-flex min-w-5 items-center justify-center rounded-full bg-red-500 px-1.5 py-0.5 text-[11px] font-semibold leading-none text-white",
         className
       )}
     >
-      {unreadTotal > 99 ? "99+" : unreadTotal}
+      {dotOnly ? null : unreadTotal > 99 ? "99+" : unreadTotal}
     </span>
   )
 }

@@ -11,6 +11,8 @@ import {
   Handshake,
   UserPlus,
   MessageSquare,
+  PackagePlus,
+  ShieldCheck,
 } from "lucide-react"
 import ChangePasswordModal from "@/components/ChangePasswordModal"
 import { cn } from "@/lib/utils"
@@ -58,22 +60,34 @@ export default function Sidebar({
     },
     {
       href: "/admin/dashboard/sponsors",
-      label: "Sponsors",
+      label: "Sponsorships",
       icon: Handshake,
       roles: ["admin", "superAdmin"],
     },
+    // {
+    //   href: "/admin/dashboard/sponsors/procurement",
+    //   label: "Procurement",
+    //   icon: PackagePlus,
+    //   roles: ["admin", "superAdmin"],
+    // },
+    // {
+    //   href: "/admin/dashboard/sponsors/procurement/approvals",
+    //   label: "Approvals",
+    //   icon: ShieldCheck,
+    //   roles: ["superAdmin"],
+    // },
     {
       href: "/admin/dashboard/users",
       label: "Users",
       icon: Users,
       roles: ["superAdmin"],
     },
-    // {
-    //   href: "/admin/dashboard/messages",
-    //   label: "Messages",
-    //   icon: MessageSquare,
-    //   roles: ["admin", "superAdmin"],
-    // }
+    {
+      href: "/admin/dashboard/messages",
+      label: "Messages",
+      icon: MessageSquare,
+      roles: ["admin", "superAdmin"],
+    }
   ]
 
 
@@ -90,7 +104,7 @@ export default function Sidebar({
         onClick={() => setIsSidebarOpen((v) => !v)}
         aria-label="Toggle sidebar"
         className={cn(
-          "fixed left-4 top-4 z-50 md:hidden",
+          "fixed left-4 top-4 z-50 lg:hidden",
           "flex h-10 w-10 items-center justify-center",
           "rounded-full dark:bg-gray-800  ",
           "transition hover:bg-[#0A1A1A]/90"
@@ -102,7 +116,7 @@ export default function Sidebar({
       {/* Mobile backdrop */}
       {isSidebarOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/50 md:hidden"
+          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
@@ -114,7 +128,7 @@ export default function Sidebar({
           "bg-[#0A1A1A] text-white shadow-xl",
           "flex flex-col p-6",
           "transition-transform duration-300",
-          "md:translate-x-0",
+          "lg:translate-x-0",
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >

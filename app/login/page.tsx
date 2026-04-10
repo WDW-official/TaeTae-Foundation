@@ -146,7 +146,7 @@ export default function AdminLogin() {
   }
 
   return (
-    <main className=" flex dark:bg-gray-800 items-center justify-center py-40">
+    <main className=" flex dark:bg-gray-800 items-center justify-center px-3 py-40">
       <div className="w-full max-w-md">
         <Navigation/>
         <motion.div

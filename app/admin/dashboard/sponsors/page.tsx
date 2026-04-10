@@ -24,7 +24,8 @@ import {
   TrendingUp,
   CheckCircle,
   AlertCircle,
-  Banknote
+  Banknote,
+  PackagePlus
 } from "lucide-react";
 import BackButton from "@/components/backButton";
 import { useAuthStore } from "@/app/store/auth.store";
@@ -185,7 +186,7 @@ export default function SponsorsPage() {
   }
 
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(139,201,127,0.18),transparent_35%),linear-gradient(135deg,rgba(10,26,26,0.04),transparent_55%)]">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         {/* <BackButton label="Back"/> */}
@@ -199,14 +200,25 @@ export default function SponsorsPage() {
           <div className="flex gap-3">
             <button
               onClick={exportToCSV}
-              className="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-secondary/80 border border-border rounded-lg transition font-medium"
+              className="flex items-center gap-2 px-2 py-2 bg-primary hover:bg-secondary/80 border border-border rounded-lg transition font-medium"
             >
-              <Download className="w-4 h-4" /> Export CSV
+              <Download className="w-4 h-4" /> <span className="hidden md:block">Export CSV </span>
             </button>
-            <button className="flex items-center text-sm md:text-base gap-2 px-4 py-2 bg-primary hover:bg-secondary/80 border border-border rounded-lg transition font-medium">
-              <Link href="/admin/dashboard/sponsors/add-sponsorship">
+            <button className="">
+              <Link href="/admin/dashboard/sponsors/add-sponsorship"
+                 className="inline-flex h-10 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition hover:bg-primary/90"
+              >
                 Add Sponsorship Items
               </Link> 
+            </button>
+            <button className="">
+              <Link
+              href="/admin/dashboard/sponsors/procurement"
+              className="inline-flex h-10 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition hover:bg-primary/90"
+            >
+              <PackagePlus className="h-4 w-4" />
+              Open Procurement
+            </Link>
             </button>
           </div>
         </div>

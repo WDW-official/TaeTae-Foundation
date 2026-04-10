@@ -247,7 +247,7 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen dark:bg-gray-800 ">
+    <div className="min-h-screen dark:bg-gray-800 bg-[radial-gradient(circle_at_top_left,rgba(139,201,127,0.18),transparent_35%),linear-gradient(135deg,rgba(10,26,26,0.04),transparent_55%)] ">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">

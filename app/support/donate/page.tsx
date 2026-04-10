@@ -169,12 +169,10 @@ if (duration === "quarterly") {
       const isLocalGateway = paymentMethod === "paystack" || paymentMethod === "kora" || paymentMethod === "paypal"
       const currency = isLocalGateway ? "NGN" : "USD"
       if (isLocalGateway) {
-        localStorage.setItem(
-          "sponsorshipFormData",
-          JSON.stringify({
+        const checkoutPayload = {
             program: selectedProgram,
             name: donationMode === "anonymous" ? "Anonymous" : name,
-            email: donationMode === "anonymous" ? null : email,
+            email,
             amount: amount,
             mode: "donation",
             paymentMethod,
@@ -189,22 +187,37 @@ if (duration === "quarterly") {
 
             reminder3Sent: false,
             reminder1Sent: false
-          })
-        )
+          }
+
+        const checkoutRes = await fetch("/api/checkout-drafts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            mode: "donation",
+            provider: paymentMethod,
+            payload: checkoutPayload,
+          }),
+        })
+
+        const checkoutData = await checkoutRes.json()
+
+        if (!checkoutRes.ok || !checkoutData.checkoutId) {
+          throw new Error(checkoutData.error || "Failed to start checkout")
+        }
 
       // Redirect to unified checkout page
       if (paymentMethod === "paystack") {
-        window.location.href = "/checkout-paystack"
+        window.location.href = `/checkout-paystack?checkoutId=${checkoutData.checkoutId}`
         return
       }
 
       if (paymentMethod === "kora") {
-        window.location.href = "/checkout-kora"
+        window.location.href = `/checkout-kora?checkoutId=${checkoutData.checkoutId}`
         return
       }
 
         if (paymentMethod === "paypal") {
-          window.location.href = "/checkout-paypal"
+          window.location.href = `/checkout-paypal?checkoutId=${checkoutData.checkoutId}`
           return
         }
     }

@@ -1,6 +1,6 @@
 "use client"
 
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useState, useEffect } from "react"
 import BackButton from "@/components/backButton"
 import { startPaystackTransaction } from "@/app/actions/paystack"
@@ -16,6 +16,8 @@ type SponsorshipFormData = {
 
 export default function CheckoutPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const checkoutId = searchParams?.get("checkoutId") || ""
 
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -25,26 +27,42 @@ export default function CheckoutPage() {
     useState<SponsorshipFormData | null>(null)
 
   /* ----------------------------------
-     Load data from localStorage
+     Load data from checkout draft
   ----------------------------------- */
   useEffect(() => {
-    try {
-      const storedData = localStorage.getItem("sponsorshipFormData")
+    if (!checkoutId) {
+      setError("Missing checkout reference.")
+      setIsReady(true)
+      return
+    }
 
-      if (!storedData) {
-        setError("No sponsorship form data found.")
+    try {
+      const loadDraft = async () => {
+        const res = await fetch(`/api/checkout-drafts/${checkoutId}`, { cache: "no-store" })
+        const data = await res.json()
+
+        if (!res.ok || !data.draft?.payload) {
+          setError("No checkout data found.")
+          setIsReady(true)
+          return
+        }
+
+        if (data.draft.status === "completed") {
+          router.replace(data.draft.mode === "donation" ? "/support/donate" : "/support/sponsor")
+          return
+        }
+
+        setSponsorshipFormData(data.draft.payload)
         setIsReady(true)
-        return
       }
 
-      setSponsorshipFormData(JSON.parse(storedData))
-      setIsReady(true)
+      void loadDraft()
     } catch (err) {
       console.error(err)
       setError("Failed to load sponsorship data.")
       setIsReady(true)
     }
-  }, [])
+  }, [checkoutId, router])
 
   const handlePaystackPayment = async () => {
     try {
@@ -77,7 +95,8 @@ export default function CheckoutPage() {
         Number.parseFloat(mode === "donation" ? amount : totalAmount),
         email,
         mode,
-        { program, donorName: name ?? undefined }
+        { program, donorName: name ?? undefined },
+        checkoutId
       )
 
       if (!authorizationUrl) {

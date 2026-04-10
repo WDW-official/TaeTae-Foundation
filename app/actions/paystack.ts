@@ -4,7 +4,8 @@ export async function startPaystackTransaction(
   amount: number,
   email: string,
   mode: string,
-  metadata: Record<string, any>
+  metadata: Record<string, any>,
+  checkoutId: string
 ) {
 
   if (!amount || amount <= 0) {
@@ -12,7 +13,7 @@ export async function startPaystackTransaction(
   }
 
   const callbackUrl =
-    `${process.env.FRONTEND_UR || "http://localhost:3000"}/checkout-paystack/callback`
+    `${process.env.FRONTEND_UR || "http://localhost:3000"}/checkout-paystack/callback?checkoutId=${encodeURIComponent(checkoutId)}`
 
   console.log("Paystack callback:", callbackUrl)
 

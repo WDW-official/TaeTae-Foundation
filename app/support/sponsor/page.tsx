@@ -210,6 +210,10 @@ function closeModal() {
     return totalUSD * exchangeRate
   }, [totalUSD, exchangeRate])
 
+  const hasSelectedItems = useMemo(() => {
+    return Object.values(selectedItems).some((item) => item.selected && item.quantity > 0)
+  }, [selectedItems])
+
   const displayTotal =
     paymentMethod === "paystack" ? totalNGN : totalUSD
 
@@ -243,14 +247,30 @@ function closeModal() {
       mode: "sponsorship",
     }
 
-    localStorage.setItem("sponsorshipFormData", JSON.stringify(formData))
+    const checkoutRes = await fetch("/api/checkout-drafts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        mode: "sponsorship",
+        provider: paymentMethod,
+        payload: formData,
+      }),
+    })
+
+    const checkoutData = await checkoutRes.json()
+
+    if (!checkoutRes.ok || !checkoutData.checkoutId) {
+      alert(checkoutData.error || "Unable to start checkout")
+      setIsSubmitting(false)
+      return
+    }
 
     if (paymentMethod === "paystack") {
-      router.push("/checkout-paystack");
+      router.push(`/checkout-paystack?checkoutId=${checkoutData.checkoutId}`);
     } else if (paymentMethod === "kora") {
-      router.push("/checkout-kora");
+      router.push(`/checkout-kora?checkoutId=${checkoutData.checkoutId}`);
     } else if (paymentMethod === "paypal") {
-      router.push("/checkout-paypal");
+      router.push(`/checkout-paypal?checkoutId=${checkoutData.checkoutId}`);
     }
   }
 
@@ -444,6 +464,7 @@ function closeModal() {
 
         <input
           placeholder="Email"
+          type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="border px-4 py-2 rounded-lg"
@@ -658,9 +679,10 @@ function closeModal() {
 
         <button
           type="submit"
-          className="w-full px-4 py-3 bg-primary text-white rounded-lg"
+          disabled={!email.trim() || !hasSelectedItems || isSubmitting}
+          className="w-full rounded-lg bg-primary px-4 py-3 text-white disabled:cursor-not-allowed disabled:opacity-50"
         >
-          Proceed to Payment
+          {isSubmitting ? "Processing..." : "Proceed to Payment"}
         </button>
 
       </form>

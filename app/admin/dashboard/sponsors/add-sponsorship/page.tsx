@@ -1,5 +1,6 @@
 "use client"
 
+import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
 
@@ -167,9 +168,11 @@ export default function AdminSponsorshipPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10 space-y-10">
-      <Link href="/admin/dashboard/sponsors" className="text-primary hover:underline mb-6 inline-block">
-        ← Back
+    <div className="max-w-7xl mx-auto px-4 md:py-5 py-4 space-y-10">
+      
+      <Link href="/admin/dashboard/sponsors/procurement" className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition hover:text-foreground">
+        <ArrowLeft className="h-4 w-4" />
+        Back to procurement dashboard
       </Link> 
       <h1 className="text-3xl font-bold">Sponsorship Item Setup</h1>
 
@@ -456,7 +459,7 @@ export default function AdminSponsorshipPage() {
 
             return (
               <div key={item.id} className="border rounded-xl p-4">
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div className="flex md:flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <div className="flex gap-4 items-start">
                     {item.icon ? (
                       <img
@@ -478,6 +481,7 @@ export default function AdminSponsorshipPage() {
                   <div className="flex items-center gap-2">
                     <input
                       type="number"
+                      readOnly
                       defaultValue={item.funded}
                       min={0}
                       max={item.totalNeeded}

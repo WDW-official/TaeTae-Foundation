@@ -188,7 +188,7 @@ export default function AdminVolunteers() {
   }
 
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(139,201,127,0.18),transparent_35%),linear-gradient(135deg,rgba(10,26,26,0.04),transparent_55%)]">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         {/* <BackButton label="Back"/> */}

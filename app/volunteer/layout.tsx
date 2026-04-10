@@ -3,7 +3,7 @@ import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 import Link from "next/link"
 import LogoutButton from "@/components/LogoutButton";
-import { MessageSquare } from "lucide-react"
+import { Boxes, MessageSquare } from "lucide-react"
 import MessageNotificationIndicator from "@/components/chat/message-notification-indicator"
 
 export default async function VolunteerLayout({
@@ -57,12 +57,25 @@ export default async function VolunteerLayout({
 
           <div className="flex items-center gap-3">
             <Link
-              href="/volunteer/messages"
+              href="/volunteer/procurement"
               className="flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm font-medium text-foreground transition hover:bg-muted"
             >
+              <Boxes className="h-4 w-4" />
+              Procurement
+            </Link>
+
+            <Link
+              href="/volunteer/messages"
+              className="relative flex h-10 w-10 items-center justify-center rounded-lg border border-border text-foreground transition hover:bg-muted md:h-auto md:w-auto md:gap-2 md:px-3 md:py-2 md:text-sm md:font-medium"
+              aria-label="Messages"
+            >
               <MessageSquare className="h-4 w-4" />
-              Messages
-              <MessageNotificationIndicator />
+              <span className="hidden md:inline">Messages</span>
+              <MessageNotificationIndicator
+                dotOnly
+                className="absolute right-2 top-2 md:hidden"
+              />
+              <MessageNotificationIndicator className="hidden md:inline-flex" />
             </Link>
 
             <LogoutButton />

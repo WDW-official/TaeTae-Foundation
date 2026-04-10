@@ -5,7 +5,7 @@ import Link from "next/link"
 
 export default function AdminAnalytics() {
   return (
-    <div className="max-w-6xl min-h-screen mx-auto px-4 py-12">
+    <div className="max-w-6xl min-h-screen mx-auto px-4 py-12 bg-[radial-gradient(circle_at_top_left,rgba(139,201,127,0.18),transparent_35%),linear-gradient(135deg,rgba(10,26,26,0.04),transparent_55%)]">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-4xl font-bold text-primary">Analytics & Insights</h1>
         <BackButton label="Back"/>

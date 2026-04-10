@@ -1,62 +1,96 @@
 // lib/email.ts
 import nodemailer from "nodemailer"
-
-
-// export async function sendEmail(to: string, subject: string, html: string) {
-//   try {
-//     const transporter = nodemailer.createTransport({
-//       host: "smtp.gmail.com",
-//       port: 587,
-//       secure: true,
-//       auth: {
-//         user: 'softwaredeveloper@wdwltd.com',
-//         pass: 'ntncafaxqcaysdap',
-//       },
-//     });
-
-//     await transporter.sendMail({
-//       from: `"TaeTae Foundation" <${process.env.EMAIL_USER}>`,
-//       to,
-//       subject,
-//       html,
-//     })
-
-//     console.log(`📨 Email sent to ${to}`)
-//   } catch (error) {
-//     console.error("❌ Error sending email:", error)
-//     throw error
-//   }
-// }
-
 import { Resend } from 'resend';
+const RESEND_API_KEY = process.env.RESEND_API_KEY || ""
+const EMAIL_FROM = process.env.EMAIL_FROM || "TaeTae Foundation <info@taetaefoundation.org>"
 
-const resend = new Resend("re_J5PSdujc_FhEX7D6U41v1zH1Dhns8RFkV");
+const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null
+
+function isLikelyEmail(value?: string | null) {
+  return Boolean(value && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
+}
+
+function createSmtpTransport() {
+  const host = process.env.SMTP_HOST
+  const port = Number(process.env.SMTP_PORT || 587)
+  const user = process.env.SMTP_USER
+  const pass = process.env.SMTP_PASS
+
+  if (!host || !user || !pass) {
+    return null
+  }
+
+  return nodemailer.createTransport({
+    host,
+    port,
+    secure: port === 465,
+    auth: {
+      user,
+      pass,
+    },
+  })
+}
+
+const smtpTransport = createSmtpTransport()
 
 export async function sendEmail(
   to: string,
   subject: string,
   html: string
 ) {
-  try {
-    const { data, error } = await resend.emails.send({
-      from: 'Taetae Foundation <info@taetaefoundation.org>', 
-      // change to your domain after verification
-      to: [to],
-      subject,
-      html,
-    });
+  if (!isLikelyEmail(to)) {
+    console.warn("⚠️ Email skipped: invalid recipient address.", { to, subject })
+    return null
+  }
 
-    if (error) {
-      console.error('❌ Resend error:', error);
-      throw error;
+  if (!EMAIL_FROM.includes("@")) {
+    console.warn("⚠️ Email skipped: EMAIL_FROM is not a valid sender.", { EMAIL_FROM })
+    return null
+  }
+
+  try {
+    if (resend) {
+      const { data, error } = await resend.emails.send({
+        from: "TaeTae Foundation <info@taetaefoundation.org>",
+        to: [to],
+        subject,
+        html,
+      });
+
+      if (error) {
+        console.error("❌ Resend error:", error)
+      } else {
+        console.log(`📨 Email sent to ${to} via Resend`, data)
+        return data
+      }
     }
 
-    console.log(`📨 Email sent to ${to}`, data);
-    return data;
-  } catch (error) {
-    console.error('❌ Error sending email:', error);
-    throw error;
+    if (smtpTransport) {
+      const info = await smtpTransport.sendMail({
+        from: EMAIL_FROM,
+        to,
+        subject,
+        html,
+      })
+
+      console.log(`📨 Email sent to ${to} via SMTP`, info.messageId)
+      return info
+    }
+
+    if (!RESEND_API_KEY) {
+      console.warn("⚠️ Email skipped: RESEND_API_KEY is not configured and no SMTP fallback is available.")
+    } else {
+      console.warn("⚠️ Email skipped: no working email provider is currently available.")
+    }
+  } catch (error: any) {
+    console.error("❌ Error sending email:", error)
+    console.warn(
+      "⚠️ Email delivery failed but the app flow will continue.",
+      error?.message || "Unknown email error"
+    )
   }
+
+  return null
 }
 
 // Email template wrapper
@@ -182,8 +216,8 @@ export async function sendReminderEmail(donation:any){
 
 export async function sendSponsorshipEmail(sponsorship: any, sponsorEmail?: string) {
   const content = `
-    <h2style="color: #ffffff;">🎉 Welcome to TaeTae Foundation!</h2>
-    <p>Dear <strong>$${sponsorship.sponsorName}</strong>,</p>
+    <h2 style="color: #8bc97f;">🎉 Welcome to TaeTae Foundation!</h2>
+    <p>Dear <strong>${sponsorship.sponsorName}</strong>,</p>
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
     <h2 style="color: #8bc97f;">TaeTae Foundation 💚</h2>
     <p>Dear ${sponsorship.sponsorName},</p>
@@ -208,7 +242,7 @@ export async function sendSponsorshipEmail(sponsorship: any, sponsorEmail?: stri
   for (const email of emails) {
     await sendEmail(
       email as string,
-      `🎉 $${sponsorship.sponsorName} Became a Sponsor in TaeTae Foundation`,
+      `🎉 ${sponsorship.sponsorName} Became a Sponsor in TaeTae Foundation`,
       emailTemplate(content)
     )
   }

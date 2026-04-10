@@ -53,18 +53,23 @@ export default async function VolunteerLayout({
             />
 
           </Link>
-            <div className="font-semibold text-2xl">
+            <div className="font-semibold hidden md:block text-2xl">
             My Portal
             </div>
 
           <div className="flex items-center gap-3">
             <Link
               href="/boy/messages"
-              className="flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm font-medium text-foreground transition hover:bg-muted"
+              className="relative flex h-10 w-10 items-center justify-center rounded-lg border border-border text-foreground transition hover:bg-muted md:h-auto md:w-auto md:gap-2 md:px-3 md:py-2 md:text-sm md:font-medium"
+              aria-label="Messages"
             >
               <MessageSquare className="h-4 w-4" />
-              Messages
-              <MessageNotificationIndicator />
+              <span className="hidden md:inline">Messages</span>
+              <MessageNotificationIndicator
+                dotOnly
+                className="absolute right-2 top-2 md:hidden"
+              />
+              <MessageNotificationIndicator className="hidden md:inline-flex" />
             </Link>
 
             <LogoutButton />
@@ -73,7 +78,7 @@ export default async function VolunteerLayout({
       </header>
 
       {/* PAGE CONTENT */}
-      <main className="flex-1 max-w-7xl mx-auto w-full px-3 py-4">
+      <main className="flex-1 max-w-7xl mx-auto w-full ">
         {children}
       </main>
 

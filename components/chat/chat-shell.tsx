@@ -6,8 +6,12 @@ import { formatDistanceToNow } from "date-fns"
 import {
   Check,
   ChevronDown,
+  ChevronUp,
   Loader2,
   MessageSquare,
+  ChevronDownCircle,
+  Maximize2,
+  Minimize2,
   Search,
   Send,
   Shield,
@@ -100,6 +104,8 @@ export default function ChatShell({
   const [sending, setSending] = useState(false)
   const [error, setError] = useState("")
   const [contactPickerOpen, setContactPickerOpen] = useState(false)
+  const [showScrollToBottom, setShowScrollToBottom] = useState(false)
+  const [mobileExpanded, setMobileExpanded] = useState(false)
   const messageScrollRef = useRef<HTMLDivElement | null>(null)
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
   const previousMessageSignatureRef = useRef("")
@@ -249,6 +255,14 @@ export default function ChatShell({
       container.scrollHeight - container.scrollTop - container.clientHeight
 
     isNearBottomRef.current = distanceFromBottom < 120
+    setShowScrollToBottom(distanceFromBottom >= 120)
+  }
+
+  function scrollToBottom(behavior: ScrollBehavior = "smooth") {
+    messagesEndRef.current?.scrollIntoView({ behavior })
+    shouldAutoScrollRef.current = false
+    isNearBottomRef.current = true
+    setShowScrollToBottom(false)
   }
 
   useEffect(() => {
@@ -278,10 +292,11 @@ export default function ChatShell({
   useEffect(() => {
     if (!selectedConversationId) {
       setMessages([])
+      setShowScrollToBottom(false)
       return
     }
 
-    forceAutoScrollRef.current = true
+    forceAutoScrollRef.current = false
     loadMessages(selectedConversationId).catch((err) => {
       setError(err instanceof Error ? err.message : "We couldn't refresh this conversation.")
     })
@@ -318,9 +333,12 @@ export default function ChatShell({
       return
     }
 
-    messagesEndRef.current?.scrollIntoView({
-      behavior: shouldAutoScrollRef.current ? "smooth" : "auto",
-    })
+    if (shouldAutoScrollRef.current) {
+      messagesEndRef.current?.scrollIntoView({
+        behavior: "smooth",
+      })
+    }
+
     updateNearBottomState()
   }, [messages, selectedConversationId])
 
@@ -341,7 +359,7 @@ export default function ChatShell({
 
       const nextId = data.conversation.id as string
       setContactPickerOpen(false)
-      forceAutoScrollRef.current = true
+      forceAutoScrollRef.current = false
       setSelectedConversationId(nextId)
       await loadConversations(nextId)
       await loadMessages(nextId)
@@ -374,6 +392,7 @@ export default function ChatShell({
       }
 
       setDraft("")
+      shouldAutoScrollRef.current = true
       forceAutoScrollRef.current = true
       await loadMessages(selectedConversationId)
       await loadConversations(selectedConversationId)
@@ -396,9 +415,14 @@ export default function ChatShell({
   }
 
   return (
-    <section className="h-[calc(100vh-7rem)] min-h-[720px]">
-      <div className="flex h-full flex-col overflow-hidden rounded-[2rem] border border-border bg-[radial-gradient(circle_at_top,_rgba(139,201,127,0.18),_transparent_35%),linear-gradient(180deg,_rgba(255,255,255,0.95),_rgba(248,250,252,0.98))] shadow-xl dark:bg-[radial-gradient(circle_at_top,_rgba(139,201,127,0.12),_transparent_30%),linear-gradient(180deg,_rgba(17,24,39,0.98),_rgba(3,7,18,0.98))]">
-        <div className="border-b border-border/70 px-5 py-5 md:px-8">
+    <section className="h-[calc(100svh-4rem)] overflow-hidden lg:h-screen lg:p-4">
+      <div className="flex h-full flex-col overflow-hidden border-y border-border bg-[radial-gradient(circle_at_top,_rgba(139,201,127,0.18),_transparent_35%),linear-gradient(180deg,_rgba(255,255,255,0.95),_rgba(248,250,252,0.98))] shadow-xl lg:rounded-[2rem] lg:border dark:bg-[radial-gradient(circle_at_top,_rgba(139,201,127,0.12),_transparent_30%),linear-gradient(180deg,_rgba(17,24,39,0.98),_rgba(3,7,18,0.98))]">
+        <div
+          className={cn(
+            "border-b border-border/70 px-5 py-5 md:px-8",
+            mobileExpanded && "hidden lg:block"
+          )}
+        >
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="space-y-2">
               <div className="flex items-center gap-3">
@@ -438,7 +462,7 @@ export default function ChatShell({
                     <ChevronDown className="h-4 w-4 opacity-60" />
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent align="end" className="w-[320px] p-0">
+                <PopoverContent align="end" className="w-[320px] dark:bg-gray-900 bg-white p-0">
                   <Command>
                     <CommandInput placeholder="Search people..." />
                     <CommandList>
@@ -466,7 +490,7 @@ export default function ChatShell({
                 </PopoverContent>
               </Popover>
 
-              <div className="flex w-full gap-2 overflow-x-auto pb-1 lg:justify-end">
+              <div className="flex w-full gap-2 overflow-x-auto pb-1">
                 {conversations.length === 0 ? (
                   <div className="rounded-full border border-dashed border-border px-4 py-2 text-sm text-muted-foreground">
                     No conversations yet
@@ -536,25 +560,47 @@ export default function ChatShell({
                   </div>
                 </div>
               </div>
-              <div className="text-right text-xs text-muted-foreground">
-                <div>
-                  {isTrackingConversation
-                    ? "Super admin oversight"
-                    : selectedContact?.email}
+              <div className="flex items-center gap-2">
+                <div
+                  className={cn(
+                    "text-right text-xs text-muted-foreground",
+                    mobileExpanded && "hidden sm:block"
+                  )}
+                >
+                  <div>
+                    {isTrackingConversation
+                      ? "Super admin oversight"
+                      : selectedContact?.email}
+                  </div>
+                  <div>
+                    {selectedConversation.lastMessageAt
+                      ? `Last active ${prettyTime(selectedConversation.lastMessageAt)}`
+                      : "Conversation ready"}
+                  </div>
                 </div>
-                <div>
-                  {selectedConversation.lastMessageAt
-                    ? `Last active ${prettyTime(selectedConversation.lastMessageAt)}`
-                    : "Conversation ready"}
-                </div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setMobileExpanded((current) => !current)}
+                  className="h-10 w-10 rounded-full lg:hidden"
+                  aria-label={mobileExpanded ? "Exit expanded chat view" : "Expand chat view"}
+                >
+                  {mobileExpanded ? (
+                    <Minimize2 className="h-4 w-4" />
+                  ) : (
+                    <Maximize2 className="h-4 w-4" />
+                  )}
+                </Button>
               </div>
             </div>
 
-            <div
-              ref={messageScrollRef}
-              onScroll={updateNearBottomState}
-              className="flex-1 min-h-0 overflow-y-auto px-5 py-5 md:px-8"
-            >
+            <div className="relative flex-1 min-h-0">
+              <div
+                ref={messageScrollRef}
+                onScroll={updateNearBottomState}
+                className="h-full overflow-y-auto overscroll-contain px-5 py-5 md:px-8"
+              >
               <div className="space-y-4">
                 {messages.length === 0 ? (
                   <div className="flex min-h-[320px] items-center justify-center rounded-[2rem] border border-dashed border-border bg-background/50 px-6 text-center text-sm text-muted-foreground">
@@ -600,15 +646,32 @@ export default function ChatShell({
                 )}
                 <div ref={messagesEndRef} />
               </div>
+              </div>
+
+              {showScrollToBottom ? (
+                <button
+                  type="button"
+                  onClick={() => scrollToBottom()}
+                  className="absolute bottom-4 right-5 inline-flex items-center gap-2 rounded-full border border-border bg-background/95 px-3 py-2 text-sm font-medium text-foreground shadow-lg backdrop-blur transition hover:border-primary/40 hover:text-primary md:right-8"
+                >
+                  <ChevronDownCircle className="h-4 w-4" />
+                  Latest
+                </button>
+              ) : null}
             </div>
 
-            <div className="border-t border-border/70 bg-background/70 px-5 py-4 md:px-8">
+            <div
+              className={cn(
+                "border-t border-border/70 bg-background/70 px-5 py-4 md:px-8",
+                mobileExpanded && "py-3"
+              )}
+            >
               {isTrackingConversation ? (
                 <div className="mb-3 rounded-2xl border border-border bg-muted/60 px-4 py-3 text-sm text-muted-foreground">
                   You are viewing this thread as super admin. To reply, start a direct chat with either participant.
                 </div>
               ) : null}
-              <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
+              <div className="grid gap-3 grid-cols-[minmax(0,1fr)_auto] items-end">
                 <Textarea
                   value={draft}
                   onChange={(event) => setDraft(event.target.value)}
@@ -623,7 +686,10 @@ export default function ChatShell({
                       ? "Super admin tracking mode is read-only for this thread"
                       : `Message ${selectedContact?.name}...`
                   }
-                  className="min-h-24 resize-none rounded-3xl border-border bg-background/95 px-4 py-3"
+                  className={cn(
+                    "resize-none rounded-3xl border-border bg-background/95 px-4 py-3",
+                    mobileExpanded ? "min-h-20" : "min-h-24"
+                  )}
                   disabled={isTrackingConversation}
                 />
                 <Button
@@ -639,6 +705,23 @@ export default function ChatShell({
                   Send
                 </Button>
               </div>
+              <button
+                type="button"
+                onClick={() => setMobileExpanded((current) => !current)}
+                className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-muted-foreground lg:hidden"
+              >
+                {mobileExpanded ? (
+                  <>
+                    <ChevronDown className="h-3.5 w-3.5" />
+                    Standard view
+                  </>
+                ) : (
+                  <>
+                    <ChevronUp className="h-3.5 w-3.5" />
+                    Expand chat
+                  </>
+                )}
+              </button>
             </div>
           </>
         ) : (

@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js"
 import BackButton from "@/components/backButton"
 
@@ -14,23 +15,41 @@ type SponsorshipFormData = {
 }
 
 export default function CheckoutPaypalPage() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const checkoutId = searchParams?.get("checkoutId") || ""
   const [formData, setFormData] = useState<SponsorshipFormData | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    const stored = localStorage.getItem("sponsorshipFormData")
-
-    if (!stored) {
-      setError("No payment data found. Please start again.")
+    if (!checkoutId) {
+      setError("Missing checkout reference.")
       return
     }
 
-    try {
-      setFormData(JSON.parse(stored))
-    } catch {
-      setError("Invalid payment data.")
+    const loadDraft = async () => {
+      try {
+        const res = await fetch(`/api/checkout-drafts/${checkoutId}`, { cache: "no-store" })
+        const data = await res.json()
+
+        if (!res.ok || !data.draft?.payload) {
+          setError("No payment data found. Please start again.")
+          return
+        }
+
+        if (data.draft.status === "completed") {
+          router.replace(data.draft.mode === "donation" ? "/support/donate" : "/support/sponsor")
+          return
+        }
+
+        setFormData(data.draft.payload)
+      } catch {
+        setError("Invalid payment data.")
+      }
     }
-  }, [])
+
+    void loadDraft()
+  }, [checkoutId, router])
 
   if (!formData) {
     return (
@@ -116,6 +135,7 @@ export default function CheckoutPaypalPage() {
                       },
                       body: JSON.stringify({
                         amount: payableAmount,
+                        checkoutId,
                       }),
                     })
 
@@ -137,27 +157,22 @@ export default function CheckoutPaypalPage() {
 
                   try {
 
-                    const res = await fetch("/api/paypal/capture-order", {
+                    const res = await fetch(`/api/checkout-drafts/${checkoutId}/finalize`, {
                       method: "POST",
                       headers: {
                         "Content-Type": "application/json",
                       },
                       body: JSON.stringify({
                         orderID: data.orderID,
-                        formData,
                       }),
                     })
 
                     const result = await res.json()
 
-                    if (result.success) {
-
-                      localStorage.removeItem("sponsorshipFormData")
-
-                      window.location.href =
-                        mode === "donation"
-                          ? "/support/donate"
-                          : "/support/sponsor"
+                    if (result.success && result.redirectUrl) {
+                      window.location.href = result.redirectUrl
+                    } else {
+                      setError("Payment verification failed.")
                     }
 
                   } catch (err) {

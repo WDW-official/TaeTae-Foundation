@@ -12,7 +12,7 @@ export default function MobileTopNavbar({
   return (
     <header
       className="
-        fixed top-0 left-0 right-0 z-40 md:hidden
+        fixed top-0 left-0 right-0 z-40 lg:hidden
         h-16 border-b border-border
         dark:bg-gray-900 backdrop-blur
         flex items-center justify-between px-4
