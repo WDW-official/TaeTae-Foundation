@@ -1,7 +1,7 @@
 "use client"
 
+import { Suspense, useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { useState, useEffect } from "react"
 import BackButton from "@/components/backButton"
 import { startPaystackTransaction } from "@/app/actions/paystack"
 
@@ -14,7 +14,7 @@ type SponsorshipFormData = {
   mode: "donation" | "sponsorship"
 }
 
-export default function CheckoutPage() {
+function CheckoutPaystackContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const checkoutId = searchParams?.get("checkoutId") || ""
@@ -197,5 +197,13 @@ export default function CheckoutPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center">Loading...</div>}>
+      <CheckoutPaystackContent />
+    </Suspense>
   )
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js"
 import BackButton from "@/components/backButton"
@@ -14,7 +14,7 @@ type SponsorshipFormData = {
   mode: "donation" | "sponsorship"
 }
 
-export default function CheckoutPaypalPage() {
+function CheckoutPaypalContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const checkoutId = searchParams?.get("checkoutId") || ""
@@ -205,5 +205,19 @@ export default function CheckoutPaypalPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function CheckoutPaypalPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <p className="text-muted-foreground">Loading payment data...</p>
+        </div>
+      }
+    >
+      <CheckoutPaypalContent />
+    </Suspense>
   )
 }
