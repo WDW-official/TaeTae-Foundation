@@ -66,6 +66,11 @@ async function capturePaypalOrder(orderID: string) {
 }
 
 async function finalizeDonation(payload: any, providerReference: string, gateway: string) {
+  const isRecurringDonation =
+    payload.duration === "monthly" ||
+    payload.duration === "quarterly" ||
+    payload.duration === "annually"
+
   const donation = {
     name: payload.name,
     email: payload.email || null,
@@ -79,8 +84,14 @@ async function finalizeDonation(payload: any, providerReference: string, gateway
     duration: payload.duration || "one-time",
     status: "completed",
     gateway,
-    reminderToken: generateDonationToken(),
-    reminderTokenExpiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+    reminderToken: payload.reminderToken || generateDonationToken(),
+    reminderTokenExpiresAt:
+      payload.reminderTokenExpiresAt || new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+    nextDonationDate: isRecurringDonation && payload.nextDonationDate
+      ? new Date(payload.nextDonationDate)
+      : undefined,
+    reminder3Sent: Boolean(payload.reminder3Sent),
+    reminder1Sent: Boolean(payload.reminder1Sent),
   }
 
   const savedDonation = await addRecord("donations", donation)

@@ -137,7 +137,7 @@ useEffect(() => {
 
 
 if (duration === "monthly") {
-  nextDate.setMonth(nextDate.getDay() + 1)
+  nextDate.setMonth(nextDate.getMonth() + 1)
 }
 
 if (duration === "quarterly") {

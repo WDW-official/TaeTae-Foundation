@@ -43,6 +43,9 @@ export async function POST(request: NextRequest) {
       status: data.status || "pending",
       reminderToken,
       reminderTokenExpiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      nextDonationDate: data.nextDonationDate ? new Date(data.nextDonationDate) : undefined,
+      reminder3Sent: Boolean(data.reminder3Sent),
+      reminder1Sent: Boolean(data.reminder1Sent),
     }
 
     // ✅ Save donation to DB

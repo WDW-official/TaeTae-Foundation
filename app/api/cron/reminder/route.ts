@@ -1,18 +1,21 @@
 import { NextResponse } from "next/server"
 import { getRecords, updateRecord } from "@/lib/db"
-import { sendEmail, sendReminderEmail } from "@/lib/email"
+import { sendReminderEmail } from "@/lib/email"
 
 export async function GET() {
-
   const today = new Date()
-
   const donations = await getRecords("donations")
+  let checked = 0
+  let sent3Day = 0
+  let sent1Day = 0
 
   for (const donation of donations) {
+    checked += 1
 
-    if (!donation.nextDonationDate) continue
+    if (!donation.email || !donation.nextDonationDate) continue
 
     const nextDate = new Date(donation.nextDonationDate)
+    if (Number.isNaN(nextDate.getTime())) continue
 
     const diffDays = Math.ceil(
       (nextDate.getTime() - today.getTime()) /
@@ -21,27 +24,27 @@ export async function GET() {
 
     // 3 day reminder
     if (diffDays === 3 && !donation.reminder3Sent) {
-
       await sendReminderEmail(donation)
-
       await updateRecord("donations", donation._id.toString(), {
         reminder3Sent: true
       })
-
+      sent3Day += 1
     }
 
     // 1 day reminder
     if (diffDays === 1 && !donation.reminder1Sent) {
-
       await sendReminderEmail(donation)
-
       await updateRecord("donations", donation._id.toString(), {
-        reminder3Sent: true
+        reminder1Sent: true
       })
-
+      sent1Day += 1
     }
-
   }
 
-  return NextResponse.json({ success: true })
+  return NextResponse.json({
+    success: true,
+    checked,
+    sent3Day,
+    sent1Day,
+  })
 }
