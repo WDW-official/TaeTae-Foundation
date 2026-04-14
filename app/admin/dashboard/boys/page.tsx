@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowLeft, Edit, Eye, Trash2, TrendingUp, X, Search, Filter, Download, UserPlus } from "lucide-react";
 import BackButton from "@/components/backButton";
 import { useAuthStore } from "@/app/store/auth.store";
+import { AdminDataTable } from "@/components/admin/admin-data-table";
 
 interface Boy {
   _id: string;
@@ -50,6 +51,8 @@ export default function AdminBoysPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterProgram, setFilterProgram] = useState("all");
   const [filterStatus, setFilterStatus] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const PAGE_SIZE = 10;
 
   useEffect(() => {
     fetchBoys();
@@ -58,6 +61,10 @@ export default function AdminBoysPage() {
   useEffect(() => {
     applyFilters();
   }, [boys, searchQuery, filterProgram, filterStatus]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, filterProgram, filterStatus]);
 
   const fetchBoys = async () => {
     try {
@@ -259,127 +266,123 @@ export default function AdminBoysPage() {
         </div>
 
         {/* Table */}
-        <div className="bg-card dark:bg-gray-900 border border-border rounded-xl overflow-hidden shadow-sm">
-          {filteredBoys.length === 0 ? (
-            <div className="p-12 text-center">
-              <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
-                <TrendingUp className="w-8 h-8 text-muted-foreground" />
-              </div>
-              <h3 className="text-lg font-semibold mb-2">No boys found</h3>
-              <p className="text-muted-foreground mb-6">
-                {boys.length === 0 
-                  ? "Start by adding your first boy to the program" 
-                  : "Try adjusting your filters"}
-              </p>
-              {boys.length === 0 && (
-                <Link
-                  href="/admin/boys/new"
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg transition font-medium"
-                >
-                  <UserPlus className="w-4 h-4" /> Add First Boy
-                </Link>
-              )}
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-border bg-secondary/40">
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Name</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Age</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Program</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Growth</th>
-                    {/* <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Sponsor</th> */}
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Status</th>
-                    <th className="px-6 py-4 text-right text-sm font-semibold text-foreground">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredBoys.map((boy, idx) => (
-                    <tr
-                      key={boy.id}
-                      className={`border-b border-border hover:bg-secondary/20 transition ${
-                        idx % 2 === 0 ? "bg-card dark:bg-gray-900" : "bg-secondary/10"
-                      }`}
+        <AdminDataTable
+          data={filteredBoys}
+          page={currentPage}
+          pageSize={PAGE_SIZE}
+          onPageChange={setCurrentPage}
+          totalLabel="boys"
+          getRowKey={(boy) => boy.id}
+          emptyTitle="No boys found"
+          emptyDescription={
+            boys.length === 0
+              ? "Start by adding your first boy to the program"
+              : "Try adjusting your filters"
+          }
+          emptyAction={
+            boys.length === 0 ? (
+              <Link
+                href="/admin/boys/new"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg transition font-medium"
+              >
+                <UserPlus className="w-4 h-4" /> Add First Boy
+              </Link>
+            ) : null
+          }
+          rowClassName={(_, index) =>
+            index % 2 === 0 ? "bg-card dark:bg-gray-900" : "bg-secondary/10"
+          }
+          columns={[
+            {
+              id: "name",
+              header: "Name",
+              render: (boy) => (
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full italic bg-primary/10 flex items-center justify-center text-primary font-bold">
+                    {boy.first_name[0]}{boy.last_name[0]}
+                  </div>
+                  <div>
+                    <p className="text-sm italic text-foreground">{boy.first_name} {boy.last_name}</p>
+                  </div>
+                </div>
+              ),
+            },
+            {
+              id: "age",
+              header: "Age",
+              render: (boy) => <span className="text-sm text-foreground">{boy.age_at_enrolment} years</span>,
+            },
+            {
+              id: "program",
+              header: "Program",
+              render: (boy) => (
+                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                  boy.program_track === "skills" ? "bg-blue-100 text-blue-800" :
+                  boy.program_track === "education" ? "bg-green-100 text-green-800" :
+                  "bg-orange-100 text-orange-800"
+                }`}>
+                  {boy.program_track}
+                </span>
+              ),
+            },
+            {
+              id: "growth",
+              header: "Growth",
+              render: (boy) => (
+                <div className="flex items-center gap-2">
+                  <div className="flex-1 h-2 bg-secondary rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-primary rounded-full transition-all"
+                      style={{ width: `${(boy.growthMetrics?.totalScore || 0) * 10}%` }}
+                    />
+                  </div>
+                  <span className="text-sm font-semibold text-foreground min-w-12">
+                    {boy.growthMetrics?.totalScore || 0}/10
+                  </span>
+                </div>
+              ),
+            },
+            {
+              id: "status",
+              header: "Status",
+              render: (boy) => (
+                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                  boy.status === "active" ? "bg-green-100 text-green-800" :
+                  boy.status === "inactive" ? "bg-gray-100 text-gray-800" :
+                  "bg-purple-100 text-purple-800"
+                }`}>
+                  {boy.status}
+                </span>
+              ),
+            },
+            {
+              id: "actions",
+              header: "Actions",
+              headerClassName: "text-right",
+              cellClassName: "text-right",
+              render: (boy) => (
+                <div className="flex justify-end gap-2">
+                  <Link
+                    href={`/admin/dashboard/boys/boy/${boy.id}`}
+                    className="p-2 rounded-lg hover:bg-primary/10 transition group"
+                    title="View Details"
+                  >
+                    <Eye className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
+                  </Link>
+                  {role === "superAdmin" && (
+                    <button
+                      onClick={() => handleDelete(boy.id)}
+                      className="p-2 hover:bg-destructive/10 rounded-lg transition group"
+                      title="Delete"
                     >
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-full italic bg-primary/10 flex items-center justify-center text-primary font-bold">
-                            {boy.first_name[0]}{boy.last_name[0]}
-                          </div>
-                          <div>
-                            <p className="font- text-sm italic text-foreground">{boy.first_name} {boy.last_name}</p>
-                            {/* <p className="text-xs text-muted-foreground">{boy.guardian_name}</p> */}
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 text-sm text-foreground">{boy.age_at_enrolment} years</td>
-                      <td className="px-6 py-4">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          boy.program_track === "skills" ? "bg-blue-100 text-blue-800" :
-                          boy.program_track === "education" ? "bg-green-100 text-green-800" :
-                          "bg-orange-100 text-orange-800"
-                        }`}>
-                          {boy.program_track}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-2">
-                          <div className="flex-1 h-2 bg-secondary rounded-full overflow-hidden">
-                            <div 
-                              className="h-full bg-primary rounded-full transition-all"
-                              style={{ width: `${(boy.growthMetrics?.totalScore || 0) * 10}%` }}
-                            />
-                          </div>
-                          <span className="text-sm font-semibold text-foreground min-w-12">
-                            {boy.growthMetrics?.totalScore || 0}/10
-                          </span>
-                        </div>
-                      </td>
-                      {/* <td className="px-6 py-4 text-foreground">{boy.sponsor_name || <span className="text-muted-foreground italic">Unsponsored</span>}</td> */}
-                      <td className="px-6 py-4">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          boy.status === "active" ? "bg-green-100 text-green-800" :
-                          boy.status === "inactive" ? "bg-gray-100 text-gray-800" :
-                          "bg-purple-100 text-purple-800"
-                        }`}>
-                          {boy.status}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex justify-end gap-2">
-                          <Link
-                            href={`/admin/dashboard/boys/boy/${boy.id}`}
-                            className="p-2 rounded-lg hover:bg-primary/10 transition group"
-                            title="View Details"
-                          >
-                            <Eye className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
-                          </Link>
-                          {/* <button
-                            onClick={() => setEditingBoy(boy)}
-                            className="p-2 hover:bg-primary/10 rounded-lg transition group"
-                            title="Edit"
-                          >
-                            <Edit className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
-                          </button> */}
-                          {role === "superAdmin" && (
-                            <button
-                              onClick={() => handleDelete(boy.id)}
-                              className="p-2 hover:bg-destructive/10 rounded-lg transition group"
-                              title="Delete"
-                            >
-                              <Trash2 className="w-4 h-4 text-muted-foreground group-hover:text-destructive" />
-                            </button>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
+                      <Trash2 className="w-4 h-4 text-muted-foreground group-hover:text-destructive" />
+                    </button>
+                  )}
+                </div>
+              ),
+            },
+          ]}
+        />
       </div>
 
       {editingBoy && (

@@ -18,6 +18,7 @@ import {
   Banknote
 } from "lucide-react";
 import BackButton from "@/components/backButton";
+import { AdminDataTable } from "@/components/admin/admin-data-table";
 
 interface Donation {
   id: string;
@@ -38,6 +39,8 @@ export default function AdminDonations() {
   const [filterProgram, setFilterProgram] = useState("all");
   const [filterStatus, setFilterStatus] = useState("all");
   const [dateRange, setDateRange] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const PAGE_SIZE = 10;
 
   useEffect(() => {
     fetchDonations();
@@ -46,6 +49,10 @@ export default function AdminDonations() {
   useEffect(() => {
     applyFilters();
   }, [donations, searchQuery, filterProgram, filterStatus, dateRange]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, filterProgram, filterStatus, dateRange]);
 
   const fetchDonations = async () => {
     try {
@@ -338,121 +345,106 @@ export default function AdminDonations() {
         </div>
 
         {/* Table */}
-        <div className="bg-card dark:bg-gray-900 border border-border rounded-xl overflow-hidden shadow-sm">
-          {filteredDonations.length === 0 ? (
-            <div className="p-12 text-center">
-              <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
-                <Banknote className="w-8 h-8 text-muted-foreground" />
-              </div>
-              <h3 className="text-lg font-semibold mb-2">No donations found</h3>
-              <p className="text-muted-foreground mb-6">
-                {donations.length === 0
-                  ? "No donations have been received yet"
-                  : "Try adjusting your filters"}
-              </p>
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-border bg-secondary/40">
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Donor</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Contact</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Program</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Amount</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Date</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Status</th>
-                    {/* <th className="px-6 py-4 text-right text-sm font-semibold text-foreground">Actions</th> */}
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredDonations.map((donation, idx) => (
-                    <tr
-                      key={donation.id}
-                      className={`border-b border-border hover:bg-secondary/20 transition ${
-                        idx % 2 === 0 ? "bg-card dark:bg-gray-900" : "bg-secondary/10"
-                      }`}
-                    >
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
-                            {donation.name.charAt(0).toUpperCase()}
-                          </div>
-                          <div>
-                            <p className="font-semibold text-foreground">{donation.name}</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        {donation.email ? (
-                          <p className="text-sm text-foreground flex items-center gap-2">
-                            <Mail className="w-4 h-4 text-muted-foreground" />
-                            {donation.email}
-                          </p>
-                        ) : (
-                          <span className="text-muted-foreground italic text-sm">No email</span>
-                        )}
-                      </td>
-                      <td className="px-6 py-4">
-                        <span
-                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                            donation.program === "skills"
-                              ? "bg-blue-100 text-blue-800"
-                              : donation.program === "education"
-                              ? "bg-green-100 text-green-800"
-                              : "bg-orange-100 text-orange-800"
-                          }`}
-                        >
-                          {donation.program}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 font-bold text-primary text-lg">
-                        ${donation.amount.toLocaleString()}
-                      </td>
-                      <td className="px-6 py-4 text-muted-foreground text-sm">
-                        {new Date(donation.createdAt).toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric"
-                        })}
-                      </td>
-                      <td className="px-6 py-4">
-                        <span
-                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                            donation.status === "completed" || !donation.status
-                              ? "bg-green-100 text-green-800"
-                              : donation.status === "pending"
-                              ? "bg-yellow-100 text-yellow-800"
-                              : "bg-red-100 text-red-800"
-                          }`}
-                        >
-                          {donation.status || "completed"}
-                        </span>
-                      </td>
-                      {/* <td className="px-6 py-4">
-                        <div className="flex justify-end gap-2">
-                          <button
-                            className="p-2 rounded-lg hover:bg-primary/10 transition group"
-                            title="View Details"
-                          >
-                            <Eye className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
-                          </button>
-                          <button
-                            onClick={() => handleDelete(donation.id)}
-                            className="p-2 hover:bg-destructive/10 rounded-lg transition group"
-                            title="Delete"
-                          >
-                            <Trash2 className="w-4 h-4 text-muted-foreground group-hover:text-destructive" />
-                          </button>
-                        </div>
-                      </td> */}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
+        <AdminDataTable
+          data={filteredDonations}
+          page={currentPage}
+          pageSize={PAGE_SIZE}
+          onPageChange={setCurrentPage}
+          totalLabel="donations"
+          getRowKey={(donation) => donation.id}
+          emptyTitle="No donations found"
+          emptyDescription={
+            donations.length === 0
+              ? "No donations have been received yet"
+              : "Try adjusting your filters"
+          }
+          rowClassName={(_, index) =>
+            index % 2 === 0 ? "bg-card dark:bg-gray-900" : "bg-secondary/10"
+          }
+          columns={[
+            {
+              id: "donor",
+              header: "Donor",
+              render: (donation) => (
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+                    {donation.name.charAt(0).toUpperCase()}
+                  </div>
+                  <p className="font-semibold text-foreground">{donation.name}</p>
+                </div>
+              ),
+            },
+            {
+              id: "contact",
+              header: "Contact",
+              render: (donation) =>
+                donation.email ? (
+                  <p className="text-sm text-foreground flex items-center gap-2">
+                    <Mail className="w-4 h-4 text-muted-foreground" />
+                    {donation.email}
+                  </p>
+                ) : (
+                  <span className="text-muted-foreground italic text-sm">No email</span>
+                ),
+            },
+            {
+              id: "program",
+              header: "Program",
+              render: (donation) => (
+                <span
+                  className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                    donation.program === "skills"
+                      ? "bg-blue-100 text-blue-800"
+                      : donation.program === "education"
+                      ? "bg-green-100 text-green-800"
+                      : "bg-orange-100 text-orange-800"
+                  }`}
+                >
+                  {donation.program}
+                </span>
+              ),
+            },
+            {
+              id: "amount",
+              header: "Amount",
+              render: (donation) => (
+                <span className="font-bold text-primary text-lg">
+                  ${donation.amount.toLocaleString()}
+                </span>
+              ),
+            },
+            {
+              id: "date",
+              header: "Date",
+              render: (donation) => (
+                <span className="text-muted-foreground text-sm">
+                  {new Date(donation.createdAt).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </span>
+              ),
+            },
+            {
+              id: "status",
+              header: "Status",
+              render: (donation) => (
+                <span
+                  className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                    donation.status === "completed" || !donation.status
+                      ? "bg-green-100 text-green-800"
+                      : donation.status === "pending"
+                      ? "bg-yellow-100 text-yellow-800"
+                      : "bg-red-100 text-red-800"
+                  }`}
+                >
+                  {donation.status || "completed"}
+                </span>
+              ),
+            },
+          ]}
+        />
       </div>
     </div>
   );

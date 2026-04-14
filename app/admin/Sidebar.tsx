@@ -13,6 +13,7 @@ import {
   MessageSquare,
   PackagePlus,
   ShieldCheck,
+  ClipboardCheck,
 } from "lucide-react"
 import ChangePasswordModal from "@/components/ChangePasswordModal"
 import { cn } from "@/lib/utils"
@@ -50,6 +51,12 @@ export default function Sidebar({
       href: "/admin/dashboard/boys",
       label: "Boys",
       icon: UserPlus,
+      roles: ["admin", "superAdmin"],
+    },
+    {
+      href: "/admin/dashboard/project-100",
+      label: "Project 100",
+      icon: ClipboardCheck,
       roles: ["admin", "superAdmin"],
     },
     {

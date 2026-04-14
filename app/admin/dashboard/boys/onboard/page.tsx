@@ -3,7 +3,7 @@
 import type React from "react"
 import { useEffect, useState, Suspense } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { ArrowRight, User } from "lucide-react"
 import { toast } from "react-toastify"
 import SignatureCanvas from "react-signature-canvas"
@@ -17,9 +17,12 @@ type VolunteerOption = {
 
 function OnboardContent() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const intakeId = searchParams?.get("intakeId") || ""
   const [step, setStep] = useState(1)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSaving, setIsSaving] = useState(true)
+  const [isPrefillLoading, setIsPrefillLoading] = useState(false)
   const [volunteers, setVolunteers] = useState<VolunteerOption[]>([])
   const [loadingVolunteers, setLoadingVolunteers] = useState(true)
   const [formData, setFormData] = useState({
@@ -48,6 +51,7 @@ function OnboardContent() {
     notes: "",
     guardian_signature: "", // To store the signature
     assignedVolunteerId: "",
+    sourceApplicationId: "",
   })
 
   const [signaturePad, setSignaturePad] = useState<any>(null); // to manage the signature canvas
@@ -75,6 +79,50 @@ function OnboardContent() {
 
     fetchVolunteers()
   }, [])
+
+  useEffect(() => {
+    if (!intakeId) {
+      return
+    }
+
+    async function fetchIntake() {
+      try {
+        setIsPrefillLoading(true)
+        const response = await fetch(`/api/project-100/${intakeId}`, { cache: "no-store" })
+        const data = await response.json()
+
+        if (!response.ok || !data.application) {
+          toast.error(data.error || "Could not load Project 100 application.", {
+            position: "top-right",
+            autoClose: 5000,
+          })
+          return
+        }
+
+        const application = data.application
+        setFormData((prev) => ({
+          ...prev,
+          fullName: application.childName || prev.fullName,
+          date_of_birth: application.dateOfBirth || prev.date_of_birth,
+          guardianName: application.guardianName || prev.guardianName,
+          guardianEmail: application.guardianEmail || prev.guardianEmail,
+          guardianPhone: application.guardianPhone || prev.guardianPhone,
+          school_name: application.schoolAttended || prev.school_name,
+          sourceApplicationId: application.id,
+        }))
+      } catch (error) {
+        console.error("Error loading Project 100 application:", error)
+        toast.error("Could not load Project 100 application.", {
+          position: "top-right",
+          autoClose: 5000,
+        })
+      } finally {
+        setIsPrefillLoading(false)
+      }
+    }
+
+    void fetchIntake()
+  }, [intakeId])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
@@ -165,6 +213,7 @@ function OnboardContent() {
           notes: formData.notes,
           guardian_signature: formData.guardian_signature, // Sending the signature
           assignedVolunteerId: formData.assignedVolunteerId,
+          sourceApplicationId: formData.sourceApplicationId,
         }),
       })
 
@@ -192,6 +241,13 @@ function OnboardContent() {
         <Link href="/admin/dashboard/boys" className="text-primary hover:underline mb-6 inline-block">
           ← Back
         </Link>
+
+        {formData.sourceApplicationId ? (
+          <div className="mb-6 rounded-lg border border-primary/20 bg-primary/5 px-4 py-3 text-sm text-foreground">
+            Prefilling onboarding from Project 100 intake record{" "}
+            <span className="font-semibold">{formData.sourceApplicationId}</span>.
+          </div>
+        ) : null}
 
         <div className="flex items-center gap-3 mb-8">
           <User className="w-8 h-8 text-primary" />
@@ -221,6 +277,7 @@ function OnboardContent() {
                   placeholder="Your full name"
                   className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   required
+                  disabled={isPrefillLoading}
                 />
               </div>
 
@@ -233,6 +290,7 @@ function OnboardContent() {
                   onChange={handleChange}
                   className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   required
+                  disabled={isPrefillLoading}
                 />
               </div>
 
@@ -247,6 +305,7 @@ function OnboardContent() {
                     placeholder="your@email.com"
                     className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     required
+                    disabled={isPrefillLoading}
                   />
                 </div>
                 <div>
@@ -259,6 +318,7 @@ function OnboardContent() {
                     placeholder="+234 000 000 000"
                     className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     required
+                    disabled={isPrefillLoading}
                   />
                 </div>
               </div>

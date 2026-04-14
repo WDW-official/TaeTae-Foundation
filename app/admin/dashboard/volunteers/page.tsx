@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import BackButton from "@/components/backButton";
 import { useAuthStore } from "@/app/store/auth.store";
+import { AdminDataTable } from "@/components/admin/admin-data-table";
 
 interface Volunteer {
   id: string;
@@ -44,18 +45,8 @@ export default function AdminVolunteers() {
   const [filterCategory, setFilterCategory] = useState("all");
   const router = useRouter();
 
-  /** ---------------- Pagination ---------------- */
   const ITEMS_PER_PAGE = 8;
   const [currentPage, setCurrentPage] = useState(1);
-
-  // Example filter (replace with your real filter logic)
-
-  const totalPages = Math.ceil(filteredVolunteers.length / ITEMS_PER_PAGE);
-
-  const paginatedVolunteers = useMemo(() => {
-    const start = (currentPage - 1) * ITEMS_PER_PAGE;
-    return filteredVolunteers.slice(start, start + ITEMS_PER_PAGE);
-  }, [filteredVolunteers, currentPage]);
 
   useEffect(() => {
     fetchVolunteers();
@@ -64,6 +55,10 @@ export default function AdminVolunteers() {
   useEffect(() => {
     applyFilters();
   }, [volunteers, searchQuery, filterStatus, filterCategory]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, filterStatus, filterCategory]);
 
   const fetchVolunteers = async () => {
     try {
@@ -326,205 +321,118 @@ export default function AdminVolunteers() {
               </p>
             </div>
           ) : (
-            <div className="space-y-6">
-              {/* TABLE */}
-              <div className="overflow-x-auto rounded-xl border border-border">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-border bg-secondary/40">
-                      <th className="px-6 py-4 text-left text-sm font-semibold">
-                        Volunteer
-                      </th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold">
-                        Contact
-                      </th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold">
-                        Category
-                      </th>
-                      <th className="px-6 py-4 text-left text-sm font-semibold">
-                        Status
-                      </th>
-                      <th className="px-6 py-4 text-right text-sm font-semibold">
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {paginatedVolunteers.map((volunteer, idx) => (
-                      <tr
-                        key={volunteer.id}
-                        className={`border-b border-border hover:bg-secondary/20 transition ${
-                          idx % 2 === 0
-                            ? "bg-card dark:bg-gray-900"
-                            : "bg-secondary/10"
-                        }`}
-                      >
-                        {/* Volunteer */}
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary">
-                              {volunteer.name.charAt(0).toUpperCase()}
-                            </div>
-                            <div>
-                              <button
-                                onClick={() =>
-                                  router.push(`/admin/dashboard/volunteers/${volunteer.id}`)
-                                }
-                                className="font-semibold hover:text-primary transition"
-                              >
-                                {volunteer.name}
-                              </button>
-                              {volunteer.experience && (
-                                <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
-                                  <Award className="w-3 h-3" />
-                                  {volunteer.experience}
-                                </p>
-                              )}
-                            </div>
-                          </div>
-                        </td>
-
-                        {/* Contact */}
-                        <td className="px-6 py-4">
-                          <div className="space-y-1">
-                            <p className="text-sm flex items-center gap-2">
-                              <Mail className="w-4 h-4 text-muted-foreground" />
-                              {volunteer.email}
-                            </p>
-                            <p className="text-sm flex items-center gap-2">
-                              <Phone className="w-4 h-4 text-muted-foreground" />
-                              {volunteer.phone}
-                            </p>
-                          </div>
-                        </td>
-
-                        {/* Category */}
-                        <td className="px-6 py-4">
-                          <span className="inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                            {volunteer.category}
-                          </span>
-                        </td>
-
-                        {/* Status */}
-                        <td className="px-6 py-4">
-                          <span
-                            className={`inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                              volunteer.status === "pending"
-                                ? "bg-yellow-100 text-yellow-800"
-                                : volunteer.status === "approved"
-                                ? "bg-green-100 text-green-800"
-                                : "bg-red-100 text-red-800"
-                            }`}
-                          >
-                            {volunteer.status}
-                          </span>
-                        </td>
-
-                        {/* Actions */}
-                        <td className="px-6 py-4">
-                          <div className="flex justify-end gap-2">
-                            <button
-                              onClick={() =>
-                                router.push(
-                                  `/admin/dashboard/volunteers/${volunteer.id}`
-                                )
-                              }
-                              className="p-2 rounded-lg hover:bg-primary/10 transition"
-                              title="View"
-                            >
-                              <Eye className="w-4 h-4" />
-                            </button>
-
-                            {/* {volunteer.status === "pending" && (
-                              <>
-                                <button
-                                  onClick={() => handleApprove(volunteer.id)}
-                                  className="p-2 rounded-lg hover:bg-green-50 transition"
-                                  title="Approve"
-                                >
-                                  <CheckCircle className="w-4 h-4 text-green-600" />
-                                </button>
-                                <button
-                                  onClick={() => handleReject(volunteer.id)}
-                                  className="p-2 rounded-lg hover:bg-red-50 transition"
-                                  title="Reject"
-                                >
-                                  <XCircle className="w-4 h-4 text-red-600" />
-                                </button>
-                              </>
-                            )} */}
-                            {role === "superAdmin" && (
-                            <button
-                              onClick={() => handleDelete(volunteer.id)}
-                              className="p-2 rounded-lg hover:bg-destructive/10 transition"
-                              title="Delete"
-                            >
-                              <Trash2 className="w-4 h-4 text-destructive" />
-                            </button>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-
-                    {paginatedVolunteers.length === 0 && (
-                      <tr>
-                        <td
-                          colSpan={5}
-                          className="text-center py-10 text-muted-foreground"
-                        >
-                          No volunteers found
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-
-              {totalPages > 1 && (
-                <div className="flex items-center justify-between px-4">
-                  <p className="text-sm text-muted-foreground">
-                    Page {currentPage} of {totalPages}
-                  </p>
-
-                  <div className="flex gap-2">
-                    <button
-                      disabled={currentPage === 1}
-                      onClick={() => setCurrentPage((p) => p - 1)}
-                      className="px-3 py-1.5 rounded-lg border text-sm disabled:opacity-50 hover:bg-secondary transition"
-                    >
-                      Previous
-                    </button>
-
-                    {[...Array(totalPages)].map((_, i) => {
-                      const page = i + 1;
-                      return (
+            <AdminDataTable
+              data={filteredVolunteers}
+              page={currentPage}
+              pageSize={ITEMS_PER_PAGE}
+              onPageChange={setCurrentPage}
+              totalLabel="volunteers"
+              getRowKey={(volunteer) => volunteer.id}
+              emptyTitle="No volunteers found"
+              emptyDescription={
+                volunteers.length === 0
+                  ? "No volunteers have registered yet"
+                  : "Try adjusting your filters"
+              }
+              rowClassName={(_, index) =>
+                index % 2 === 0 ? "bg-card dark:bg-gray-900" : "bg-secondary/10"
+              }
+              columns={[
+                {
+                  id: "volunteer",
+                  header: "Volunteer",
+                  render: (volunteer) => (
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary">
+                        {volunteer.name.charAt(0).toUpperCase()}
+                      </div>
+                      <div>
                         <button
-                          key={page}
-                          onClick={() => setCurrentPage(page)}
-                          className={`px-3 py-1.5 rounded-lg text-sm transition ${
-                            currentPage === page
-                              ? "bg-primary text-primary-foreground"
-                              : "border hover:bg-secondary"
-                          }`}
+                          onClick={() => router.push(`/admin/dashboard/volunteers/${volunteer.id}`)}
+                          className="font-semibold hover:text-primary transition"
                         >
-                          {page}
+                          {volunteer.name}
                         </button>
-                      );
-                    })}
-
-                    <button
-                      disabled={currentPage === totalPages}
-                      onClick={() => setCurrentPage((p) => p + 1)}
-                      className="px-3 py-1.5 rounded-lg border text-sm disabled:opacity-50 hover:bg-secondary transition"
+                        {volunteer.experience && (
+                          <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
+                            <Award className="w-3 h-3" />
+                            {volunteer.experience}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  ),
+                },
+                {
+                  id: "contact",
+                  header: "Contact",
+                  render: (volunteer) => (
+                    <div className="space-y-1">
+                      <p className="text-sm flex items-center gap-2">
+                        <Mail className="w-4 h-4 text-muted-foreground" />
+                        {volunteer.email}
+                      </p>
+                      <p className="text-sm flex items-center gap-2">
+                        <Phone className="w-4 h-4 text-muted-foreground" />
+                        {volunteer.phone}
+                      </p>
+                    </div>
+                  ),
+                },
+                {
+                  id: "category",
+                  header: "Category",
+                  render: (volunteer) => (
+                    <span className="inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                      {volunteer.category}
+                    </span>
+                  ),
+                },
+                {
+                  id: "status",
+                  header: "Status",
+                  render: (volunteer) => (
+                    <span
+                      className={`inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                        volunteer.status === "pending"
+                          ? "bg-yellow-100 text-yellow-800"
+                          : volunteer.status === "approved"
+                          ? "bg-green-100 text-green-800"
+                          : "bg-red-100 text-red-800"
+                      }`}
                     >
-                      Next
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
+                      {volunteer.status}
+                    </span>
+                  ),
+                },
+                {
+                  id: "actions",
+                  header: "Actions",
+                  headerClassName: "text-right",
+                  cellClassName: "text-right",
+                  render: (volunteer) => (
+                    <div className="flex justify-end gap-2">
+                      <button
+                        onClick={() => router.push(`/admin/dashboard/volunteers/${volunteer.id}`)}
+                        className="p-2 rounded-lg hover:bg-primary/10 transition"
+                        title="View"
+                      >
+                        <Eye className="w-4 h-4" />
+                      </button>
+                      {role === "superAdmin" && (
+                        <button
+                          onClick={() => handleDelete(volunteer.id)}
+                          className="p-2 rounded-lg hover:bg-destructive/10 transition"
+                          title="Delete"
+                        >
+                          <Trash2 className="w-4 h-4 text-destructive" />
+                        </button>
+                      )}
+                    </div>
+                  ),
+                },
+              ]}
+            />
           )}
         </div>
       </div>

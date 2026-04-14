@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { addRecord, getRecords } from "@/lib/db";
+import { addRecord, getRecords, updateRecord } from "@/lib/db";
 import { uploadToCloudinary } from "@/lib/cloudinary";
 import { sendBoyEnrollmentEmail, sendAdminBoyEnrollmentNotification } from "@/lib/email";
 import { toast } from 'react-toastify';  // Import the toast notification
@@ -110,6 +110,19 @@ export async function POST(request: NextRequest) {
             },
           }
         )
+      }
+    }
+
+    if (typeof data.sourceApplicationId === "string" && data.sourceApplicationId.trim()) {
+      const sourceApplicationId = data.sourceApplicationId.trim()
+      const applications = await getRecords("project100Applications", { id: sourceApplicationId })
+
+      if (applications.length > 0) {
+        await updateRecord("project100Applications", applications[0]._id.toString(), {
+          status: "converted",
+          convertedBoyId: boyId,
+          convertedAt: new Date().toISOString(),
+        })
       }
     }
 

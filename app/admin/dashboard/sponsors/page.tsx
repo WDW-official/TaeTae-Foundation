@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 import BackButton from "@/components/backButton";
 import { useAuthStore } from "@/app/store/auth.store";
+import { AdminDataTable } from "@/components/admin/admin-data-table";
 
 interface Sponsorship {
   _id: string;
@@ -62,6 +63,8 @@ export default function SponsorsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
   const [filterPayment, setFilterPayment] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const PAGE_SIZE = 10;
   
 
   useEffect(() => {
@@ -71,6 +74,10 @@ export default function SponsorsPage() {
   useEffect(() => {
     applyFilters();
   }, [sponsorships, searchQuery, filterStatus, filterPayment]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, filterStatus, filterPayment]);
 
   const fetchSponsorships = async () => {
     try {
@@ -354,146 +361,154 @@ export default function SponsorsPage() {
             </p>
           </div>
         ) : (
-          <div className="bg-card dark:bg-gray-900 border border-border rounded-xl overflow-hidden shadow-sm">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-border bg-secondary/40">
-                    <th className="px-6 py-4 text-left text-sm font-semibold">Sponsor</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold">Contact</th>
-                    {/* <th className="px-6 py-4 text-left text-sm font-semibold">Boy Sponsored</th> */}
-                    <th className="px-6 py-4 text-left text-sm font-semibold">Amount</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold">Payment</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold">Status</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold">Date</th>
-                    <th className="px-6 py-4 text-right text-sm font-semibold">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredSponsorships.map((sponsorship, idx) => (
-                    <tr
-                      key={sponsorship._id}
-                      className={`border-b border-border hover:bg-secondary/20 transition ${
-                        idx % 2 === 0 ? "bg-card dark:bg-gray-900" : "bg-secondary/10"
-                      }`}
+          <AdminDataTable
+            data={filteredSponsorships}
+            page={currentPage}
+            pageSize={PAGE_SIZE}
+            onPageChange={setCurrentPage}
+            totalLabel="sponsorships"
+            getRowKey={(sponsorship) => sponsorship._id}
+            emptyTitle="No sponsorships found"
+            emptyDescription={
+              sponsorships.length === 0
+                ? "No sponsorships have been recorded yet"
+                : "Try adjusting your filters"
+            }
+            rowClassName={(_, index) =>
+              index % 2 === 0 ? "bg-card dark:bg-gray-900" : "bg-secondary/10"
+            }
+            columns={[
+              {
+                id: "sponsor",
+                header: "Sponsor",
+                render: (sponsorship) => (
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                      <User className="w-5 h-5 text-primary" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-foreground">{sponsorship.sponsorName}</p>
+                      {sponsorship.company && (
+                        <p className="text-xs text-muted-foreground flex items-center gap-1">
+                          <Building2 className="w-3 h-3" />
+                          {sponsorship.company}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                ),
+              },
+              {
+                id: "contact",
+                header: "Contact",
+                render: (sponsorship) => (
+                  <div className="space-y-1">
+                    <a
+                      href={`mailto:${sponsorship.sponsorEmail}`}
+                      className="flex items-center gap-2 text-sm text-foreground hover:text-primary transition"
                     >
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                            <User className="w-5 h-5 text-primary" />
-                          </div>
-                          <div>
-                            <p className="font-semibold text-foreground">{sponsorship.sponsorName}</p>
-                            {sponsorship.company && (
-                              <p className="text-xs text-muted-foreground flex items-center gap-1">
-                                <Building2 className="w-3 h-3" />
-                                {sponsorship.company}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="space-y-1">
-                          <a
-                            href={`mailto:${sponsorship.sponsorEmail}`}
-                            className="flex items-center gap-2 text-sm text-foreground hover:text-primary transition"
-                          >
-                            <Mail className="w-3 h-3 text-muted-foreground" />
-                            {sponsorship.sponsorEmail}
-                          </a>
-                          {sponsorship.sponsorPhone && (
-                            <a
-                              href={`tel:${sponsorship.sponsorPhone}`}
-                              className="flex items-center gap-2 text-sm text-foreground hover:text-primary transition"
-                            >
-                              <Phone className="w-3 h-3 text-muted-foreground" />
-                              {sponsorship.sponsorPhone}
-                            </a>
-                          )}
-                        </div>
-                      </td>
-                      {/* <td className="px-6 py-4">
-                        {sponsorship.boyName ? (
-                          <span className="inline-flex items-center px-2.5 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
-                            <Users className="w-3 h-3 mr-1" />
-                            {sponsorship.boyName}
-                          </span>
-                        ) : (
-                          <span className="text-sm text-muted-foreground italic">Not assigned</span>
-                        )}
-                      </td> */}
-                      <td className="px-6 py-4">
-                        <div className=" text-primary text-sm">
-                          {sponsorship.currency} {sponsorship.amount.toLocaleString()}
-                        </div>
-                        {sponsorship.rateUsed && sponsorship.currency !== "₦" && (
-                          <p className="text-xs text-muted-foreground">
-                            Rate: {sponsorship.rateUsed}
-                          </p>
-                        )}
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className="inline-flex items-center px-2.5 py-1 bg-purple-100 text-purple-800 rounded-full text-xs font-medium capitalize">
-                          {sponsorship.paymentMethod}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <span
-                          className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
-                            sponsorship.status === "completed"
-                              ? "bg-green-100 text-green-800"
-                              : sponsorship.status === "pending"
-                              ? "bg-yellow-100 text-yellow-800"
-                              : "bg-red-100 text-red-800"
-                          }`}
-                        >
-                          {sponsorship.status === "completed" && <CheckCircle className="w-3 h-3 mr-1" />}
-                          {sponsorship.status === "pending" && <AlertCircle className="w-3 h-3 mr-1" />}
-                          {sponsorship.status}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4 text-muted-foreground" />
-                          <span className="text-sm text-muted-foreground">
-                            {new Date(sponsorship.createdAt).toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "short",
-                              day: "numeric"
-                            })}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex justify-end gap-2">
-                          <button
-                            onClick={() => {
-                              setSelectedSponsorship(sponsorship);
-                              setShowDetailsModal(true);
-                            }}
-                            className="p-2 rounded-lg hover:bg-primary/10 transition group"
-                            title="View Details"
-                          >
-                            <Eye className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
-                          </button>
-                          {role === "superAdmin" && (
-                            <button
-                              onClick={() => handleDelete(sponsorship._id)}
-                              className="p-2 hover:bg-destructive/10 rounded-lg transition group"
-                              title="Delete"
-                            >
-                              <Trash2 className="w-4 h-4 text-muted-foreground group-hover:text-destructive" />
-                            </button>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+                      <Mail className="w-3 h-3 text-muted-foreground" />
+                      {sponsorship.sponsorEmail}
+                    </a>
+                    {sponsorship.sponsorPhone && (
+                      <a
+                        href={`tel:${sponsorship.sponsorPhone}`}
+                        className="flex items-center gap-2 text-sm text-foreground hover:text-primary transition"
+                      >
+                        <Phone className="w-3 h-3 text-muted-foreground" />
+                        {sponsorship.sponsorPhone}
+                      </a>
+                    )}
+                  </div>
+                ),
+              },
+              {
+                id: "amount",
+                header: "Amount",
+                render: (sponsorship) => (
+                  <div className="text-primary text-sm">
+                    <div>{sponsorship.currency} {sponsorship.amount.toLocaleString()}</div>
+                    {sponsorship.rateUsed && sponsorship.currency !== "₦" && (
+                      <p className="text-xs text-muted-foreground">Rate: {sponsorship.rateUsed}</p>
+                    )}
+                  </div>
+                ),
+              },
+              {
+                id: "payment",
+                header: "Payment",
+                render: (sponsorship) => (
+                  <span className="inline-flex items-center px-2.5 py-1 bg-purple-100 text-purple-800 rounded-full text-xs font-medium capitalize">
+                    {sponsorship.paymentMethod}
+                  </span>
+                ),
+              },
+              {
+                id: "status",
+                header: "Status",
+                render: (sponsorship) => (
+                  <span
+                    className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
+                      sponsorship.status === "completed"
+                        ? "bg-green-100 text-green-800"
+                        : sponsorship.status === "pending"
+                        ? "bg-yellow-100 text-yellow-800"
+                        : "bg-red-100 text-red-800"
+                    }`}
+                  >
+                    {sponsorship.status === "completed" && <CheckCircle className="w-3 h-3 mr-1" />}
+                    {sponsorship.status === "pending" && <AlertCircle className="w-3 h-3 mr-1" />}
+                    {sponsorship.status}
+                  </span>
+                ),
+              },
+              {
+                id: "date",
+                header: "Date",
+                render: (sponsorship) => (
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-muted-foreground" />
+                    <span className="text-sm text-muted-foreground">
+                      {new Date(sponsorship.createdAt).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })}
+                    </span>
+                  </div>
+                ),
+              },
+              {
+                id: "actions",
+                header: "Actions",
+                headerClassName: "text-right",
+                cellClassName: "text-right",
+                render: (sponsorship) => (
+                  <div className="flex justify-end gap-2">
+                    <button
+                      onClick={() => {
+                        setSelectedSponsorship(sponsorship);
+                        setShowDetailsModal(true);
+                      }}
+                      className="p-2 rounded-lg hover:bg-primary/10 transition group"
+                      title="View Details"
+                    >
+                      <Eye className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
+                    </button>
+                    {role === "superAdmin" && (
+                      <button
+                        onClick={() => handleDelete(sponsorship._id)}
+                        className="p-2 hover:bg-destructive/10 rounded-lg transition group"
+                        title="Delete"
+                      >
+                        <Trash2 className="w-4 h-4 text-muted-foreground group-hover:text-destructive" />
+                      </button>
+                    )}
+                  </div>
+                ),
+              },
+            ]}
+          />
         )}
       </div>
 

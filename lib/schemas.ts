@@ -40,6 +40,25 @@ export interface Volunteer {
   updatedAt?: string
 }
 
+export interface Project100Application {
+  _id?: string
+  id: string
+  childName: string
+  dateOfBirth: string
+  schoolAttended?: string
+  guardianName: string
+  guardianPhone: string
+  guardianEmail: string
+  source: "project-100"
+  status: "new" | "reviewed" | "converted" | "rejected"
+  notes?: string
+  convertedBoyId?: string
+  reviewedAt?: string
+  convertedAt?: string
+  createdAt: string
+  updatedAt?: string
+}
+
 export interface Boy {
   _id?: string
   id: string

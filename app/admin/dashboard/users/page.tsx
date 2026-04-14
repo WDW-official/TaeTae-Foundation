@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { Users, Shield, UserCog, KeyRound, Trash2, UserPlus, X } from "lucide-react"
 import ChangePasswordModal from "@/components/ChangePasswordModal"
 import { useAuthStore } from "@/app/store/auth.store"
+import { AdminDataTable } from "@/components/admin/admin-data-table"
 
 type User = {
   id: string
@@ -26,6 +27,8 @@ export default function UserManagementPage() {
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const PAGE_SIZE = 10
 
   const [showPasswordModal, setShowPasswordModal] = useState(false)
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
@@ -188,132 +191,102 @@ export default function UserManagementPage() {
             </h2>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-border bg-secondary/40">
-                  <th className="px-6 py-4 text-left text-sm font-semibold">
-                    Name
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">
-                    Email
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">
-                    Phone Number
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">
-                    Role
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">
-                    Created
-                  </th>
-                  <th className="px-6 py-4 text-right text-sm font-semibold">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {users.map((user, idx) => (
-                  <tr
-                    key={user.id}
-                    className={`border-b border-border hover:bg-secondary/20 transition ${
-                      idx % 2 === 0
-                        ? "bg-card dark:bg-gray-900"
-                        : "bg-secondary/10"
+          <AdminDataTable
+            data={users}
+            page={currentPage}
+            pageSize={PAGE_SIZE}
+            onPageChange={setCurrentPage}
+            totalLabel="administrators"
+            getRowKey={(user) => user.id}
+            emptyTitle="No users found"
+            emptyDescription="Administrators will appear here after they are created."
+            rowClassName={(_, index) =>
+              index % 2 === 0 ? "bg-card dark:bg-gray-900" : "bg-secondary/10"
+            }
+            columns={[
+              {
+                id: "name",
+                header: "Name",
+                render: (user) => (
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary">
+                      {user?.name
+                        ? user.name
+                            .split(" ")
+                            .map((n) => n?.[0])
+                            .join("")
+                            .toUpperCase()
+                        : "?"}
+                    </div>
+                    <div>
+                      <p className="font-semibold text-foreground">{user.name}</p>
+                      <p className="text-xs text-muted-foreground">ID: {user.id}</p>
+                    </div>
+                  </div>
+                ),
+              },
+              {
+                id: "email",
+                header: "Email",
+                render: (user) => <p className="text-sm">{user.email}</p>,
+              },
+              {
+                id: "phone",
+                header: "Phone Number",
+                render: (user) => <p className="text-sm">{user.phone}</p>,
+              },
+              {
+                id: "role",
+                header: "Role",
+                render: (user) => (
+                  <span
+                    className={`inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                      user.role === "superAdmin"
+                        ? "bg-red-100 text-red-800"
+                        : "bg-blue-100 text-blue-800"
                     }`}
                   >
-                    {/* User */}
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary">
-                          {user?.name
-                            ? user.name
-                                .split(" ")
-                                .map((n) => n?.[0])
-                                .join("")
-                                .toUpperCase()
-                            : "?"}
-                        </div>
-                        <div>
-                          <p className="font-semibold text-foreground">
-                            {user.name}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            ID: {user.id}
-                          </p>
-                        </div>
-                      </div>
-                    </td>
-
-                    {/* Email */}
-                    <td className="px-6 py-4">
-                      <p className="text-sm">{user.email}</p>
-                    </td>
-                    {/* phone */}
-                    <td className="px-6 py-4">
-                      <p className="text-sm">{user.phone}</p>
-                    </td>
-
-                    {/* Role */}
-                    <td className="px-6 py-4">
-                      <span
-                        className={`inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          user.role === "superAdmin"
-                            ? "bg-red-100 text-red-800"
-                            : "bg-blue-100 text-blue-800"
-                        }`}
-                      >
-                        {user.role}
-                      </span>
-                    </td>
-
-                    {/* Created */}
-                    <td className="px-6 py-4 text-sm text-muted-foreground">
-                      {new Date(user.createdAt).toLocaleDateString()}
-                    </td>
-
-                    {/* Actions */}
-                    <td className="px-6 py-4">
-                      <div className="flex justify-end gap-2">
-                        {/* Reset password */}
-                        <button
-                          onClick={() => openResetPassword(user)}
-                          className="p-2 rounded-lg hover:bg-primary/10 transition"
-                          title="Reset password"
-                        >
-                          <KeyRound className="w-4 h-4 text-primary" />
-                        </button>
-
-                        {/* Delete admin only */}
-                        {user.role === "admin" && (
-                          <button
-                            onClick={() => handleDeleteAdmin(user.id)}
-                            className="p-2 rounded-lg hover:bg-destructive/10 transition"
-                            title="Delete admin"
-                          >
-                            <Trash2 className="w-4 h-4 text-destructive" />
-                          </button>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-
-                {users.length === 0 && (
-                  <tr>
-                    <td
-                      colSpan={5}
-                      className="text-center py-10 text-muted-foreground"
+                    {user.role}
+                  </span>
+                ),
+              },
+              {
+                id: "created",
+                header: "Created",
+                render: (user) => (
+                  <span className="text-sm text-muted-foreground">
+                    {new Date(user.createdAt).toLocaleDateString()}
+                  </span>
+                ),
+              },
+              {
+                id: "actions",
+                header: "Actions",
+                headerClassName: "text-right",
+                cellClassName: "text-right",
+                render: (user) => (
+                  <div className="flex justify-end gap-2">
+                    <button
+                      onClick={() => openResetPassword(user)}
+                      className="p-2 rounded-lg hover:bg-primary/10 transition"
+                      title="Reset password"
                     >
-                      No users found
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-
-          </div>
+                      <KeyRound className="w-4 h-4 text-primary" />
+                    </button>
+                    {user.role === "admin" && (
+                      <button
+                        onClick={() => handleDeleteAdmin(user.id)}
+                        className="p-2 rounded-lg hover:bg-destructive/10 transition"
+                        title="Delete admin"
+                      >
+                        <Trash2 className="w-4 h-4 text-destructive" />
+                      </button>
+                    )}
+                  </div>
+                ),
+              },
+            ]}
+          />
           {showAddAdmin && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
               <div className="w-full max-w-md rounded-2xl bg-white dark:bg-gray-900 shadow-xl animate-in fade-in zoom-in">

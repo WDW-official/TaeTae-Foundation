@@ -21,6 +21,7 @@ import {
   Tag
 } from "lucide-react";
 import { useAuthStore } from "@/app/store/auth.store";
+import { AdminDataTable } from "@/components/admin/admin-data-table";
 
 interface MediaItem {
   id: string;
@@ -55,6 +56,8 @@ export default function MediaManagementPage() {
   const [filterType, setFilterType] = useState("all");
   const [filterUploadedBy, setFilterUploadedBy] = useState("all");
   const [viewMode, setViewMode] = useState<"grid" | "list">("list");
+  const [currentPage, setCurrentPage] = useState(1);
+  const PAGE_SIZE = 10;
 
   useEffect(() => {
     fetchMedia();
@@ -63,6 +66,10 @@ export default function MediaManagementPage() {
   useEffect(() => {
     applyFilters();
   }, [media, searchQuery, filterType, filterUploadedBy]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, filterType, filterUploadedBy, viewMode]);
 
   const fetchMedia = async () => {
     try {
@@ -528,96 +535,117 @@ export default function MediaManagementPage() {
               ))}
             </div>
           ) : (
-          <div className="bg-card dark:bg-gray-900 border border-border rounded-xl overflow-hidden shadow-sm">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-border bg-secondary/40">
-                  <th className="px-6 py-4 text-left text-sm font-semibold">File</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Type</th>
-                  {/* <th className="px-6 py-4 text-left text-sm font-semibold">Boy</th> */}
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Uploaded By</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Date</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Size</th>
-                  <th className="px-6 py-4 text-right text-sm font-semibold">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredMedia.map((item, idx) => (
-                  <tr key={item.id} className={`border-b border-border hover:bg-secondary/20 transition ${
-                    idx % 2 === 0 ? "bg-card dark:bg-gray-900" : "bg-secondary/10"
+          <AdminDataTable
+            data={filteredMedia}
+            page={currentPage}
+            pageSize={PAGE_SIZE}
+            onPageChange={setCurrentPage}
+            totalLabel="media items"
+            getRowKey={(item) => item.id}
+            emptyTitle="No media found"
+            emptyDescription="Uploaded media will appear here once available."
+            rowClassName={(_, index) =>
+              index % 2 === 0 ? "bg-card dark:bg-gray-900" : "bg-secondary/10"
+            }
+            columns={[
+              {
+                id: "file",
+                header: "File",
+                render: (item) => (
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-primary/10 rounded-lg text-primary">
+                      {getFileIcon(item)}
+                    </div>
+                    <div>
+                      <p className="font-medium text-foreground">{item.fileTitle}</p>
+                      {item.description && (
+                        <p className="text-xs text-muted-foreground truncate max-w-xs">
+                          {item.description}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                ),
+              },
+              {
+                id: "type",
+                header: "Type",
+                render: (item) => (
+                  <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                    item.uploadType === "session" ? "bg-blue-100 text-blue-800" :
+                    item.uploadType === "assessment" ? "bg-green-100 text-green-800" :
+                    "bg-purple-100 text-purple-800"
                   }`}>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 bg-primary/10 rounded-lg text-primary">
-                          {getFileIcon(item)}
-                        </div>
-                        <div>
-                          <p className="font-medium text-foreground">{item.fileTitle}</p>
-                          {item.description && (
-                            <p className="text-xs text-muted-foreground truncate max-w-xs">
-                              {item.description}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                        item.uploadType === "session" ? "bg-blue-100 text-blue-800" :
-                        item.uploadType === "assessment" ? "bg-green-100 text-green-800" :
-                        "bg-purple-100 text-purple-800"
-                      }`}>
-                        {item.uploadType}
-                      </span>
-                    </td>
-                    {/* <td className="px-6 py-4 text-foreground">{item.boyName || "-"}</td> */}
-                    <td className="px-6 py-4 text-foreground capitalize">{item.uploadedBy}</td>
-                    <td className="px-6 py-4 text-muted-foreground text-sm">
-                      {new Date(item.createdAt).toLocaleDateString()}
-                    </td>
-                    <td className="px-6 py-4 text-muted-foreground text-sm">
-                      {formatFileSize(getFileSize(item))}
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex justify-end gap-2">
-                        <a
-                          href={getFileUrl(item)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-2 rounded-lg hover:bg-primary/10 transition group"
-                        >
-                          <Eye className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
-                        </a>
-                        <button
-                          onClick={() => {
-                            const fileUrl = getFileUrl(item);
-                            const fileName = getFileName(item) || "download";
-
-                            const downloadUrl = `/api/download?url=${encodeURIComponent(fileUrl)}&name=${encodeURIComponent(fileName)}`;
-
-                            const a = document.createElement("a");
-                            a.href = downloadUrl;
-                            a.click();
-                          }}
-                          className="p-2 rounded-lg hover:bg-secondary transition"
-                        >
-                          <Download className="w-4 h-4 text-muted-foreground" />
-                        </button>
-                        {role === "superAdmin" && (
-                          <button
-                            onClick={() => handleDelete(item.id)}
-                            className="p-2 hover:bg-destructive/10 rounded-lg transition"
-                          >
-                            <Trash2 className="w-4 h-4 text-muted-foreground hover:text-destructive" />
-                          </button>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                    {item.uploadType}
+                  </span>
+                ),
+              },
+              {
+                id: "uploadedBy",
+                header: "Uploaded By",
+                render: (item) => (
+                  <span className="text-foreground capitalize">{item.uploadedBy}</span>
+                ),
+              },
+              {
+                id: "date",
+                header: "Date",
+                render: (item) => (
+                  <span className="text-muted-foreground text-sm">
+                    {new Date(item.createdAt).toLocaleDateString()}
+                  </span>
+                ),
+              },
+              {
+                id: "size",
+                header: "Size",
+                render: (item) => (
+                  <span className="text-muted-foreground text-sm">
+                    {formatFileSize(getFileSize(item))}
+                  </span>
+                ),
+              },
+              {
+                id: "actions",
+                header: "Actions",
+                headerClassName: "text-right",
+                cellClassName: "text-right",
+                render: (item) => (
+                  <div className="flex justify-end gap-2">
+                    <a
+                      href={getFileUrl(item)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 rounded-lg hover:bg-primary/10 transition group"
+                    >
+                      <Eye className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
+                    </a>
+                    <button
+                      onClick={() => {
+                        const fileUrl = getFileUrl(item);
+                        const fileName = getFileName(item) || "download";
+                        const downloadUrl = `/api/download?url=${encodeURIComponent(fileUrl)}&name=${encodeURIComponent(fileName)}`;
+                        const a = document.createElement("a");
+                        a.href = downloadUrl;
+                        a.click();
+                      }}
+                      className="p-2 rounded-lg hover:bg-secondary transition"
+                    >
+                      <Download className="w-4 h-4 text-muted-foreground" />
+                    </button>
+                    {role === "superAdmin" && (
+                      <button
+                        onClick={() => handleDelete(item.id)}
+                        className="p-2 hover:bg-destructive/10 rounded-lg transition"
+                      >
+                        <Trash2 className="w-4 h-4 text-muted-foreground hover:text-destructive" />
+                      </button>
+                    )}
+                  </div>
+                ),
+              },
+            ]}
+          />
         )}
       </div>
 
@@ -903,5 +931,4 @@ function UploadModal({
     </div>
   );
 }
-
 
