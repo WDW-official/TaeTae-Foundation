@@ -10,6 +10,7 @@ export default function FloatingDonateButton() {
     pathname === "/login" ||
     pathname.startsWith("/admin") ||
     pathname === "/support/donate" ||
+    pathname === "/programs/project-100" ||
     pathname.startsWith("/checkout-")
 
   if (hiddenOnRoute) {
