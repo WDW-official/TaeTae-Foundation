@@ -171,7 +171,19 @@ export default function Project100Page() {
                       value={form[name as keyof typeof form]}
                       onChange={handleChange}
                       required={name !== "schoolAttended"}
-                      className="block w-full min-w-0 max-w-full rounded-2xl border border-[#aab88a] bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20 dark:border-[#47624f] dark:bg-[#152820] dark:text-white"
+                      className={`block w-full min-w-0 max-w-full rounded-2xl border border-[#aab88a] bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20 dark:border-[#47624f] dark:bg-[#152820] dark:text-white ${
+                        name === "dateOfBirth"
+                          ? "appearance-none [-webkit-appearance:none] overflow-hidden pr-3 text-[16px]"
+                          : ""
+                      }`}
+                      style={
+                        name === "dateOfBirth"
+                          ? {
+                              WebkitAppearance: "none",
+                              appearance: "none",
+                            }
+                          : undefined
+                      }
                     />
                   </div>
                 ))}
