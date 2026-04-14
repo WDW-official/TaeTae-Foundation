@@ -171,7 +171,7 @@ export default function Project100Page() {
                       value={form[name as keyof typeof form]}
                       onChange={handleChange}
                       required={name !== "schoolAttended"}
-                      className="w-full rounded-2xl border border-[#aab88a] bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20 dark:border-[#47624f] dark:bg-[#152820] dark:text-white"
+                      className="block w-full min-w-0 max-w-full rounded-2xl border border-[#aab88a] bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20 dark:border-[#47624f] dark:bg-[#152820] dark:text-white"
                     />
                   </div>
                 ))}
