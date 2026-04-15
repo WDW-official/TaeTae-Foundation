@@ -108,7 +108,7 @@ export default function Footer() {
               <li className="flex items-start gap-3">
                 <Mail size={20} />
                 <span>
-                  taetaefoundation@gmail.com
+                  info@taetaefoundation.org
                 </span>
               </li>
 

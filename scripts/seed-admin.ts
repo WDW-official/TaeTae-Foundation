@@ -1,12 +1,12 @@
 // scripts/seed-admin.ts
-import { createUser } from "@/lib/auth"
 import "dotenv/config"
+import { createUser } from "@/lib/auth"
 
 
 async function main() {
   try {
-    await createUser("webdeveloper@wdwltd.com", "16Opebi", "superAdmin", "Victor", "08130665302" ,undefined, undefined, true)
-    console.log("✅ Super Admin created: webdeveloper@wdwltd.com / 16Opebi")
+    await createUser("info@taetaefoundation.org", "16Opebi", "superAdmin", "TaeTae", "09040000551" ,undefined, undefined, true)
+    console.log("✅ Super Admin created: info@taetaefoundation.org / 16Opebi")
   } catch (err: any) {
     console.error("❌ Seed error:", err.message)
   }
