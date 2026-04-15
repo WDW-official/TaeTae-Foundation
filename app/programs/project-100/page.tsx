@@ -57,7 +57,7 @@ export default function Project100Page() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f7f4ed] text-slate-900 dark:bg-[#08110d] dark:text-[#eff5ea]">
+    <main className="min-h-screen bg-[#f7f4ed] text-slate-900 dark:bg-gray-800 dark:text-[#eff5ea]">
       <Navigation />
 
       <section className="relative overflow-hidden px-4 pb-16 pt-24 md:px-8">
