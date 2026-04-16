@@ -12,10 +12,8 @@ export const metadata: Metadata = {
   description: "TaeTae Foundation mentors and develops boys through Skills, Education, and Sports programs.",
 
   icons: {
-    icon: [
-      "/favicon.ico",
-    ],
-    apple: ["/favicon.ico"],
+    icon: ["/favicon.ico"],
+    apple: ["/apple-icon.png"],
     shortcut: ["/favicon.ico"],
   },
 }
