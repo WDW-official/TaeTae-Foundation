@@ -103,7 +103,7 @@ export default function Project100AdminPage() {
           </Link>
         </div>
 
-        <div className="mb-6 grid gap-4 md:grid-cols-4">
+        <div className="mb-6 grid gap-4 grid-cols-2 md:grid-cols-4">
           <div className="rounded-xl border border-border bg-card p-4 shadow-sm">
             <p className="text-xs text-muted-foreground">Total Submissions</p>
             <p className="mt-1 text-2xl font-bold">{applications.length}</p>

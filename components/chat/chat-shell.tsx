@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import Link from "next/link"
 import { formatDistanceToNow } from "date-fns"
 import {
+  Archive,
   Check,
   ChevronDown,
   ChevronUp,
@@ -15,6 +16,7 @@ import {
   Search,
   Send,
   Shield,
+  Inbox,
 } from "lucide-react"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
@@ -55,6 +57,7 @@ type ChatConversation = {
     userId: string
     lastReadAt?: string
   }[]
+  archivedBy?: string[]
 }
 
 type ChatMessage = {
@@ -106,12 +109,16 @@ export default function ChatShell({
   const [contactPickerOpen, setContactPickerOpen] = useState(false)
   const [showScrollToBottom, setShowScrollToBottom] = useState(false)
   const [mobileExpanded, setMobileExpanded] = useState(false)
+  const [showArchived, setShowArchived] = useState(false)
+  const [switchingMailbox, setSwitchingMailbox] = useState(false)
+  const [archivingConversation, setArchivingConversation] = useState(false)
   const messageScrollRef = useRef<HTMLDivElement | null>(null)
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
   const previousMessageSignatureRef = useRef("")
   const shouldAutoScrollRef = useRef(true)
   const forceAutoScrollRef = useRef(true)
   const isNearBottomRef = useRef(true)
+  const hasMountedMailboxRef = useRef(false)
 
   const selectedConversation = useMemo(
     () => conversations.find((item) => item.id === selectedConversationId) ?? null,
@@ -196,8 +203,10 @@ export default function ChatShell({
     setContacts(data.contacts ?? [])
   }
 
-  async function loadConversations(preferredConversationId?: string) {
-    const res = await fetch("/api/chat/conversations", { cache: "no-store" })
+  async function loadConversations(preferredConversationId?: string, archived = showArchived) {
+    const res = await fetch(`/api/chat/conversations${archived ? "?archived=1" : ""}`, {
+      cache: "no-store",
+    })
     const data = await res.json()
     const nextConversations: ChatConversation[] = data.conversations ?? []
     setConversations(nextConversations)
@@ -271,7 +280,7 @@ export default function ChatShell({
     async function bootstrap() {
       try {
         setLoading(true)
-        await Promise.all([loadCurrentUser(), loadContacts(), loadConversations()])
+        await Promise.all([loadCurrentUser(), loadContacts(), loadConversations(undefined, false)])
       } catch {
         if (!cancelled) {
           setError("We couldn't load your messages right now.")
@@ -290,6 +299,44 @@ export default function ChatShell({
   }, [])
 
   useEffect(() => {
+    if (loading) {
+      return
+    }
+
+    if (!hasMountedMailboxRef.current) {
+      hasMountedMailboxRef.current = true
+      return
+    }
+
+    let cancelled = false
+
+    async function switchMailbox() {
+      setSwitchingMailbox(true)
+      setError("")
+      setSelectedConversationId("")
+      setMessages([])
+
+      try {
+        await loadConversations(undefined, showArchived)
+      } catch (err) {
+        if (!cancelled) {
+          setError(err instanceof Error ? err.message : "We couldn't switch your mailbox.")
+        }
+      } finally {
+        if (!cancelled) {
+          setSwitchingMailbox(false)
+        }
+      }
+    }
+
+    switchMailbox()
+
+    return () => {
+      cancelled = true
+    }
+  }, [loading, showArchived])
+
+  useEffect(() => {
     if (!selectedConversationId) {
       setMessages([])
       setShowScrollToBottom(false)
@@ -304,12 +351,51 @@ export default function ChatShell({
 
   useEffect(() => {
     const conversationTimer = window.setInterval(() => {
-      loadConversations().catch(() => undefined)
+      loadConversations(undefined, showArchived).catch(() => undefined)
       loadContacts().catch(() => undefined)
     }, 8000)
 
     return () => window.clearInterval(conversationTimer)
-  }, [])
+  }, [showArchived])
+
+  async function toggleConversationArchive(nextArchived: boolean) {
+    if (!selectedConversationId) {
+      return
+    }
+
+    setError("")
+    setArchivingConversation(true)
+
+    try {
+      const res = await fetch("/api/chat/conversations", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          conversationId: selectedConversationId,
+          archived: nextArchived,
+        }),
+      })
+
+      const data = await res.json()
+      if (!res.ok) {
+        throw new Error(data.error || "Unable to update conversation")
+      }
+
+      setSelectedConversationId("")
+      setMessages([])
+      setSwitchingMailbox(true)
+      await loadConversations(undefined, showArchived)
+
+      if (!nextArchived && showArchived && data.conversation?.id) {
+        setSelectedConversationId(data.conversation.id)
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unable to update conversation")
+    } finally {
+      setArchivingConversation(false)
+      setSwitchingMailbox(false)
+    }
+  }
 
   useEffect(() => {
     if (!selectedConversationId) {
@@ -416,10 +502,10 @@ export default function ChatShell({
 
   return (
     <section className="h-[calc(100svh-4rem)] overflow-hidden lg:h-screen lg:p-4">
-      <div className="flex h-full flex-col overflow-hidden border-y border-border bg-[radial-gradient(circle_at_top,_rgba(139,201,127,0.18),_transparent_35%),linear-gradient(180deg,_rgba(255,255,255,0.95),_rgba(248,250,252,0.98))] shadow-xl lg:rounded-[2rem] lg:border dark:bg-[radial-gradient(circle_at_top,_rgba(139,201,127,0.12),_transparent_30%),linear-gradient(180deg,_rgba(17,24,39,0.98),_rgba(3,7,18,0.98))]">
+      <div className="flex h-full flex-col overflow-hidden border-y border-border bg-[radial-gradient(circle_at_top,rgba(139,201,127,0.18),transparent_35%),linear-gradient(180deg,rgba(255,255,255,0.95),rgba(248,250,252,0.98))] shadow-xl lg:rounded-4xl lg:border dark:bg-[radial-gradient(circle_at_top,rgba(139,201,127,0.12),transparent_30%),linear-gradient(180deg,rgba(17,24,39,0.98),rgba(3,7,18,0.98))]">
         <div
           className={cn(
-            "border-b border-border/70 px-5 py-5 md:px-8",
+            "border-b border-border/70 px-5 py-3 md:px-8",
             mobileExpanded && "hidden lg:block"
           )}
         >
@@ -431,9 +517,6 @@ export default function ChatShell({
                 </div>
                 <div>
                   <h1 className="text-2xl font-semibold text-foreground">{title}</h1>
-                  <p className="text-sm text-muted-foreground">
-                    Secure, permission-based messaging across the foundation.
-                  </p>
                 </div>
               </div>
               <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
@@ -442,7 +525,7 @@ export default function ChatShell({
                   <Shield className="h-3.5 w-3.5" />
                   {currentUser?.role}
                 </span>
-                <Link href={basePath} className="text-primary hover:underline">
+                <Link href={basePath} className="text-primary hidden md:block hover:underline">
                   Refresh
                 </Link>
               </div>
@@ -490,10 +573,34 @@ export default function ChatShell({
                 </PopoverContent>
               </Popover>
 
-              <div className="flex w-full gap-2 overflow-x-auto pb-1">
+              <div
+                className={cn(
+                  "flex w-full items-center gap-2 overflow-x-auto pb-1 transition-all duration-300",
+                  switchingMailbox && "translate-y-1 opacity-60"
+                )}
+              >
+                <Button
+                  type="button"
+                  variant={showArchived ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => {
+                    setShowArchived((current) => !current)
+                  }}
+                  disabled={switchingMailbox || archivingConversation}
+                  className="shrink-0 rounded-full"
+                >
+                  {switchingMailbox ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : showArchived ? (
+                    <Inbox className="h-4 w-4" />
+                  ) : (
+                    <Archive className="h-4 w-4" />
+                  )}
+                  {showArchived ? "Archived" : "Archive"}
+                </Button>
                 {conversations.length === 0 ? (
                   <div className="rounded-full border border-dashed border-border px-4 py-2 text-sm text-muted-foreground">
-                    No conversations yet
+                    {showArchived ? "No archived conversations" : "No conversations yet"}
                   </div>
                 ) : (
                   conversations.map((conversation) => {
@@ -515,7 +622,7 @@ export default function ChatShell({
                           setSelectedConversationId(conversation.id)
                         }}
                         className={cn(
-                          "inline-flex shrink-0 items-center gap-2 rounded-full border px-3 py-2 text-sm transition",
+                          "inline-flex shrink-0 items-center gap-2 rounded-full border px-3 py-1 text-sm transition",
                           active
                             ? "border-primary bg-primary text-primary-foreground"
                             : "border-border bg-background/80 hover:border-primary/40 hover:bg-muted"
@@ -548,17 +655,17 @@ export default function ChatShell({
 
         {selectedConversation ? (
           <>
-            <div className="flex items-center justify-between gap-4 border-b border-border/60 px-5 py-4 md:px-8">
+            <div className="flex items-center justify-between gap-4 border-b border-border/60 px-5 py-2 md:px-8">
               <div className="flex items-center gap-3">
                 <Avatar className="h-11 w-11">
                   <AvatarFallback>{initials(conversationLabel)}</AvatarFallback>
                 </Avatar>
-                <div>
+                {/* <div>
                   <div className="font-semibold text-foreground">{conversationLabel}</div>
                   <div className="text-sm capitalize text-muted-foreground">
                     {conversationRoleLabel}
                   </div>
-                </div>
+                </div> */}
               </div>
               <div className="flex items-center gap-2">
                 <div
@@ -572,12 +679,31 @@ export default function ChatShell({
                       ? "Super admin oversight"
                       : selectedContact?.email}
                   </div>
-                  <div>
+                  {/* <div>
                     {selectedConversation.lastMessageAt
                       ? `Last active ${prettyTime(selectedConversation.lastMessageAt)}`
                       : "Conversation ready"}
-                  </div>
+                  </div> */}
                 </div>
+                {!isTrackingConversation ? (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    onClick={() => toggleConversationArchive(!showArchived)}
+                    disabled={archivingConversation || switchingMailbox}
+                    className="h-10 w-10 rounded-full"
+                    aria-label={showArchived ? "Restore conversation" : "Archive conversation"}
+                  >
+                    {archivingConversation ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : showArchived ? (
+                      <Inbox className="h-4 w-4" />
+                    ) : (
+                      <Archive className="h-4 w-4" />
+                    )}
+                  </Button>
+                ) : null}
                 <Button
                   type="button"
                   variant="outline"
@@ -599,11 +725,14 @@ export default function ChatShell({
               <div
                 ref={messageScrollRef}
                 onScroll={updateNearBottomState}
-                className="h-full overflow-y-auto overscroll-contain px-5 py-5 md:px-8"
+                className={cn(
+                  "chat-scrollbar h-full overflow-y-auto overscroll-contain px-5 py-3 transition-all duration-300 md:px-8",
+                  switchingMailbox && "scale-[0.995] opacity-70"
+                )}
               >
               <div className="space-y-4">
                 {messages.length === 0 ? (
-                  <div className="flex min-h-[320px] items-center justify-center rounded-[2rem] border border-dashed border-border bg-background/50 px-6 text-center text-sm text-muted-foreground">
+                  <div className="flex min-h-80 items-center justify-center rounded-4xl border border-dashed border-border bg-background/50 px-6 text-center text-sm text-muted-foreground">
                     Start the conversation. Only allowed users appear in your search list.
                   </div>
                 ) : (
@@ -662,50 +791,42 @@ export default function ChatShell({
 
             <div
               className={cn(
-                "border-t border-border/70 bg-background/70 px-5 py-4 md:px-8",
+                "border-t border-border/70 bg-background/70 px-5 py-3 md:px-8",
                 mobileExpanded && "py-3"
               )}
             >
-              {isTrackingConversation ? (
-                <div className="mb-3 rounded-2xl border border-border bg-muted/60 px-4 py-3 text-sm text-muted-foreground">
-                  You are viewing this thread as super admin. To reply, start a direct chat with either participant.
+              {!isTrackingConversation ? (
+                <div className="grid gap-3 grid-cols-[minmax(0,1fr)_auto] items-end">
+                  <input
+                    value={draft}
+                    onChange={(event) => setDraft(event.target.value)}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" && !event.shiftKey) {
+                        event.preventDefault()
+                        sendMessage()
+                      }
+                    }}
+                    placeholder={`Message ${selectedContact?.name}...`}
+                    className={cn(
+                      "resize-none rounded-3xl border-border bg-background/95 px-4 py-3",
+                      mobileExpanded ? "min-h-2" : "min-h-2"
+                    )}
+                  />
+                  <Button
+                    onClick={sendMessage}
+                    disabled={!draft.trim() || sending}
+                    className="h-12 rounded-2xl px-5"
+                  >
+                    {sending ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Send className="h-4 w-4" />
+                    )}
+                    Send
+                  </Button>
                 </div>
               ) : null}
-              <div className="grid gap-3 grid-cols-[minmax(0,1fr)_auto] items-end">
-                <Textarea
-                  value={draft}
-                  onChange={(event) => setDraft(event.target.value)}
-                  onKeyDown={(event) => {
-                    if (event.key === "Enter" && !event.shiftKey) {
-                      event.preventDefault()
-                      sendMessage()
-                    }
-                  }}
-                  placeholder={
-                    isTrackingConversation
-                      ? "Super admin tracking mode is read-only for this thread"
-                      : `Message ${selectedContact?.name}...`
-                  }
-                  className={cn(
-                    "resize-none rounded-3xl border-border bg-background/95 px-4 py-3",
-                    mobileExpanded ? "min-h-20" : "min-h-24"
-                  )}
-                  disabled={isTrackingConversation}
-                />
-                <Button
-                  onClick={sendMessage}
-                  disabled={!draft.trim() || sending || isTrackingConversation}
-                  className="h-12 rounded-2xl px-5"
-                >
-                  {sending ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                    <Send className="h-4 w-4" />
-                  )}
-                  Send
-                </Button>
-              </div>
-              <button
+              {/* <button
                 type="button"
                 onClick={() => setMobileExpanded((current) => !current)}
                 className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-muted-foreground lg:hidden"
@@ -721,7 +842,7 @@ export default function ChatShell({
                     Expand chat
                   </>
                 )}
-              </button>
+              </button> */}
             </div>
           </>
         ) : (

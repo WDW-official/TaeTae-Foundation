@@ -20,6 +20,7 @@ export type ChatConversation = {
   lastMessageText?: string
   lastMessageSenderId?: string
   readStates?: ChatReadState[]
+  archivedBy?: string[]
 }
 
 export type ChatMessage = {
@@ -428,7 +429,19 @@ export async function createConversation(participants: ChatParticipant[]) {
   return conversation
 }
 
-export async function listConversationsForUser(userId: string) {
+export function isConversationArchivedForUser(conversation: ChatConversation, userId: string) {
+  return Array.isArray(conversation.archivedBy) && conversation.archivedBy.includes(userId)
+}
+
+function isOversightConversationForUser(
+  conversation: ChatConversation,
+  userId: string,
+  sessionUser: UserRecord | null
+) {
+  return sessionUser?.role === "superAdmin" && !conversation.participantIds.includes(userId)
+}
+
+export async function listConversationsForUser(userId: string, archived = false) {
   const sessionUser = await getSessionUserRecord(userId)
   const conversations = await getCollection("chat_conversations")
 
@@ -445,6 +458,13 @@ export async function listConversationsForUser(userId: string) {
   const filtered: ChatConversationSummary[] = []
 
   for (const conversation of records) {
+    const isArchived =
+      isOversightConversationForUser(conversation, userId, sessionUser) ||
+      isConversationArchivedForUser(conversation, userId)
+    if (archived !== isArchived) {
+      continue
+    }
+
     const unreadCount = getConversationUnreadCount(conversation, userId)
 
     if (sessionUser?.role === "superAdmin") {
@@ -471,6 +491,56 @@ export async function listConversationsForUser(userId: string) {
   }
 
   return filtered
+}
+
+export async function archiveConversationForUser(conversationId: string, userId: string) {
+  const conversations = await getCollection("chat_conversations")
+  const conversation = await getConversationById(conversationId)
+
+  if (!conversation) {
+    return null
+  }
+
+  const archivedBy = Array.isArray(conversation.archivedBy) ? conversation.archivedBy : []
+  if (archivedBy.includes(userId)) {
+    return conversation
+  }
+
+  await conversations.updateOne(
+    { id: conversationId },
+    {
+      $set: {
+        archivedBy: [...archivedBy, userId],
+      },
+    }
+  )
+
+  return getConversationById(conversationId)
+}
+
+export async function unarchiveConversationForUser(conversationId: string, userId: string) {
+  const conversations = await getCollection("chat_conversations")
+  const conversation = await getConversationById(conversationId)
+
+  if (!conversation) {
+    return null
+  }
+
+  const archivedBy = Array.isArray(conversation.archivedBy) ? conversation.archivedBy : []
+  if (!archivedBy.includes(userId)) {
+    return conversation
+  }
+
+  await conversations.updateOne(
+    { id: conversationId },
+    {
+      $set: {
+        archivedBy: archivedBy.filter((entry) => entry !== userId),
+      },
+    }
+  )
+
+  return getConversationById(conversationId)
 }
 
 export async function getConversationById(conversationId: string) {

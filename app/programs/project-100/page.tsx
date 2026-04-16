@@ -87,9 +87,6 @@ export default function Project100Page() {
 
           <div className="grid gap-4 rounded-[2rem] border border-[#d9d1bf] bg-white/90 shadow-[0_30px_80px_rgba(27,39,23,0.12)] backdrop-blur dark:border-[#284133] dark:bg-[#0f1d17]/90 md:p-5 lg:grid-cols-[1.05fr_0.95fr]">
             <div className="hidden rounded-[1.75rem] border border-[#d9d1bf] bg-[linear-gradient(135deg,rgba(125,167,84,0.12),rgba(255,255,255,0.94)),radial-gradient(circle_at_top,rgba(125,167,84,0.18),transparent_35%)] p-6 dark:border-[#35523f] dark:bg-[linear-gradient(135deg,rgba(97,138,83,0.26),rgba(13,29,23,0.96)),radial-gradient(circle_at_top,rgba(139,201,127,0.18),transparent_35%)] md:p-8 lg:block">
-              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.35em] text-primary">
-                Project 100
-              </p>
               <h1 className="max-w-xl text-4xl font-black uppercase leading-none text-[#6b8f41] dark:text-[#d8ebb6] md:text-6xl">
                 About Project 100
               </h1>
@@ -102,7 +99,7 @@ export default function Project100Page() {
 
               <div className="mt-6 rounded-2xl border border-[#d9d1bf] bg-white/80 p-5 dark:border-[#35523f] dark:bg-[#13261d]/80">
                 <h2 className="text-xl font-black uppercase text-[#6b8f41] dark:text-[#d8ebb6]">
-                  The Boys Will Learn
+                  The boys that are selected will learn:
                 </h2>
                 <ul className="mt-4 space-y-2 text-sm leading-6 text-slate-700 dark:text-[#d7e4da]">
                   <li>- Skills acquisition</li>
@@ -135,9 +132,6 @@ export default function Project100Page() {
 
             <div className="rounded-[1.75rem] border border-[#d9d1bf] bg-[#fcfbf8] p-4 dark:border-[#35523f] dark:bg-[#102019] md:p-8">
               <div className="mb-6">
-                <p className="text-sm font-semibold uppercase tracking-[0.35em] text-[#809a58]">
-                  Potential Boy Intake
-                </p>
                 <h2 className="mt-2 text-3xl font-black text-slate-900 dark:text-white">Submit Details</h2>
                 <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-[#c2d2c7]">
                   If you know your boy has the potential, register now.

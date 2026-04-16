@@ -161,7 +161,7 @@ export default function UserManagementPage() {
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 gap-6">
           <div className="bg-linear-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-lg">
             <div className="flex items-center justify-between mb-4">
               <div className="bg-white/20 p-3 rounded-lg">

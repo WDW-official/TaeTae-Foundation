@@ -168,7 +168,7 @@ export default function AdminSponsorshipPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:py-5 py-4 space-y-10">
+    <div className="max-w-7xl mx-auto px-4 md:py-5 py-4 space-y-10 bg-[radial-gradient(circle_at_top_left,rgba(139,201,127,0.18),transparent_35%),linear-gradient(135deg,rgba(10,26,26,0.04),transparent_55%)]">
       
       <Link href="/admin/dashboard/sponsors/procurement" className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition hover:text-foreground">
         <ArrowLeft className="h-4 w-4" />
@@ -177,7 +177,7 @@ export default function AdminSponsorshipPage() {
       <h1 className="text-3xl font-bold">Sponsorship Item Setup</h1>
 
       <div className="grid md:grid-cols-2 gap-8">
-        <div className="border dark:bg-gray-900 rounded-2xl p-6 space-y-4">
+        <div className="border dark:bg-gray-900 bg-white rounded-2xl p-6 space-y-4">
         <h2 className="text-xl font-semibold">Create Section</h2>
 
         <div className="space-y-1">
@@ -224,7 +224,7 @@ export default function AdminSponsorshipPage() {
         </div>
 
 
-        <div className="border rounded-2xl dark:bg-gray-900 p-6 space-y-4">
+        <div className="border rounded-2xl dark:bg-gray-900 p-6 bg-white space-y-4">
           <h2 className="text-xl font-semibold">Create Item</h2>
 
           <div className="space-y-1">
@@ -459,7 +459,7 @@ export default function AdminSponsorshipPage() {
 
             return (
               <div key={item.id} className="border rounded-xl p-4">
-                <div className="flex md:flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div className="block md:flex-row  md:items-center md:justify-between gap-4">
                   <div className="flex gap-4 items-start">
                     {item.icon ? (
                       <img
@@ -478,7 +478,7 @@ export default function AdminSponsorshipPage() {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  {/* <div className="flex items-center gap-2">
                     <input
                       type="number"
                       readOnly
@@ -490,7 +490,7 @@ export default function AdminSponsorshipPage() {
                       }
                       className="w-24 border rounded-lg px-3 py-2"
                     />
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="mt-3 w-full bg-gray-200 rounded-full h-3 overflow-hidden">

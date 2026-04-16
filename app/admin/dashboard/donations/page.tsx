@@ -204,7 +204,7 @@ export default function AdminDonations() {
             </div>
             <p className="text-2xl font-bold text-foreground">{stats.count}</p>
           </div>
-          <div className="bg-card dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
+          {/* <div className="bg-card dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
             <div className="flex items-center gap-3 mb-2">
               <div className="p-2 bg-green-100 rounded-lg">
                 <TrendingUp className="w-5 h-5 text-green-600" />
@@ -248,11 +248,11 @@ export default function AdminDonations() {
                 return diffDays <= 7;
               }).reduce((sum, d) => sum + d.amount, 0).toLocaleString()}
             </p>
-          </div>
+          </div> */}
         </div>
 
         {/* Program Breakdown */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
           <div className="bg-linear-to-br from-blue-500 to-blue-600 rounded-xl p-6 text-white shadow-lg">
             <h3 className="text-white/80 text-sm mb-2">Skills Track</h3>
             <p className="text-3xl font-bold">${stats.skills.toLocaleString()}</p>

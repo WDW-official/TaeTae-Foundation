@@ -25,7 +25,8 @@ import {
   CheckCircle,
   AlertCircle,
   Banknote,
-  PackagePlus
+  PackagePlus,
+  Handshake
 } from "lucide-react";
 import BackButton from "@/components/backButton";
 import { useAuthStore } from "@/app/store/auth.store";
@@ -199,7 +200,7 @@ export default function SponsorsPage() {
         {/* <BackButton label="Back"/> */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
           <h1 className="text-xl md:text-4xl font-bold text-foreground flex items-center gap-3">
-            <Heart className="w-8 h-8 text-primary" />
+            <Handshake className="w-8 h-8 text-primary" />
             Sponsorships
           </h1>
           <div className="flex gap-3">
@@ -215,7 +216,7 @@ export default function SponsorsPage() {
               <Link href="/admin/dashboard/sponsors/add-sponsorship"
                  className="inline-flex h-10 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition hover:bg-primary/90"
               >
-                Add Sponsorship Items
+                Add Items
               </Link> 
             </button>
             <button className="">
@@ -224,7 +225,7 @@ export default function SponsorsPage() {
               className="inline-flex h-10 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition hover:bg-primary/90"
             >
               <PackagePlus className="h-4 w-4" />
-              Open Procurement
+              Procure
             </Link>
             </button>
           </div>
