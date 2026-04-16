@@ -84,6 +84,25 @@ export default function Project100Page() {
               </div> */}
             </div>
           </div>
+          <div className="mb-5 rounded-[1.75rem] border border-[#d9d1bf] bg-[linear-gradient(145deg,rgba(125,167,84,0.14),rgba(255,255,255,0.96))] p-5 shadow-sm dark:border-[#35523f] dark:bg-[linear-gradient(145deg,rgba(97,138,83,0.22),rgba(20,37,29,0.96))] lg:hidden">
+                  <p className="text-xl font-bold uppercase tracking-[0.3em] text-[#6b8f41] dark:text-[#d8ebb6]">
+                    About Project 100
+                  </p>
+                  <p className="mt-3 text-sm leading-6 text-slate-700 dark:text-[#d7e4da]">
+                    Project 100 is a system designed to identify the boys with the highest
+                    potential in order to onboard and develop them early. We will be holding
+                    trials and finals for each Local Government Areas across Lagos.
+                  </p>
+                  <div className="mt-4 rounded-2xl border border-[#d9d1bf] bg-white/70 px-4 py-3 dark:border-[#35523f] dark:bg-[#14251d]/80">
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#6b8f41] dark:text-[#d8ebb6]">
+                      Untapped Potential
+                    </p>
+                    <p className="mt-2 text-sm leading-6 text-slate-700 dark:text-[#d7e4da]">
+                      Thousands of boys in Nigeria possess exceptional intellectual and physical
+                      ability but remain undiscovered.
+                    </p>
+                  </div>
+                </div>
 
           <div className="grid gap-4 rounded-[2rem] border border-[#d9d1bf] bg-white/90 shadow-[0_30px_80px_rgba(27,39,23,0.12)] backdrop-blur dark:border-[#284133] dark:bg-[#0f1d17]/90 md:p-5 lg:grid-cols-[1.05fr_0.95fr]">
             <div className="hidden rounded-[1.75rem] border border-[#d9d1bf] bg-[linear-gradient(135deg,rgba(125,167,84,0.12),rgba(255,255,255,0.94)),radial-gradient(circle_at_top,rgba(125,167,84,0.18),transparent_35%)] p-6 dark:border-[#35523f] dark:bg-[linear-gradient(135deg,rgba(97,138,83,0.26),rgba(13,29,23,0.96)),radial-gradient(circle_at_top,rgba(139,201,127,0.18),transparent_35%)] md:p-8 lg:block">
@@ -205,16 +224,6 @@ export default function Project100Page() {
               </p>
 
               <div className="mt-6 rounded-2xl border border-[#d9d1bf] bg-white/70 p-4 text-sm text-slate-700 dark:border-[#35523f] dark:bg-[#14251d] dark:text-[#d7e4da] lg:hidden">
-                <p className="font-semibold text-[#6b8f41] dark:text-[#d8ebb6]">Project 100</p>
-                <p className="mt-2">
-                  Project 100 is a system designed to identify the boys with the highest potential in order to onboard and develop them early. We will be holding trials and finals for each Local Government Areas across Lagos.
-                </p>
-                <p className="mt-4 font-semibold uppercase text-[#6b8f41] dark:text-[#d8ebb6]">
-                  Untapped Potential
-                </p>
-                <p className="mt-2">
-                  Thousands of boys in Nigeria possess exceptional intellectual and physical ability but remain undiscovered.
-                </p>
                 <p className="mt-4 font-semibold uppercase text-[#6b8f41] dark:text-[#d8ebb6]">
                   The Objective
                 </p>
@@ -236,24 +245,24 @@ export default function Project100Page() {
             </div>
           </div>
           <div className="mt-8 rounded-3xl bg-[#0d1a14] p-6 text-white">
-                <p className="text-sm uppercase tracking-[0.3em] text-[#d5ebba]">What Happens Next</p>
-                <ul className="mt-4 space-y-3 text-sm leading-6 text-white/85">
-                  <li>We receive and review each registration in our intake queue.</li>
-                  <li>Qualified boys move into trials and finals across Lagos.</li>
-                  <li>Selected boys continue into full onboarding and development.</li>
-                </ul>
+            <p className="text-sm uppercase tracking-[0.3em] text-[#d5ebba]">What Happens Next</p>
+            <ul className="mt-4 space-y-3 text-sm leading-6 text-white/85">
+              <li>We receive and review each registration in our intake queue.</li>
+              <li>Qualified boys move into trials and finals across Lagos.</li>
+              <li>Selected boys continue into full onboarding and development.</li>
+            </ul>
 
-                <div className="mt-6 flex flex-col gap-3 text-sm text-white/90">
-                  <a href="tel:+2349040000551" className="inline-flex items-center gap-3">
-                    <Phone className="h-4 w-4 text-[#d5ebba]" />
-                    <span>+234 (904) 0000 551</span>
-                  </a>
-                  <a href="mailto:info@taetaefoundation.org" className="inline-flex items-center gap-3">
-                    <Mail className="h-4 w-4 text-[#d5ebba]" />
-                    <span>info@taetaefoundation.org</span>
-                  </a>
-                </div>
-              </div>
+            <div className="mt-6 flex flex-col gap-3 text-sm text-white/90">
+              <a href="tel:+2349040000551" className="inline-flex items-center gap-3">
+                <Phone className="h-4 w-4 text-[#d5ebba]" />
+                <span>+234 (904) 0000 551</span>
+              </a>
+              <a href="mailto:info@taetaefoundation.org" className="inline-flex items-center gap-3">
+                <Mail className="h-4 w-4 text-[#d5ebba]" />
+                <span>info@taetaefoundation.org</span>
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 

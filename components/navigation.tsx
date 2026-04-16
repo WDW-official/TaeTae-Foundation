@@ -15,6 +15,7 @@ export default function Navigation() {
   const pathname = usePathname() ?? ""
 
   const programLinks = [
+    { href: "/programs/project-100", label: "Project 100" },
     { href: "/programs/skills", label: "Skills" },
     { href: "/programs/education", label: "Education" },
     { href: "/programs/sports", label: "Sports" },
