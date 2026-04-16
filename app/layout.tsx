@@ -10,7 +10,28 @@ import FloatingDonateButton from "@/components/floating-donate-button"
 export const metadata: Metadata = {
   title: "TaeTae Foundation - Building Tomorrow's Leaders",
   description: "TaeTae Foundation mentors and develops boys through Skills, Education, and Sports programs.",
+  openGraph: {
+    title: "TaeTae Foundation",
+    description:
+      "Mentoring boys through Skills, Education, and Sports",
+    url: "https://www.taetaefoundation.org",
+    siteName: "TaeTae Foundation",
+    images: [
+      {
+        url: "/og-image.png", // 👈 your own image
+        width: 1200,
+        height: 630,
+        alt: "TaeTae Foundation",
+      },
+    ],
+    type: "website",
+  },
 
+  twitter: {
+    card: "summary_large_image",
+    images: ["/og-image.png"],
+  },
+  
   icons: {
     icon: [
       { url: "/favicon.ico" },
