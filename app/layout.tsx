@@ -13,10 +13,10 @@ export const metadata: Metadata = {
 
   icons: {
     icon: [
-      "/public/favicon.ico",
+      "/favicon.ico",
     ],
-    apple: ["/public/apple-touch-icon.png"],
-    shortcut: ["/public/favicon.ico"],
+    apple: ["/apple-icon.png"],
+    shortcut: ["/favicon.ico"],
   },
 }
 
