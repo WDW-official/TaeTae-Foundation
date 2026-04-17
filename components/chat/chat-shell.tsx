@@ -124,6 +124,7 @@ export default function ChatShell({
     () => conversations.find((item) => item.id === selectedConversationId) ?? null,
     [conversations, selectedConversationId]
   )
+  const isCompactMobileConversationView = Boolean(selectedConversation && !mobileExpanded)
 
   const isTrackingConversation =
     Boolean(currentUser && selectedConversation) &&
@@ -491,21 +492,29 @@ export default function ChatShell({
 
   if (loading) {
     return (
-      <div className="flex min-h-[70vh] items-center justify-center">
-        <div className="flex items-center gap-3 text-sm text-muted-foreground">
-          <Loader2 className="h-5 w-5 animate-spin" />
-          Loading chat...
+      <section className="flex h-full min-h-0 w-full flex-col overflow-hidden lg:p-4">
+        <div className="flex h-full min-h-0 items-center justify-center border-y border-border bg-[radial-gradient(circle_at_top,rgba(139,201,127,0.18),transparent_35%),linear-gradient(180deg,rgba(255,255,255,0.95),rgba(248,250,252,0.98))] shadow-xl lg:rounded-4xl lg:border dark:bg-[radial-gradient(circle_at_top,rgba(139,201,127,0.12),transparent_30%),linear-gradient(180deg,rgba(17,24,39,0.98),rgba(3,7,18,0.98))]">
+          <div className="flex items-center gap-3 text-sm text-muted-foreground">
+            <Loader2 className="h-5 w-5 animate-spin" />
+            Loading chat...
+          </div>
         </div>
-      </div>
+      </section>
     )
   }
 
   return (
-    <section className="h-[calc(100svh-4rem)] overflow-hidden lg:h-screen lg:p-4">
-      <div className="flex h-full flex-col overflow-hidden border-y border-border bg-[radial-gradient(circle_at_top,rgba(139,201,127,0.18),transparent_35%),linear-gradient(180deg,rgba(255,255,255,0.95),rgba(248,250,252,0.98))] shadow-xl lg:rounded-4xl lg:border dark:bg-[radial-gradient(circle_at_top,rgba(139,201,127,0.12),transparent_30%),linear-gradient(180deg,rgba(17,24,39,0.98),rgba(3,7,18,0.98))]">
+    <section className="flex h-full min-h-0 w-full flex-col overflow-hidden lg:p-4">
+      <div
+        className={cn(
+          "flex h-full min-h-0 flex-col overflow-hidden border-y border-border bg-[radial-gradient(circle_at_top,rgba(139,201,127,0.18),transparent_35%),linear-gradient(180deg,rgba(255,255,255,0.95),rgba(248,250,252,0.98))] shadow-xl lg:rounded-4xl lg:border dark:bg-[radial-gradient(circle_at_top,rgba(139,201,127,0.12),transparent_30%),linear-gradient(180deg,rgba(17,24,39,0.98),rgba(3,7,18,0.98))]",
+          mobileExpanded && "shadow-none lg:shadow-xl"
+        )}
+      >
         <div
           className={cn(
             "border-b border-border/70 px-5 py-3 md:px-8",
+            mobileExpanded && "px-3 py-2 md:px-8",
             mobileExpanded && "hidden lg:block"
           )}
         >
@@ -654,8 +663,13 @@ export default function ChatShell({
         ) : null}
 
         {selectedConversation ? (
-          <>
-            <div className="flex items-center justify-between gap-4 border-b border-border/60 px-5 py-2 md:px-8">
+          <div className="flex min-h-0 flex-1 flex-col">
+            <div
+              className={cn(
+                "flex items-center justify-between gap-4 border-b border-border/60 px-5 py-2 md:px-8",
+                mobileExpanded && "px-4 md:px-8"
+              )}
+            >
               <div className="flex items-center gap-3">
                 <Avatar className="h-11 w-11">
                   <AvatarFallback>{initials(conversationLabel)}</AvatarFallback>
@@ -721,12 +735,18 @@ export default function ChatShell({
               </div>
             </div>
 
-            <div className="relative flex-1 min-h-0">
+            <div
+              className={cn(
+                "relative flex-1 min-h-0 overflow-hidden",
+                isCompactMobileConversationView && "max-h-[42svh] md:max-h-none"
+              )}
+            >
               <div
                 ref={messageScrollRef}
                 onScroll={updateNearBottomState}
                 className={cn(
                   "chat-scrollbar h-full overflow-y-auto overscroll-contain px-5 py-3 transition-all duration-300 md:px-8",
+                  mobileExpanded && "px-4 md:px-8",
                   switchingMailbox && "scale-[0.995] opacity-70"
                 )}
               >
@@ -781,7 +801,10 @@ export default function ChatShell({
                 <button
                   type="button"
                   onClick={() => scrollToBottom()}
-                  className="absolute bottom-4 right-5 inline-flex items-center gap-2 rounded-full border border-border bg-background/95 px-3 py-2 text-sm font-medium text-foreground shadow-lg backdrop-blur transition hover:border-primary/40 hover:text-primary md:right-8"
+                  className={cn(
+                    "absolute bottom-4 right-5 inline-flex items-center gap-2 rounded-full border border-border bg-background/95 px-3 py-2 text-sm font-medium text-foreground shadow-lg backdrop-blur transition hover:border-primary/40 hover:text-primary md:right-8",
+                    mobileExpanded && "right-4 md:right-8"
+                  )}
                 >
                   <ChevronDownCircle className="h-4 w-4" />
                   Latest
@@ -791,12 +814,28 @@ export default function ChatShell({
 
             <div
               className={cn(
-                "border-t border-border/70 bg-background/70 px-5 py-3 md:px-8",
-                mobileExpanded && "py-3"
+                "shrink-0 border-t border-border/70 bg-background/70 px-5 py-3 md:px-8",
+                isCompactMobileConversationView && "px-4 py-2 md:px-8 md:py-3",
+                mobileExpanded && "px-4 py-3 md:px-8"
               )}
             >
-              {!isTrackingConversation ? (
-                <div className="grid gap-3 grid-cols-[minmax(0,1fr)_auto] items-end">
+              {isTrackingConversation ? (
+                <div
+                  className={cn(
+                    "rounded-2xl border border-dashed border-border bg-background/80 px-4 py-3 text-sm text-muted-foreground",
+                    isCompactMobileConversationView && "px-3.5 py-2.5 text-xs"
+                  )}
+                >
+                  You can only observe this chat here. If you want to chat, please start a direct
+                  conversation with one of the users involved.
+                </div>
+              ) : (
+                <div
+                  className={cn(
+                    "grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3",
+                    isCompactMobileConversationView && "gap-2"
+                  )}
+                >
                   <input
                     value={draft}
                     onChange={(event) => setDraft(event.target.value)}
@@ -809,13 +848,17 @@ export default function ChatShell({
                     placeholder={`Message ${selectedContact?.name}...`}
                     className={cn(
                       "resize-none rounded-3xl border-border bg-background/95 px-4 py-3",
+                      isCompactMobileConversationView && "px-3.5 py-2.5 text-sm",
                       mobileExpanded ? "min-h-2" : "min-h-2"
                     )}
                   />
                   <Button
                     onClick={sendMessage}
                     disabled={!draft.trim() || sending}
-                    className="h-12 rounded-2xl px-5"
+                    className={cn(
+                      "h-12 rounded-2xl px-5",
+                      isCompactMobileConversationView && "h-10 px-4 text-sm"
+                    )}
                   >
                     {sending ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
@@ -825,7 +868,7 @@ export default function ChatShell({
                     Send
                   </Button>
                 </div>
-              ) : null}
+              )}
               {/* <button
                 type="button"
                 onClick={() => setMobileExpanded((current) => !current)}
@@ -844,9 +887,9 @@ export default function ChatShell({
                 )}
               </button> */}
             </div>
-          </>
+          </div>
         ) : (
-          <div className="flex flex-1 items-center justify-center px-6 py-10">
+          <div className="flex h-full min-h-0 flex-1 items-center justify-center px-6 py-10">
             <div className="max-w-lg space-y-4 text-center">
               <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
                 <MessageSquare className="h-8 w-8" />
