@@ -145,6 +145,11 @@ if (duration === "quarterly") {
 }
 
   const programs = [
+    {
+      name: "Project 100",
+      description: "Help us find the best of the best and make a change in June, 2026",
+      icon: "/favicon.ico"
+    },
     { 
       name: "Skills", 
       description: "STEM, Media, Engineering, and Carpentry",
@@ -289,7 +294,7 @@ if (duration === "quarterly") {
         {step === 1 && (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white"> Choose a Program</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
               {programs.map((prog) => (
                 <button
                   key={prog.name}

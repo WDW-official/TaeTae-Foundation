@@ -24,7 +24,7 @@ interface Donation {
   id: string;
   name: string;
   email?: string;
-  program: "skills" | "education" | "sports";
+  program: "skills" | "education" | "sports" | "project 100";
   amount: number;
   createdAt: string;
   paymentMethod?: string;
@@ -147,6 +147,9 @@ export default function AdminDonations() {
   sports: donations
     .filter(d => d.program === "sports")
     .reduce((sum, d) => sum + Number(d.amount), 0),
+  project100: donations
+    .filter(d => d.program === "project 100")
+    .reduce((sum, d) => sum + Number(d.amount), 0),
   avgDonation:
     donations.length > 0
       ? (
@@ -252,7 +255,7 @@ export default function AdminDonations() {
         </div>
 
         {/* Program Breakdown */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <div className="bg-linear-to-br from-blue-500 to-blue-600 rounded-xl p-6 text-white shadow-lg">
             <h3 className="text-white/80 text-sm mb-2">Skills Track</h3>
             <p className="text-3xl font-bold">${stats.skills.toLocaleString()}</p>
@@ -272,6 +275,13 @@ export default function AdminDonations() {
             <p className="text-3xl font-bold">${stats.sports.toLocaleString()}</p>
             <p className="text-white/70 text-xs mt-2">
               {donations.filter(d => d.program === "sports").length} donations
+            </p>
+          </div>
+          <div className="bg-linear-to-br from-violet-500 to-fuchsia-600 rounded-xl p-6 text-white shadow-lg">
+            <h3 className="text-white/80 text-sm mb-2">Project 100</h3>
+            <p className="text-3xl font-bold">${stats.project100.toLocaleString()}</p>
+            <p className="text-white/70 text-xs mt-2">
+              {donations.filter(d => d.program === "project 100").length} donations
             </p>
           </div>
         </div>
@@ -302,6 +312,7 @@ export default function AdminDonations() {
               <option value="skills">Skills Track</option>
               <option value="education">Education Track</option>
               <option value="sports">Sports Track</option>
+              <option value="project 100">Project 100</option>
             </select>
             <select
               value={dateRange}
