@@ -1,6 +1,5 @@
 import Footer from "@/components/footer";
-import GoogleSlides from "@/components/GoogleSlides";
-import TaetaeLegalComplianceUI from "@/components/legalPage";
+import PlanPdfEmbed from "@/components/plan-pdf-embed";
 import Navigation from "@/components/navigation";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -22,11 +21,13 @@ export default function Page() {
                    <h1 className="font-heading md:text-7xl text-center text-gray-900 dark:text-white text-[40px] font-black uppercase leading-[1.05]">
                      The  <span className="text-primary">Plan</span> 
                    </h1>
-                   <h1 className=" md:text-3xl mx-5 text-sm mt-3 text-center text-gray-900 dark:text-white font-medium leading-[1.05]">
+                   <h1 className=" md:text-3xl mx-5 text-sm my-3 mb-10 text-center text-gray-900 dark:text-white font-medium leading-[1.05]">
                     Below is a comprehensive outline of our 5 year plan for development 2500+ of the most talented boys in Lagos. Whilst upskilling 100+ volunteers, coaches, facilitators and mentors
                    </h1>
                 </div>
-                  <GoogleSlides />
+                  {/* <div className="mx-auto mt-8 w-full max-w-5xl px-4 md:px-6"> */}
+                      <PlanPdfEmbed src="/TaeTae%20Foundation%20-%20Comprehensive%20Plan%202026.pdf" />
+                  {/* </div> */}
                 <h1 className=" md:text-3xl mx-5 text-sm mt-3 text-center text-gray-900 dark:text-white font-light leading-[1.05]">
                   We don't claim to know it all, but we believe collaboration will be key to the success of this initiative, if you would like reach out feel free.
                 </h1>
