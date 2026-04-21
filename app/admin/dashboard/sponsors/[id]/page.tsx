@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import BackButton from "@/components/backButton";
 import { useAuthStore } from "@/app/store/auth.store";
+import { formatNaira, toNaira } from "@/lib/project100";
 
 interface Sponsorship {
   _id: string;
@@ -37,7 +38,7 @@ interface Sponsorship {
   amount: number;
   currency: string;
   paymentMethod: string;
-  rateUsed: number;
+  rateUsed?: number | null;
   boyId: string | null;
   boyName?: string;
   items: Array<{
@@ -135,7 +136,8 @@ Company: ${sponsorship.company || "N/A"}
 
 SPONSORSHIP DETAILS
 ------------------------------------------
-Amount: ${sponsorship.currency}${sponsorship.amount.toLocaleString()}
+          Amount: ${formatNaira(toNaira(sponsorship.amount, sponsorship.currency, sponsorship.rateUsed))}
+          ${sponsorship.currency === "USD" ? `Converted from USD at rate ${sponsorship.rateUsed || "default"}` : "Recorded in NGN"}
 Payment Method: ${sponsorship.paymentMethod}
 Status: ${sponsorship.status.toUpperCase()}
 ${sponsorship.boyName ? `Boy Sponsored: ${sponsorship.boyName}` : ""}
@@ -296,12 +298,16 @@ Thank you for your generous support!
               <h3 className="text-lg font-semibold">Total Amount</h3>
             </div>
             <p className="text-4xl font-bold mb-2">
-              {sponsorship.currency}{sponsorship.amount.toLocaleString()}
+              {formatNaira(toNaira(sponsorship.amount, sponsorship.currency, sponsorship.rateUsed))}
             </p>
             <div className="space-y-1 text-sm text-white/80">
               <p>Payment Method: {sponsorship.paymentMethod}</p>
-              {sponsorship.rateUsed && sponsorship.currency !== "₦" && (
-                <p>Exchange Rate: {sponsorship.rateUsed}</p>
+              {sponsorship.currency === "USD" ? (
+                <p>
+                  Converted from USD{sponsorship.rateUsed ? ` at rate ${sponsorship.rateUsed}` : ""}
+                </p>
+              ) : (
+                <p>Recorded in NGN</p>
               )}
             </div>
           </div>

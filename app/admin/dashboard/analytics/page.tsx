@@ -57,8 +57,8 @@ export default function AdminAnalytics() {
               <div className="text-sm text-muted-foreground">Active Volunteers</div>
             </div>
             <div className="p-4 bg-secondary rounded-lg">
-              <div className="text-3xl font-bold text-primary">$15K+</div>
-              <div className="text-sm text-muted-foreground">Total Donations</div>
+              <div className="text-3xl font-bold text-primary">₦15M+</div>
+              <div className="text-sm text-muted-foreground">Total Donations, converted to naira</div>
             </div>
           </div>
         </div>

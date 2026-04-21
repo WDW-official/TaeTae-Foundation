@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import BackButton from "@/components/backButton";
 import { AdminDataTable } from "@/components/admin/admin-data-table";
+import { formatNaira, getConversionLabel, toNaira } from "@/lib/project100";
 
 interface Donation {
   id: string;
@@ -26,6 +27,8 @@ interface Donation {
   email?: string;
   program: "skills" | "education" | "sports" | "project 100";
   amount: number;
+  currency?: "USD" | "NGN";
+  rateUsed?: number | null;
   createdAt: string;
   paymentMethod?: string;
   status?: "completed" | "pending" | "failed";
@@ -104,12 +107,14 @@ export default function AdminDonations() {
   };
 
   const exportCSV = () => {
-    const headers = ["Name", "Email", "Program", "Amount", "Date", "Status"];
+    const headers = ["Name", "Email", "Program", "Amount (NGN)", "Original Currency", "Conversion", "Date", "Status"];
     const rows = filteredDonations.map((d) => [
       d.name,
       d.email || "N/A",
       d.program,
-      `$${d.amount}`,
+      toNaira(d.amount, d.currency, d.rateUsed).toLocaleString(),
+      d.currency || "NGN",
+      getConversionLabel(d.currency) || "",
       new Date(d.createdAt).toLocaleDateString(),
       d.status || "completed"
     ]);
@@ -136,24 +141,24 @@ export default function AdminDonations() {
   };
 
   const stats = {
-  total: donations.reduce((sum, d) => sum + Number(d.amount), 0),
+  total: donations.reduce((sum, d) => sum + toNaira(d.amount, d.currency, d.rateUsed), 0),
   count: donations.length,
   skills: donations
     .filter(d => d.program === "skills")
-    .reduce((sum, d) => sum + Number(d.amount), 0),
+    .reduce((sum, d) => sum + toNaira(d.amount, d.currency, d.rateUsed), 0),
   education: donations
     .filter(d => d.program === "education")
-    .reduce((sum, d) => sum + Number(d.amount), 0),
+    .reduce((sum, d) => sum + toNaira(d.amount, d.currency, d.rateUsed), 0),
   sports: donations
     .filter(d => d.program === "sports")
-    .reduce((sum, d) => sum + Number(d.amount), 0),
+    .reduce((sum, d) => sum + toNaira(d.amount, d.currency, d.rateUsed), 0),
   project100: donations
     .filter(d => d.program === "project 100")
-    .reduce((sum, d) => sum + Number(d.amount), 0),
+    .reduce((sum, d) => sum + toNaira(d.amount, d.currency, d.rateUsed), 0),
   avgDonation:
     donations.length > 0
       ? (
-          donations.reduce((sum, d) => sum + Number(d.amount), 0) /
+          donations.reduce((sum, d) => sum + toNaira(d.amount, d.currency, d.rateUsed), 0) /
           donations.length
         ).toFixed(2)
       : "0"
@@ -196,7 +201,8 @@ export default function AdminDonations() {
               </div>
               <p className="text-xs text-muted-foreground">Total Raised</p>
             </div>
-            <p className="text-2xl font-bold text-foreground">${stats.total.toLocaleString()}</p>
+            <p className="text-2xl font-bold text-foreground">{formatNaira(stats.total)}</p>
+            <p className="mt-1 text-xs text-muted-foreground">All USD donations are shown in naira equivalent</p>
           </div>
           <div className="bg-card dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
             <div className="flex items-center gap-3 mb-2">
@@ -214,7 +220,7 @@ export default function AdminDonations() {
               </div>
               <p className="text-xs text-muted-foreground">Average</p>
             </div>
-            <p className="text-2xl font-bold text-foreground">${stats.avgDonation}</p>
+            <p className="text-2xl font-bold text-foreground">{formatNaira(Number(stats.avgDonation))}</p>
           </div>
           <div className="bg-card dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
             <div className="flex items-center gap-3 mb-2">
@@ -258,28 +264,28 @@ export default function AdminDonations() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <div className="bg-linear-to-br from-blue-500 to-blue-600 rounded-xl p-6 text-white shadow-lg">
             <h3 className="text-white/80 text-sm mb-2">Skills Track</h3>
-            <p className="text-3xl font-bold">${stats.skills.toLocaleString()}</p>
+            <p className="text-3xl font-bold">{formatNaira(stats.skills)}</p>
             <p className="text-white/70 text-xs mt-2">
               {donations.filter(d => d.program === "skills").length} donations
             </p>
           </div>
           <div className="bg-linear-to-br from-green-500 to-green-600 rounded-xl p-6 text-white shadow-lg">
             <h3 className="text-white/80 text-sm mb-2">Education Track</h3>
-            <p className="text-3xl font-bold">${stats.education.toLocaleString()}</p>
+            <p className="text-3xl font-bold">{formatNaira(stats.education)}</p>
             <p className="text-white/70 text-xs mt-2">
               {donations.filter(d => d.program === "education").length} donations
             </p>
           </div>
           <div className="bg-linear-to-br from-orange-500 to-orange-600 rounded-xl p-6 text-white shadow-lg">
             <h3 className="text-white/80 text-sm mb-2">Sports Track</h3>
-            <p className="text-3xl font-bold">${stats.sports.toLocaleString()}</p>
+            <p className="text-3xl font-bold">{formatNaira(stats.sports)}</p>
             <p className="text-white/70 text-xs mt-2">
               {donations.filter(d => d.program === "sports").length} donations
             </p>
           </div>
           <div className="bg-linear-to-br from-violet-500 to-fuchsia-600 rounded-xl p-6 text-white shadow-lg">
             <h3 className="text-white/80 text-sm mb-2">Project 100</h3>
-            <p className="text-3xl font-bold">${stats.project100.toLocaleString()}</p>
+            <p className="text-3xl font-bold">{formatNaira(stats.project100)}</p>
             <p className="text-white/70 text-xs mt-2">
               {donations.filter(d => d.program === "project 100").length} donations
             </p>
@@ -419,9 +425,18 @@ export default function AdminDonations() {
               id: "amount",
               header: "Amount",
               render: (donation) => (
-                <span className="font-bold text-primary text-lg">
-                  ${donation.amount.toLocaleString()}
-                </span>
+                <div className="space-y-1">
+                  <span className="font-bold text-primary text-lg">
+                    {formatNaira(toNaira(donation.amount, donation.currency, donation.rateUsed))}
+                  </span>
+                  {donation.currency === "USD" ? (
+                    <div className="text-xs text-muted-foreground">
+                      Converted from ${donation.amount.toLocaleString()}
+                    </div>
+                  ) : (
+                    <div className="text-xs text-muted-foreground">Recorded in naira</div>
+                  )}
+                </div>
               ),
             },
             {

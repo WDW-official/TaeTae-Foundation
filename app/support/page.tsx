@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { ChevronRight } from "lucide-react"
 import Navigation from "@/components/navigation"
@@ -7,8 +8,31 @@ import Footer from "@/components/footer"
 import { motion } from "framer-motion"
 import IconRenderer from "@/components/icon-renderer"
 import PublicImpactSection from "@/components/PublicImpactSection"
+import Project100Progress from "@/components/Project100Progress"
 
 export default function SupportPage() {
+  const [project100Raised, setProject100Raised] = useState(0)
+  const [statsLoaded, setStatsLoaded] = useState(false)
+
+  useEffect(() => {
+    const loadStats = async () => {
+      try {
+        const response = await fetch("/api/public/stats", { cache: "no-store" })
+        const data = await response.json()
+
+        if (response.ok) {
+          setProject100Raised(Number(data?.project100Funding?.raised || 0))
+        }
+      } catch (error) {
+        console.error("Error loading public stats:", error)
+      } finally {
+        setStatsLoaded(true)
+      }
+    }
+
+    void loadStats()
+  }, [])
+
   return (
     <>
       <Navigation />
@@ -78,7 +102,6 @@ export default function SupportPage() {
           </motion.div>
         </div>
       </section>
-
 
       {/* SUPPORT OPTIONS */}
       <section id="support-options" className="bg-card dark:bg-gray-900  container mx-auto px-4 py-3 md:py-12">

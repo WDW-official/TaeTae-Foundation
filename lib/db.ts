@@ -1,6 +1,7 @@
 
 import { ObjectId } from "mongodb"
 import { getCollection } from "./mongodb"
+import { calculateProject100Funding } from "./project100"
 
  interface Sponsorship {
   _id?: string
@@ -714,6 +715,8 @@ export async function getEnhancedStats() {
     /* -------------------------------------------------
      * RETURN EVERYTHING
      * ------------------------------------------------- */
+    const project100Funding = calculateProject100Funding(donations)
+
     return {
       totals: {
         totalDonations,
@@ -723,6 +726,7 @@ export async function getEnhancedStats() {
         totalBoys: boys.length,
       },
       donationsByProgram,
+      project100Funding,
       topDonors,
       topSponsors,
       hallOfFame,
@@ -873,6 +877,8 @@ export async function getPublicStats() {
       })
     );
 
+    const project100Funding = calculateProject100Funding(donations)
+
     /* -------------------------------------------------
      * RETURN PUBLIC SAFE STATS
      * ------------------------------------------------- */
@@ -885,6 +891,7 @@ export async function getPublicStats() {
       },
 
       donationsByProgram: donationCountByProgram,
+      project100Funding,
 
       topDonors,
       topSponsors,
@@ -899,7 +906,6 @@ export async function getPublicStats() {
     throw error;
   }
 }
-
 
 
 

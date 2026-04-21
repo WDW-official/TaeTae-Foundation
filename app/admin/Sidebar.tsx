@@ -11,6 +11,7 @@ import {
   Handshake,
   UserPlus,
   MessageSquare,
+  Banknote,
   PackagePlus,
   ShieldCheck,
   ClipboardCheck,
@@ -62,7 +63,7 @@ export default function Sidebar({
     {
       href: "/admin/dashboard/donations",
       label: "Donors",
-      icon: Heart,
+      icon: Banknote,
       roles: ["admin", "superAdmin"],
     },
     {

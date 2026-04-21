@@ -56,6 +56,7 @@ ChartJS.register(
 import { X, UserPlus } from "lucide-react"
 import { useAuthStore } from "@/app/store/auth.store";
 import ChangePasswordModal from "@/components/ChangePasswordModal";
+import Project100Progress from "@/components/Project100Progress"
 
 
 interface DashboardStats {
@@ -70,6 +71,12 @@ interface DashboardStats {
     skills: number;
     education: number;
     sports: number;
+  };
+  project100Funding: {
+    target: number;
+    raised: number;
+    progress: number;
+    remaining: number;
   };
   topDonors: Array<{
     name: string;
@@ -283,7 +290,7 @@ export default function AdminDashboard() {
             </div>
             <h3 className="text-white/80 text-sm mb-1">Total Donations</h3>
             <p className="text-xl font-bold">₦{stats.totals.totalDonations.toLocaleString()}</p>
-            <p className="text-white/70 text-xs mt-2">{stats.totals.donationCount} donations</p>
+            <p className="text-white/70 text-xs mt-2">{stats.totals.donationCount} donations, converted to naira</p>
           </div>
 
           <div className="bg-linear-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-xl transition">
@@ -327,8 +334,12 @@ export default function AdminDashboard() {
             </div>
             <h3 className="text-white/80 text-sm mb-1">Total Impact</h3>
             <p className="text-xl font-bold">₦{yearlyData.reduce((a, b) => a + b, 0).toLocaleString()}</p>
-            <p className="text-white/70 text-xs mt-2">All time</p>
+            <p className="text-white/70 text-xs mt-2">All time, converted to naira</p>
           </div>
+        </div>
+
+        <div className="mb-8">
+          <Project100Progress raised={stats.project100Funding?.raised || 0} />
         </div>
 
         {/* Quick Actions */}

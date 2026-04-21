@@ -9,6 +9,7 @@ import IconRenderer from "@/components/icon-renderer"
 import BackButton from "@/components/backButton"
 import { generateDonationToken } from "@/lib/token"
 import { Pie, Bar } from "react-chartjs-2";
+import Project100Progress from "@/components/Project100Progress"
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -62,26 +63,24 @@ useEffect(() => {
     fetchPublicStats();
   }, []);
 
-  async function fetchPublicStats() {
+async function fetchPublicStats() {
   const res = await fetch("/api/public/stats")
   const data = await res.json()
 
   setStats({
+    ...data,
     donationsByProgram: {
       skills: data?.donationsByProgram?.skills || 0,
       education: data?.donationsByProgram?.education || 0,
       sports: data?.donationsByProgram?.sports || 0,
+    },
+    project100Funding: {
+      target: data?.project100Funding?.target || 7_500_000,
+      raised: data?.project100Funding?.raised || 0,
+      progress: data?.project100Funding?.progress || 0,
+      remaining: data?.project100Funding?.remaining || 7_500_000,
     },
   })
-  const formatted = {
-    donationsByProgram: {
-      skills: data?.donationsByProgram?.skills || 0,
-      education: data?.donationsByProgram?.education || 0,
-      sports: data?.donationsByProgram?.sports || 0,
-    },
-  }
-
-  setStats(formatted)
   setDataReady(true)
 }
 
@@ -323,9 +322,16 @@ if (duration === "quarterly") {
             >
               Continue
             </button>
-                <div className="text-centere">
-                Your donation will be distributed as required into your chosen track.
-                </div>
+            <div className="text-centere">
+            Your donation will be distributed as required into your chosen track.
+            </div>
+            <div className="mb-6">
+              <Project100Progress
+                raised={stats?.project100Funding?.raised || 0}
+                compact
+                className={!dataReady ? "opacity-80" : ""}
+              />
+            </div>
             <div className="bg-white dark:bg-gray-900 p-3 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:shadow-xl hover:scale-[1.01]">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">

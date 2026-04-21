@@ -31,6 +31,7 @@ import {
 import BackButton from "@/components/backButton";
 import { useAuthStore } from "@/app/store/auth.store";
 import { AdminDataTable } from "@/components/admin/admin-data-table";
+import { formatNaira, getConversionLabel, toNaira } from "@/lib/project100";
 
 interface Sponsorship {
   _id: string;
@@ -42,7 +43,7 @@ interface Sponsorship {
   amount: number;
   currency: string;
   paymentMethod: string;
-  rateUsed: number;
+  rateUsed?: number | null;
   boyId: string | null;
   boyName?: string;
   items: Array<{
@@ -144,8 +145,9 @@ export default function SponsorsPage() {
       s.sponsorEmail,
       s.sponsorPhone || "",
       s.company || "",
-      s.amount,
+      toNaira(s.amount, s.currency, s.rateUsed).toLocaleString(),
       s.currency,
+      getConversionLabel(s.currency),
       s.boyName || "Not assigned",
       s.status,
       s.paymentMethod,
@@ -166,7 +168,7 @@ export default function SponsorsPage() {
     pending: sponsorships.filter((s) => s.status === "pending").length,
     totalAmount: sponsorships
       .filter((s) => s.status === "completed")
-      .reduce((sum, s) => sum + s.amount, 0),
+      .reduce((sum, s) => sum + toNaira(s.amount, s.currency, s.rateUsed), 0),
     withBoys: sponsorships.filter((s) => s.boyId).length,
     thisMonth: sponsorships.filter((s) => {
       const date = new Date(s.createdAt);
@@ -267,7 +269,8 @@ export default function SponsorsPage() {
               </div>
               <p className="text-xs text-muted-foreground">Total Amount</p>
             </div>
-            <p className="text-2xl font-bold text-foreground">₦{stats.totalAmount.toLocaleString()}</p>
+            <p className="text-2xl font-bold text-foreground">{formatNaira(stats.totalAmount)}</p>
+            <p className="mt-1 text-xs text-muted-foreground">USD amounts are converted to naira in this total</p>
           </div>
           {/* <div className="bg-card dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
             <div className="flex items-center gap-3 mb-2">
@@ -428,9 +431,14 @@ export default function SponsorsPage() {
                 header: "Amount",
                 render: (sponsorship) => (
                   <div className="text-primary text-sm">
-                    <div>{sponsorship.currency} {sponsorship.amount.toLocaleString()}</div>
-                    {sponsorship.rateUsed && sponsorship.currency !== "₦" && (
-                      <p className="text-xs text-muted-foreground">Rate: {sponsorship.rateUsed}</p>
+                    <div>{formatNaira(toNaira(sponsorship.amount, sponsorship.currency, sponsorship.rateUsed))}</div>
+                    {sponsorship.currency === "USD" ? (
+                      <p className="text-xs text-muted-foreground">
+                        Converted from ${sponsorship.amount.toLocaleString()}
+                        {sponsorship.rateUsed ? ` at rate ${sponsorship.rateUsed}` : ""}
+                      </p>
+                    ) : (
+                      <p className="text-xs text-muted-foreground">Recorded in naira</p>
                     )}
                   </div>
                 ),
@@ -567,8 +575,16 @@ export default function SponsorsPage() {
                   <div className="p-3 bg-secondary/20 rounded-lg">
                     <p className="text-sm text-muted-foreground mb-1">Amount</p>
                     <p className="font-bold text-primary text-xl">
-                      {selectedSponsorship.currency}{selectedSponsorship.amount.toLocaleString()}
+                      {formatNaira(toNaira(selectedSponsorship.amount, selectedSponsorship.currency, selectedSponsorship.rateUsed))}
                     </p>
+                    {selectedSponsorship.currency === "USD" ? (
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Converted from ${selectedSponsorship.amount.toLocaleString()}
+                        {selectedSponsorship.rateUsed ? ` at rate ${selectedSponsorship.rateUsed}` : ""}
+                      </p>
+                    ) : (
+                      <p className="text-xs text-muted-foreground mt-1">Recorded in naira</p>
+                    )}
                   </div>
                   <div className="p-3 bg-secondary/20 rounded-lg">
                     <p className="text-sm text-muted-foreground mb-1">Payment Method</p>
