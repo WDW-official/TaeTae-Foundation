@@ -293,7 +293,7 @@ if (duration === "quarterly") {
         {step === 1 && (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white"> Choose a Program</h2>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 ">
               {programs.map((prog) => (
                 <button
                   key={prog.name}
