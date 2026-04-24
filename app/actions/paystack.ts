@@ -13,7 +13,7 @@ export async function startPaystackTransaction(
   }
 
   const callbackUrl =
-    `${process.env.FRONTEND_UR || "http://localhost:3000"}/checkout-paystack/callback?checkoutId=${encodeURIComponent(checkoutId)}`
+    `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/checkout-paystack/callback?checkoutId=${encodeURIComponent(checkoutId)}`
 
   console.log("Paystack callback:", callbackUrl)
 
