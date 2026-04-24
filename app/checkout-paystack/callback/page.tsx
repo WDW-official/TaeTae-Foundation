@@ -2,10 +2,12 @@
 
 import { Suspense, useEffect, useState } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
+import { CheckCircle2 } from "lucide-react"
 
 function PaystackCallbackContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
+  const [status, setStatus] = useState<"loading" | "success" | "error">("loading")
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -19,6 +21,8 @@ function PaystackCallbackContent() {
       setError("Missing checkout reference.")
       return
     }
+
+    let timer: ReturnType<typeof setTimeout> | undefined
 
     const submit = async () => {
       try {
@@ -34,22 +38,37 @@ function PaystackCallbackContent() {
 
         if (!res.ok || !data.success || !data.redirectUrl) {
           setError(data.error || "Payment verification failed.")
+          setStatus("error")
           return
         }
 
-        router.replace(data.redirectUrl)
+        setStatus("success")
+        timer = setTimeout(() => {
+          router.replace(data.redirectUrl)
+        }, 1500)
       } catch (err) {
         console.error("Callback error:", err)
         setError("Something went wrong.")
+        setStatus("error")
       }
     }
 
-    submit()
+    void submit()
+
+    return () => {
+      if (timer) clearTimeout(timer)
+    }
   }, [searchParams, router])
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      {error ? (
+    <div className="min-h-screen flex items-center justify-center px-4">
+      {status === "success" ? (
+        <div className="text-center space-y-4">
+          <CheckCircle2 className="mx-auto h-16 w-16 text-green-600" />
+          <p className="text-lg font-semibold text-green-700">Payment successful!</p>
+          <p className="text-sm text-gray-600">Redirecting you now...</p>
+        </div>
+      ) : error ? (
         <p className="text-red-600">{error}</p>
       ) : (
         <p>Finalizing payment…</p>
