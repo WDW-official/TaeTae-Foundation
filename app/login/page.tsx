@@ -165,7 +165,7 @@ export default function AdminLogin() {
           </div>
 
           <div className="text-center -bottom-6 text-sm lg:text-base left-6 b  px-6 py-3 mb-3 rounded-xl ">
-              <p className="font-semibold"> Excellence • Growth • Integrity</p>
+              <p className="font-semibold"> Growth • Excellence • Integrity</p>
           </div>
         </motion.div>
         <div className="bg-card dark:bg-gray-900  rounded-4xl p-8 shadow-2xl">

@@ -5,8 +5,10 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import NextTopLoader from "nextjs-toploader";
 import { ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 import FloatingDonateButton from "@/components/floating-donate-button"
 import PlanPdfPrefetch from "@/components/plan-pdf-prefetch"
+import ApiToastProvider from "@/components/api-toast-provider"
 
 export const metadata: Metadata = {
   title: "TaeTae Foundation - Building Tomorrow's Leaders",
@@ -73,6 +75,7 @@ export default function RootLayout({
         />
 
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <ApiToastProvider />
           <PlanPdfPrefetch />
           <div className="min-h-screen dark:bg-gray-800">
             {children} {/* This will render the page content */}
