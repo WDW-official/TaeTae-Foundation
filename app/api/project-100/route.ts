@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { addRecord, getRecords } from "@/lib/db"
+import { uploadToCloudinary } from "@/lib/cloudinary"
 
 function normalizeString(value: unknown) {
   return typeof value === "string" ? value.trim() : ""
@@ -23,6 +24,7 @@ export async function POST(request: NextRequest) {
     const guardianName = normalizeString(data.guardianName)
     const guardianPhone = normalizeString(data.guardianPhone)
     const guardianEmail = normalizeEmail(data.guardianEmail)
+    const profilePhotoBase64 = normalizeString(data.profilePhotoBase64)
 
     if (!childName || !dateOfBirth || !guardianName || !guardianPhone || !guardianEmail) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
@@ -49,6 +51,22 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    let profilePhotoUrl = ""
+
+    if (profilePhotoBase64) {
+      if (!profilePhotoBase64.startsWith("data:image/")) {
+        return NextResponse.json({ error: "Profile photo must be a valid image." }, { status: 400 })
+      }
+
+      const upload = await uploadToCloudinary(profilePhotoBase64, {
+        folder: "taetae/project-100/photos",
+        resource_type: "image",
+        tags: ["project-100", "intake", "profile-photo"],
+      })
+
+      profilePhotoUrl = upload.secure_url
+    }
+
     const application = await addRecord("project100Applications", {
       childName,
       dateOfBirth,
@@ -57,6 +75,7 @@ export async function POST(request: NextRequest) {
       guardianPhone,
       guardianEmail,
       source: "project-100",
+      profilePhotoUrl,
       status: "new",
       notes: "",
     })

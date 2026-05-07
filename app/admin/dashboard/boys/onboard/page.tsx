@@ -40,6 +40,7 @@ function OnboardContent() {
     guardianEmail: "",
     guardianPhone: "",
     profile_photo_base64: "",  // Added for image upload
+    profile_photo_url: "",
     school_name: "",
     class_level: "",
     program_start_date: "",
@@ -108,6 +109,7 @@ function OnboardContent() {
           guardianEmail: application.guardianEmail || prev.guardianEmail,
           guardianPhone: application.guardianPhone || prev.guardianPhone,
           school_name: application.schoolAttended || prev.school_name,
+          profile_photo_url: application.profilePhotoUrl || prev.profile_photo_url,
           sourceApplicationId: application.id,
         }))
       } catch (error) {
@@ -210,6 +212,7 @@ function OnboardContent() {
           emergency_contact: formData.emergency_contact,
           consent_form_signed: true, // consent is implied by the signature
           profile_photo_base64: formData.profile_photo_base64,  // Sending profile image
+          profile_photo_url: formData.profile_photo_url,
           notes: formData.notes,
           guardian_signature: formData.guardian_signature, // Sending the signature
           assignedVolunteerId: formData.assignedVolunteerId,
@@ -326,6 +329,15 @@ function OnboardContent() {
               {/* Image upload field */}
               <div>
                 <label className="block text-foreground font-semibold mb-2">Profile Photo</label>
+                {formData.profile_photo_base64 || formData.profile_photo_url ? (
+                  <div className="mb-3 h-32 w-32 overflow-hidden rounded-xl border border-border bg-secondary">
+                    <img
+                      src={formData.profile_photo_base64 || formData.profile_photo_url}
+                      alt="Profile preview"
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                ) : null}
                 <input
                   type="file"
                   onChange={handleImageChange}

@@ -1,10 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Navigation from "@/components/navigation"
 import Footer from "@/components/footer"
 import Link from "next/link"
-import { ArrowRight, CheckCircle2, Mail, Phone } from "lucide-react"
+import { ArrowRight, Camera, CheckCircle2, Mail, Phone, Upload, X } from "lucide-react"
 
 const initialForm = {
   childName: "",
@@ -13,6 +13,7 @@ const initialForm = {
   guardianName: "",
   guardianPhone: "",
   guardianEmail: "",
+  profilePhotoBase64: "",
 }
 
 export default function Project100Page() {
@@ -20,10 +21,106 @@ export default function Project100Page() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
   const [successMessage, setSuccessMessage] = useState("")
+  const [photoPreview, setPhotoPreview] = useState("")
+  const [isCameraOpen, setIsCameraOpen] = useState(false)
+  const [cameraError, setCameraError] = useState("")
+  const videoRef = useRef<HTMLVideoElement | null>(null)
+  const streamRef = useRef<MediaStream | null>(null)
+
+  const stopCamera = () => {
+    streamRef.current?.getTracks().forEach((track) => track.stop())
+    streamRef.current = null
+    setIsCameraOpen(false)
+  }
+
+  useEffect(() => {
+    return () => {
+      streamRef.current?.getTracks().forEach((track) => track.stop())
+    }
+  }, [])
+
+  useEffect(() => {
+    if (isCameraOpen && videoRef.current && streamRef.current) {
+      videoRef.current.srcObject = streamRef.current
+    }
+  }, [isCameraOpen])
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
     setForm((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const setPhoto = (base64: string) => {
+    setForm((prev) => ({ ...prev, profilePhotoBase64: base64 }))
+    setPhotoPreview(base64)
+  }
+
+  const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+
+    if (!file) return
+
+    if (!file.type.startsWith("image/")) {
+      setErrorMessage("Please select a valid image file.")
+      return
+    }
+
+    const reader = new FileReader()
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        setPhoto(reader.result)
+      }
+    }
+    reader.readAsDataURL(file)
+  }
+
+  const startCamera = async () => {
+    setCameraError("")
+
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setCameraError("Camera capture is not supported on this device. Please upload a photo instead.")
+      return
+    }
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment" },
+        audio: false,
+      })
+
+      streamRef.current = stream
+      setIsCameraOpen(true)
+    } catch (error) {
+      console.error("Project 100 camera error:", error)
+      setCameraError("Camera access was blocked or unavailable. Please allow camera access or upload a photo.")
+    }
+  }
+
+  const capturePhoto = () => {
+    const video = videoRef.current
+    if (!video || !video.videoWidth || !video.videoHeight) {
+      setCameraError("Camera is still loading. Please try again in a moment.")
+      return
+    }
+
+    const canvas = document.createElement("canvas")
+    canvas.width = video.videoWidth
+    canvas.height = video.videoHeight
+    const context = canvas.getContext("2d")
+
+    if (!context) {
+      setCameraError("Could not capture the photo. Please upload an image instead.")
+      return
+    }
+
+    context.drawImage(video, 0, 0, canvas.width, canvas.height)
+    setPhoto(canvas.toDataURL("image/jpeg", 0.88))
+    stopCamera()
+  }
+
+  const clearPhoto = () => {
+    setForm((prev) => ({ ...prev, profilePhotoBase64: "" }))
+    setPhotoPreview("")
   }
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -48,6 +145,8 @@ export default function Project100Page() {
 
       setSuccessMessage("Application received. Our team will review the details and follow up.")
       setForm(initialForm)
+      setPhotoPreview("")
+      stopCamera()
     } catch (error) {
       console.error("Project 100 submission error:", error)
       setErrorMessage("Something went wrong while submitting the application.")
@@ -66,7 +165,7 @@ export default function Project100Page() {
           <div className="mb-6 overflow-hidden rounded-4xl border border-[#d9d1bf] shadow-[0_30px_80px_rgba(27,39,23,0.12)] dark:border-[#284133]">
             <div className="relative h-55 md:h-80">
               <img
-                src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1776287023/file_0000000066187246b5ee388d9ada39902_bkpfdx.svg"
+                src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1777031860/project-100_powpk9.svg"
                 alt="Project 100 banner"
                 className="h-full w-full object-cover"
               />
@@ -192,6 +291,97 @@ export default function Project100Page() {
                     />
                   </div>
                 ))}
+
+                <div>
+                  <label className="mb-2 block text-sm font-bold uppercase tracking-[0.15em] text-[#6b8f41]">
+                    Child&apos;s Photo
+                  </label>
+
+                  <div className="rounded-2xl border border-[#aab88a] bg-white p-4 dark:border-[#47624f] dark:bg-[#152820]">
+                    {photoPreview ? (
+                      <div className="mb-4 overflow-hidden rounded-xl border border-[#d9d1bf] dark:border-[#35523f]">
+                        <img
+                          src={photoPreview}
+                          alt="Selected child photo preview"
+                          className="h-56 w-full object-cover"
+                        />
+                      </div>
+                    ) : null}
+
+                    {isCameraOpen ? (
+                      <div className="mb-4 space-y-3">
+                        <video
+                          ref={videoRef}
+                          autoPlay
+                          playsInline
+                          muted
+                          className="h-64 w-full rounded-xl bg-black object-cover"
+                        />
+                        <div className="grid gap-3 sm:grid-cols-2">
+                          <button
+                            type="button"
+                            onClick={capturePhoto}
+                            className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-bold text-white transition hover:bg-[#5f8141]"
+                          >
+                            <Camera className="h-4 w-4" />
+                            Capture photo
+                          </button>
+                          <button
+                            type="button"
+                            onClick={stopCamera}
+                            className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#aab88a] px-4 py-3 text-sm font-bold text-slate-700 transition hover:border-primary hover:text-primary dark:text-white"
+                          >
+                            <X className="h-4 w-4" />
+                            Cancel camera
+                          </button>
+                        </div>
+                      </div>
+                    ) : null}
+
+                    {!photoPreview && !isCameraOpen ? (
+                      <div className="grid gap-3 sm:grid-cols-2">
+                        <label className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-[#aab88a] px-4 py-3 text-sm font-bold text-slate-700 transition hover:border-primary hover:text-primary dark:text-white">
+                          <Upload className="h-4 w-4" />
+                          Upload photo
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="sr-only"
+                            onChange={handlePhotoUpload}
+                          />
+                        </label>
+
+                        <button
+                          type="button"
+                          onClick={startCamera}
+                          className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#aab88a] px-4 py-3 text-sm font-bold text-slate-700 transition hover:border-primary hover:text-primary dark:text-white"
+                        >
+                          <Camera className="h-4 w-4" />
+                          Snap instantly
+                        </button>
+                      </div>
+                    ) : null}
+
+                    {photoPreview ? (
+                      <button
+                        type="button"
+                        onClick={clearPhoto}
+                        className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-red-600"
+                      >
+                        <X className="h-4 w-4" />
+                        Remove photo
+                      </button>
+                    ) : null}
+
+                    {cameraError ? (
+                      <p className="mt-3 text-sm leading-6 text-red-600">{cameraError}</p>
+                    ) : null}
+
+                    <p className="mt-3 text-xs leading-5 text-slate-500 dark:text-[#c2d2c7]">
+                      Upload an existing image or use the device camera to take one now.
+                    </p>
+                  </div>
+                </div>
 
                 {errorMessage ? (
                   <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">

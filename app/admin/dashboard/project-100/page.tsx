@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
-import { ArrowRight, ClipboardCheck, Filter, Search, UserPlus } from "lucide-react"
+import { ArrowRight, ClipboardCheck, Filter, Search, UserPlus, X } from "lucide-react"
 import { AdminDataTable } from "@/components/admin/admin-data-table"
 
 type Project100Application = {
@@ -14,6 +14,7 @@ type Project100Application = {
   guardianName: string
   guardianPhone: string
   guardianEmail: string
+  profilePhotoUrl?: string
   status: "new" | "reviewed" | "converted" | "rejected"
   notes?: string
   convertedBoyId?: string
@@ -35,6 +36,7 @@ export default function Project100AdminPage() {
   const [search, setSearch] = useState("")
   const [status, setStatus] = useState("all")
   const [currentPage, setCurrentPage] = useState(1)
+  const [selectedPhoto, setSelectedPhoto] = useState<{ url: string; alt: string } | null>(null)
 
   useEffect(() => {
     async function fetchApplications() {
@@ -175,11 +177,38 @@ export default function Project100AdminPage() {
               id: "child",
               header: "Child",
               render: (application) => (
-                <div>
-                  <p className="font-semibold text-foreground">{application.childName}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {application.schoolAttended || "School not provided"}
-                  </p>
+                <div className="flex items-center gap-3">
+                  <div className="h-11 w-11 overflow-hidden rounded-full bg-secondary">
+                    {application.profilePhotoUrl ? (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setSelectedPhoto({
+                            url: application.profilePhotoUrl!,
+                            alt: application.childName,
+                          })
+                        }
+                        className="h-full w-full"
+                        aria-label={`View ${application.childName}'s photo`}
+                      >
+                        <img
+                          src={application.profilePhotoUrl}
+                          alt={application.childName}
+                          className="h-full w-full object-cover transition hover:scale-105"
+                        />
+                      </button>
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center text-xs font-bold text-muted-foreground">
+                        {application.childName.slice(0, 1).toUpperCase()}
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-foreground">{application.childName}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {application.schoolAttended || "School not provided"}
+                    </p>
+                  </div>
                 </div>
               ),
             },
@@ -232,6 +261,31 @@ export default function Project100AdminPage() {
           ]}
         />
       </div>
+
+      {selectedPhoto ? (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setSelectedPhoto(null)}
+        >
+          <div className="relative max-h-[90vh] max-w-4xl" onClick={(event) => event.stopPropagation()}>
+            <button
+              type="button"
+              onClick={() => setSelectedPhoto(null)}
+              className="absolute right-3 top-3 rounded-full bg-black/70 p-2 text-white transition hover:bg-black"
+              aria-label="Close photo preview"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            <img
+              src={selectedPhoto.url}
+              alt={selectedPhoto.alt}
+              className="max-h-[90vh] w-auto rounded-xl object-contain shadow-2xl"
+            />
+          </div>
+        </div>
+      ) : null}
     </main>
   )
 }
