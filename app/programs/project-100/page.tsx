@@ -166,7 +166,7 @@ export default function Project100Page() {
             <div className="relative h-55 md:h-80">
               <img
                 src="https://res.cloudinary.com/dzn1k1z8r/image/upload/v1777031860/project-100_powpk9.svg"
-                alt="Project 100 banner"
+                alt="Project 100 banner "
                 className="h-full w-full object-cover"
               />
               {/* <div className="absolute inset-0 bg-gradient-to-r from-[rgba(10,26,20,0.78)] via-[rgba(10,26,20,0.52)] to-[rgba(10,26,20,0.18)]" />
