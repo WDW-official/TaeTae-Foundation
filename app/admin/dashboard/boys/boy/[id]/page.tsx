@@ -28,6 +28,7 @@ import {
   X
 } from "lucide-react";
 import BackButton from "@/components/backButton";
+import LoadingLogo from "@/components/loading-logo";
 
 interface Boy {
   _id: string;
@@ -66,6 +67,7 @@ interface Boy {
 
 export default function BoyDashboard() {
   const params = useParams();
+  const boyId = typeof params?.id === "string" ? params.id : "";
   const [boy, setBoy] = useState<Boy | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("overview");
@@ -76,8 +78,13 @@ export default function BoyDashboard() {
   const [physicalAssessments, setPhysicalAssessments] = useState<any[]>([]);
 
   const fetchBoy = async () => {
+    if (!boyId) {
+      setLoading(false);
+      return;
+    }
+
     try {
-      const res = await fetch(`/api/boys/${params.id}`);
+      const res = await fetch(`/api/boys/${boyId}`);
       if (res.ok) {
         const data = await res.json();
         setBoy(data.boy);
@@ -102,18 +109,18 @@ export default function BoyDashboard() {
   }
 
   const fetchAssessments = async () => {
-    if (!params.id) return;
+    if (!boyId) return;
     
     try {
       // Fetch cognitive assessments
-      const cogRes = await fetch(`/api/assessments/cognitive/${params.id}`);
+      const cogRes = await fetch(`/api/assessments/cognitive/${boyId}`);
       if (cogRes.ok) {
         const cogData = await cogRes.json();
         setCognitiveAssessments(cogData.assessments || []);
       }
 
       // Fetch physical assessments
-      const physRes = await fetch(`/api/assessments/physical/${params.id}`);
+      const physRes = await fetch(`/api/assessments/physical/${boyId}`);
       if (physRes.ok) {
         const physData = await physRes.json();
         setPhysicalAssessments(physData.assessments || []);
@@ -126,15 +133,12 @@ export default function BoyDashboard() {
   useEffect(() => {
     fetchBoy();
     fetchAssessments();
-  }, [params.id]);
+  }, [boyId]);
 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center ">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading profile...</p>
-        </div>
+        <LoadingLogo label="Loading profile..." />
       </div>
     );
   }

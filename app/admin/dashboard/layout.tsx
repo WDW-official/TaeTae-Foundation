@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Track sidebar state
   const [messagesViewportHeight, setMessagesViewportHeight] = useState<number | null>(null)
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "";
   const MOBILE_TOPBAR_HEIGHT = 64
   
   useEffect(() => {

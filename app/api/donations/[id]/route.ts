@@ -5,9 +5,10 @@ import { getRecordById, updateRecord, deleteRecord } from "@/lib/db"
  * GET /api/donations/[id]
  * Get a specific donation by ID
  */
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const donation = await getRecordById("donations", params.id)
+    const { id } = await params
+    const donation = await getRecordById("donations", id)
 
     if (!donation) {
       return NextResponse.json({ error: "Donation not found" }, { status: 404 })
@@ -26,10 +27,11 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
  *
  * Body: donation fields to update
  */
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params
     const updates = await request.json()
-    const updated = await updateRecord("donations", params.id, updates)
+    const updated = await updateRecord("donations", id, updates)
 
     if (!updated) {
       return NextResponse.json({ error: "Donation not found" }, { status: 404 })
@@ -46,9 +48,10 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
  * DELETE /api/donations/[id]
  * Delete a donation record (admin only)
  */
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    await deleteRecord("donations", params.id)
+    const { id } = await params
+    await deleteRecord("donations", id)
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error(" Error deleting donation:", error)

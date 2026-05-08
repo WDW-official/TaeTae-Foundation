@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import BackButton from "@/components/backButton";
 import EditVolunteerModal from "@/components/EditVolunteerModal";
+import LoadingLogo from "@/components/loading-logo";
 import { useAuthStore } from "@/app/store/auth.store";
 
 interface Volunteer {
@@ -327,10 +328,7 @@ ${volunteer.motivation || "Not provided"}
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center ">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading volunteer details...</p>
-        </div>
+        <LoadingLogo label="Loading volunteer details..." />
       </div>
     );
   }
@@ -1118,4 +1116,3 @@ function EditVolunteerForm({
     </div>
   );
 }
-

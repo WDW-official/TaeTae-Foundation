@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import { ArrowRight, ClipboardCheck, Filter, Search, UserPlus, X } from "lucide-react"
 import { AdminDataTable } from "@/components/admin/admin-data-table"
+import LoadingLogo from "@/components/loading-logo"
 
 type Project100Application = {
   _id: string
@@ -77,7 +78,7 @@ export default function Project100AdminPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-muted-foreground">Loading Project 100 applications...</p>
+        <LoadingLogo label="Loading Project 100 applications..." />
       </div>
     )
   }

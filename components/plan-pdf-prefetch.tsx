@@ -14,6 +14,11 @@ type IdleWindow = Window &
     cancelIdleCallback?: (handle: number) => void
   }
 
+type NetworkInformation = {
+  saveData?: boolean
+  effectiveType?: string
+}
+
 export default function PlanPdfPrefetch() {
   const pathname = usePathname() ?? ""
 
@@ -28,12 +33,7 @@ export default function PlanPdfPrefetch() {
     }
 
     const browserWindow = window as IdleWindow
-    const connection = navigator.connection as
-      | {
-          saveData?: boolean
-          effectiveType?: string
-        }
-      | undefined
+    const connection = (navigator as Navigator & { connection?: NetworkInformation }).connection
 
     if (connection?.saveData || connection?.effectiveType === "2g") {
       return

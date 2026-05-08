@@ -4,7 +4,7 @@ import { uploadToCloudinary } from "@/lib/cloudinary"
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params; // unwrap the promise
@@ -44,7 +44,7 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params; // unwrap the promise
@@ -57,8 +57,8 @@ export async function PUT(
 
     if (data.profile_photo_base64) {
       const result = await uploadToCloudinary(data.profile_photo_base64, {
-        folder: `taetae/profiles/${params.id}`,
-        tags: ['profile', params.id, 'admin'],
+        folder: `taetae/profiles/${id}`,
+        tags: ['profile', id, 'admin'],
       })
       data.profile_photo_url = result.secure_url
       delete data.profile_photo_base64
@@ -69,7 +69,7 @@ export async function PUT(
       updatedAt: new Date().toISOString(),
     })
 
-    console.log("✏️ Boy updated:", params.id)
+    console.log("✏️ Boy updated:", id)
 
     return NextResponse.json({ success: true, boy: updatedBoy })
   } catch (error) {
@@ -80,7 +80,7 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params; // unwrap the promise
@@ -92,7 +92,7 @@ export async function DELETE(
 
     await deleteRecord("boys", boys[0]._id.toString())
 
-    console.log("🗑️ Boy deleted:", params.id)
+    console.log("🗑️ Boy deleted:", id)
 
     return NextResponse.json({ success: true, message: "Boy deleted" })
   } catch (error) {

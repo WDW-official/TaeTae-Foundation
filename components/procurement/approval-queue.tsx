@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
+import LoadingLogo from "@/components/loading-logo"
 
 type Batch = {
   id: string
@@ -53,7 +54,7 @@ export default function ApprovalQueue() {
   if (loading) {
     return (
       <div className="flex min-h-[50vh] items-center justify-center">
-        <div className="h-14 w-14 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+        <LoadingLogo label="Loading approvals..." />
       </div>
     )
   }

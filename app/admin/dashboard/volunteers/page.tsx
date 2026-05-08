@@ -20,6 +20,7 @@ import {
   Award
 } from "lucide-react";
 import BackButton from "@/components/backButton";
+import LoadingLogo from "@/components/loading-logo";
 import { useAuthStore } from "@/app/store/auth.store";
 import { AdminDataTable } from "@/components/admin/admin-data-table";
 
@@ -174,10 +175,7 @@ export default function AdminVolunteers() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center ">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading volunteers...</p>
-        </div>
+        <LoadingLogo label="Loading volunteers..." />
       </div>
     );
   }

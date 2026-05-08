@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import LoadingLogo from "@/components/loading-logo"
 
 type Batch = {
   id: string
@@ -99,7 +100,7 @@ export default function VolunteerProcurementBoard() {
   if (loading) {
     return (
       <div className="flex min-h-[50vh] items-center justify-center">
-        <div className="h-14 w-14 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+        <LoadingLogo label="Loading procurement..." />
       </div>
     )
   }

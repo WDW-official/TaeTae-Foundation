@@ -31,6 +31,7 @@ import {
 import BackButton from "@/components/backButton";
 import { useAuthStore } from "@/app/store/auth.store";
 import { AdminDataTable } from "@/components/admin/admin-data-table";
+import LoadingLogo from "@/components/loading-logo";
 import { formatNaira, getConversionLabel, toNaira } from "@/lib/project100";
 
 interface Sponsorship {
@@ -187,10 +188,7 @@ export default function SponsorsPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center ">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading sponsorships...</p>
-        </div>
+        <LoadingLogo label="Loading sponsorships..." />
       </div>
     );
   }

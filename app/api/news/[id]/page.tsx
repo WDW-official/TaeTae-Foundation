@@ -11,8 +11,9 @@ export async function generateStaticParams() {
   }))
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
-  const blog = blogs.find((b) => b.id === params.id)
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const blog = blogs.find((b) => b.id === id)
 
   if (!blog) {
     return {
@@ -26,8 +27,9 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   }
 }
 
-export default function BlogPostPage({ params }: { params: { id: string } }) {
-  const blog = blogs.find((b) => b.id === params.id)
+export default async function BlogPostPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const blog = blogs.find((b) => b.id === id)
 
   if (!blog) {
     notFound()

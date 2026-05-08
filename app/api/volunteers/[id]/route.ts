@@ -15,7 +15,7 @@ function generateRandomPassword(length = 10) {
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params;
@@ -119,7 +119,7 @@ async function handleVolunteerApproval(volunteer: any) {
 
 
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 
   try {
     const { id } = await params; 

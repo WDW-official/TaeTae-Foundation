@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { useParams, useRouter } from "next/navigation"
 import { ArrowLeft, ArrowRight, FilePenLine, Save, X } from "lucide-react"
+import LoadingLogo from "@/components/loading-logo"
 
 type Project100Application = {
   id: string
@@ -90,7 +91,7 @@ export default function Project100ApplicationPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-muted-foreground">Loading application...</p>
+        <LoadingLogo label="Loading application..." />
       </div>
     )
   }

@@ -4,7 +4,7 @@ import { deleteFromCloudinary } from "@/lib/cloudinary"
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params; // unwrap the promise
@@ -23,7 +23,7 @@ export async function GET(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params; // unwrap the promise
@@ -38,7 +38,7 @@ export async function DELETE(
     await deleteFromCloudinary(mediaItem.publicId)
     await deleteRecord("media", mediaItem._id.toString())
 
-    console.log("🗑️ Media deleted:", params.id)
+    console.log("🗑️ Media deleted:", id)
 
     return NextResponse.json({ success: true, message: "Media deleted" })
   } catch (error) {

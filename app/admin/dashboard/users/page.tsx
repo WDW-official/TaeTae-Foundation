@@ -5,6 +5,7 @@ import { Users, Shield, UserCog, KeyRound, Trash2, UserPlus, X } from "lucide-re
 import ChangePasswordModal from "@/components/ChangePasswordModal"
 import { useAuthStore } from "@/app/store/auth.store"
 import { AdminDataTable } from "@/components/admin/admin-data-table"
+import LoadingLogo from "@/components/loading-logo"
 
 type User = {
   id: string
@@ -123,7 +124,7 @@ export default function UserManagementPage() {
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+        <LoadingLogo label="Loading users..." />
       </div>
     )
   }

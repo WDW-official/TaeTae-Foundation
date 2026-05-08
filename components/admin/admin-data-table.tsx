@@ -46,11 +46,12 @@ export function AdminDataTable<T>({
   totalLabel,
   rowClassName,
 }: AdminDataTableProps<T>) {
+  const resolvedPageSize = pageSize ?? data.length
   const isPaginated = Boolean(pageSize && onPageChange)
-  const totalPages = isPaginated ? Math.max(1, Math.ceil(data.length / pageSize)) : 1
+  const totalPages = isPaginated ? Math.max(1, Math.ceil(data.length / resolvedPageSize)) : 1
   const currentPage = Math.min(page, totalPages)
   const rows = isPaginated
-    ? data.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+    ? data.slice((currentPage - 1) * resolvedPageSize, currentPage * resolvedPageSize)
     : data
   const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1)
 
@@ -80,7 +81,7 @@ export function AdminDataTable<T>({
 
             <TableBody>
               {rows.map((item, index) => {
-                const absoluteIndex = isPaginated ? (currentPage - 1) * (pageSize as number) + index : index
+                const absoluteIndex = isPaginated ? (currentPage - 1) * resolvedPageSize + index : index
 
                 return (
                   <TableRow
@@ -104,15 +105,15 @@ export function AdminDataTable<T>({
           {isPaginated ? (
             <div className="flex flex-col gap-3 border-t border-border px-4 py-4 md:flex-row md:items-center md:justify-between md:px-6">
               <p className="text-sm text-muted-foreground">
-                Showing {(currentPage - 1) * (pageSize as number) + 1}-
-                {Math.min(currentPage * (pageSize as number), data.length)} of {data.length}
+                Showing {(currentPage - 1) * resolvedPageSize + 1}-
+                {Math.min(currentPage * resolvedPageSize, data.length)} of {data.length}
                 {totalLabel ? ` ${totalLabel}` : ""}
               </p>
 
               <div className="flex flex-wrap items-center gap-2">
                 <button
                   type="button"
-                  onClick={() => onPageChange(Math.max(1, currentPage - 1))}
+                  onClick={() => onPageChange?.(Math.max(1, currentPage - 1))}
                   disabled={currentPage === 1}
                   className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm font-medium text-foreground transition hover:bg-secondary disabled:opacity-50"
                 >
@@ -124,7 +125,7 @@ export function AdminDataTable<T>({
                   <button
                     key={entry}
                     type="button"
-                    onClick={() => onPageChange(entry)}
+                    onClick={() => onPageChange?.(entry)}
                     className={`px-3 py-1.5 rounded-lg text-sm transition ${
                       currentPage === entry
                         ? "bg-primary text-primary-foreground"
@@ -137,7 +138,7 @@ export function AdminDataTable<T>({
 
                 <button
                   type="button"
-                  onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
+                  onClick={() => onPageChange?.(Math.min(totalPages, currentPage + 1))}
                   disabled={currentPage === totalPages}
                   className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm font-medium text-foreground transition hover:bg-secondary disabled:opacity-50"
                 >

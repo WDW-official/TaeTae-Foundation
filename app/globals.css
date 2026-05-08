@@ -150,6 +150,24 @@ body {
   }
 }
 
+@keyframes loading-icon-pulse {
+  0%,
+  100% {
+    opacity: 0.68;
+    transform: scale(0.82);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.14);
+  }
+}
+
+.loading-icon-pulse {
+  animation: loading-icon-pulse 0.95s ease-in-out infinite;
+  transform-origin: center;
+  will-change: opacity, transform;
+}
+
 /* Move spinner to the left */
 /* Default: desktop (left aligned) */
 #nprogress .spinner {

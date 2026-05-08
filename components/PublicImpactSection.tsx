@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import LoadingLogo from "@/components/loading-logo";
 import { Pie, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -86,10 +87,7 @@ export default function PublicStatsSection() {
     return (
       <section className="container mx-auto px-4 py-16">
         <div className="flex items-center justify-center min-h-100">
-          <div className="animate-pulse flex flex-col items-center gap-4">
-            <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
-            <p className="text-gray-600 dark:text-gray-400">Loading impact data...</p>
-          </div>
+          <LoadingLogo label="Loading impact data..." />
         </div>
       </section>
     );

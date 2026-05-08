@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState, Suspense } from "react"
 import { useRouter } from "next/navigation"
 import BackButton from "@/components/backButton"
 import Link from "next/link"
+import LoadingLogo from "@/components/loading-logo"
 
 type SponsorItemsKey = "skill" | "sport" | "education" | "nutrient" 
 
@@ -278,14 +279,10 @@ function closeModal() {
     return (
       <section className="container mx-auto px-4 py-16">
         <div className="flex items-center justify-center min-h-[400px]">
-          <div className="animate-pulse flex flex-col items-center gap-4">
-            <div className="w-16 h-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
-            <p className="text-gray-600 dark:text-gray-400">Loading sponsor items...</p>
-          </div>
+          <LoadingLogo label="Loading sponsor items..." />
         </div>
       </section>
     );
-    return <div className="max-w-4xl mx-auto px-4 py-12">Loading sponsor items...</div>
   }
 
   return (

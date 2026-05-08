@@ -5,6 +5,7 @@ import { useParams } from "next/navigation"
 import Link from "next/link"
 import { TrendingUp, Award, Heart, Zap, Home } from "lucide-react"
 import BackButton from "@/components/backButton"
+import LoadingLogo from "@/components/loading-logo"
 
 interface Boy {
   id: string
@@ -23,13 +24,19 @@ interface Boy {
 
 export default function SponsorDashboard() {
   const params = useParams()
+  const boyId = typeof params?.id === "string" ? params.id : ""
   const [boy, setBoy] = useState<Boy | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchBoy = async () => {
+      if (!boyId) {
+        setLoading(false)
+        return
+      }
+
       try {
-        const res = await fetch(`/api/boys/${params.id}`)
+        const res = await fetch(`/api/boys/${boyId}`)
         if (res.ok) {
           const data = await res.json()
           setBoy(data)
@@ -42,10 +49,14 @@ export default function SponsorDashboard() {
     }
 
     fetchBoy()
-  }, [params.id])
+  }, [boyId])
 
   if (loading) {
-    return <div className="min-h-screen bg-card dark:bg-gray-900 flex items-center justify-center">Loading...</div>
+    return (
+      <div className="min-h-screen bg-card dark:bg-gray-900 flex items-center justify-center">
+        <LoadingLogo label="Loading profile..." />
+      </div>
+    )
   }
 
   if (!boy) {

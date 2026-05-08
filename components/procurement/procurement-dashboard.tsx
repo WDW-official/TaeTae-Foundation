@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { useAuthStore } from "@/app/store/auth.store"
+import LoadingLogo from "@/components/loading-logo"
 
 type SummaryItem = {
   itemId: string
@@ -122,7 +123,7 @@ export default function ProcurementDashboard() {
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <div className="h-14 w-14 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+        <LoadingLogo label="Loading procurement..." />
       </div>
     )
   }

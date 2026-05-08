@@ -40,6 +40,7 @@ import {
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import LogoutButton from "@/components/LogoutButton";
+import LoadingLogo from "@/components/loading-logo";
 
 ChartJS.register(
   CategoryScale,
@@ -190,10 +191,7 @@ export default function AdminDashboard() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center ">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading dashboard...</p>
-        </div>
+        <LoadingLogo label="Loading dashboard..." />
       </div>
     );
   }
