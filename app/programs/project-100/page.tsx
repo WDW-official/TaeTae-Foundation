@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import Navigation from "@/components/navigation"
 import Footer from "@/components/footer"
 import Link from "next/link"
-import { ArrowRight, Camera, CheckCircle2, Mail, Phone, Upload, X } from "lucide-react"
+import { ArrowRight, Camera, CheckCircle2, Mail, Phone, RefreshCw, Upload, X } from "lucide-react"
 
 const initialForm = {
   childName: "",
@@ -16,6 +16,8 @@ const initialForm = {
   profilePhotoBase64: "",
 }
 
+type CameraFacingMode = "user" | "environment"
+
 export default function Project100Page() {
   const [form, setForm] = useState(initialForm)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -23,6 +25,7 @@ export default function Project100Page() {
   const [successMessage, setSuccessMessage] = useState("")
   const [photoPreview, setPhotoPreview] = useState("")
   const [isCameraOpen, setIsCameraOpen] = useState(false)
+  const [cameraFacing, setCameraFacing] = useState<CameraFacingMode>("environment")
   const [cameraError, setCameraError] = useState("")
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const streamRef = useRef<MediaStream | null>(null)
@@ -74,7 +77,7 @@ export default function Project100Page() {
     reader.readAsDataURL(file)
   }
 
-  const startCamera = async () => {
+  const startCamera = async (facingMode: CameraFacingMode = cameraFacing) => {
     setCameraError("")
 
     if (!navigator.mediaDevices?.getUserMedia) {
@@ -83,17 +86,24 @@ export default function Project100Page() {
     }
 
     try {
+      streamRef.current?.getTracks().forEach((track) => track.stop())
+
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: "environment" },
+        video: { facingMode: { ideal: facingMode } },
         audio: false,
       })
 
       streamRef.current = stream
+      setCameraFacing(facingMode)
       setIsCameraOpen(true)
     } catch (error) {
       console.error("Project 100 camera error:", error)
       setCameraError("Camera access was blocked or unavailable. Please allow camera access or upload a photo.")
     }
+  }
+
+  const switchCamera = () => {
+    void startCamera(cameraFacing === "environment" ? "user" : "environment")
   }
 
   const capturePhoto = () => {
@@ -317,7 +327,7 @@ export default function Project100Page() {
                           muted
                           className="h-64 w-full rounded-xl bg-black object-cover"
                         />
-                        <div className="grid gap-3 sm:grid-cols-2">
+                        <div className="grid gap-3 sm:grid-cols-3">
                           <button
                             type="button"
                             onClick={capturePhoto}
@@ -325,6 +335,14 @@ export default function Project100Page() {
                           >
                             <Camera className="h-4 w-4" />
                             Capture photo
+                          </button>
+                          <button
+                            type="button"
+                            onClick={switchCamera}
+                            className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#aab88a] px-4 py-3 text-sm font-bold text-slate-700 transition hover:border-primary hover:text-primary dark:text-white"
+                          >
+                            <RefreshCw className="h-4 w-4" />
+                            {cameraFacing === "environment" ? "Front camera" : "Back camera"}
                           </button>
                           <button
                             type="button"
@@ -353,7 +371,7 @@ export default function Project100Page() {
 
                         <button
                           type="button"
-                          onClick={startCamera}
+                          onClick={() => void startCamera()}
                           className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#aab88a] px-4 py-3 text-sm font-bold text-slate-700 transition hover:border-primary hover:text-primary dark:text-white"
                         >
                           <Camera className="h-4 w-4" />
