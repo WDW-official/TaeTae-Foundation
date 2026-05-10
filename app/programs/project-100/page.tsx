@@ -5,6 +5,7 @@ import Navigation from "@/components/navigation"
 import Footer from "@/components/footer"
 import Link from "next/link"
 import { ArrowRight, Camera, CheckCircle2, Mail, Phone, RefreshCw, Upload, X } from "lucide-react"
+import Project100Progress from "@/components/Project100Progress"
 
 const initialForm = {
   childName: "",
@@ -27,6 +28,7 @@ export default function Project100Page() {
   const [isCameraOpen, setIsCameraOpen] = useState(false)
   const [cameraFacing, setCameraFacing] = useState<CameraFacingMode>("environment")
   const [cameraError, setCameraError] = useState("")
+  const [project100Raised, setProject100Raised] = useState(0)
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const streamRef = useRef<MediaStream | null>(null)
 
@@ -47,6 +49,23 @@ export default function Project100Page() {
       videoRef.current.srcObject = streamRef.current
     }
   }, [isCameraOpen])
+
+  useEffect(() => {
+    async function fetchProject100Progress() {
+      try {
+        const response = await fetch("/api/public/stats", { cache: "no-store" })
+        const data = await response.json()
+
+        if (response.ok) {
+          setProject100Raised(Number(data?.project100Funding?.raised || 0))
+        }
+      } catch (error) {
+        console.error("Project 100 progress error:", error)
+      }
+    }
+
+    void fetchProject100Progress()
+  }, [])
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
@@ -452,6 +471,10 @@ export default function Project100Page() {
               </Link>
             </div>
           </div>
+          <Project100Progress
+            raised={project100Raised}
+            className="mt-6 border-[#d9d1bf] dark:border-[#35523f]"
+          />
           <div className="mt-8 rounded-3xl bg-[#0d1a14] p-6 text-white">
             <p className="text-sm uppercase tracking-[0.3em] text-[#d5ebba]">What Happens Next</p>
             <ul className="mt-4 space-y-3 text-sm leading-6 text-white/85">

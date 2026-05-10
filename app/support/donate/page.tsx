@@ -33,7 +33,7 @@ function DonateContent() {
   const [showModal, setShowModal] = useState(false)
 
   const [step, setStep] = useState(1)
-  const [selectedProgram, setSelectedProgram] = useState(program || "skills")
+  const [selectedProgram, setSelectedProgram] = useState(program || "project 100")
   const [donationMode, setDonationMode] = useState("known")
   const [paymentMethod, setPaymentMethod] = useState("paystack")
   const [amount, setAmount] = useState("")
