@@ -22,7 +22,7 @@ export default function Navigation() {
   ]
 
   const aboutLinks = [
-    { href: "/about/operation", label: "How We Operate" },
+    // { href: "/about/operation", label: "How We Operate" },
     { href: "/about/the-plan", label: "The Plan" },
   ]
 
