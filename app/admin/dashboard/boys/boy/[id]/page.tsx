@@ -132,7 +132,7 @@ export default function BoyDashboard() {
 
   useEffect(() => {
     fetchBoy();
-    fetchAssessments();
+    // fetchAssessments();
   }, [boyId]);
 
   if (loading) {
