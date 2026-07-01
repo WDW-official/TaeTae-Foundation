@@ -261,7 +261,7 @@ export default function BoyDashboard() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-card dark:bg-gray-900 dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
+          <div className="bg-card dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
             <div className="flex items-center gap-3 mb-2">
               <div className="p-2 bg-blue-100 rounded-lg">
                 <Video className="w-5 h-5 text-blue-600" />
@@ -270,7 +270,7 @@ export default function BoyDashboard() {
             </div>
             <p className="text-2xl font-bold text-foreground">{boy.sessions?.length || 0}</p>
           </div>
-          <div className="bg-card dark:bg-gray-900 dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
+          <div className="bg-card dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
             <div className="flex items-center gap-3 mb-2">
               <div className="p-2 bg-green-100 rounded-lg">
                 <FileText className="w-5 h-5 text-green-600" />
@@ -281,7 +281,7 @@ export default function BoyDashboard() {
               {(boy.physicalAssessments?.length || 0) + (boy.cognitiveAssessments?.length || 0)}
             </p>
           </div>
-          <div className="bg-card dark:bg-gray-900 dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
+          <div className="bg-card dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
             <div className="flex items-center gap-3 mb-2">
               <div className="p-2 bg-purple-100 rounded-lg">
                 <Award className="w-5 h-5 text-purple-600" />
@@ -290,7 +290,7 @@ export default function BoyDashboard() {
             </div>
             <p className="text-2xl font-bold text-foreground">{boy.skills?.length || 0}</p>
           </div>
-          <div className="bg-card dark:bg-gray-900 dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
+          <div className="bg-card dark:bg-gray-900 border border-border rounded-xl p-4 shadow-sm">
             <div className="flex items-center gap-3 mb-2">
               <div className="p-2 bg-orange-100 rounded-lg">
                 <Video className="w-5 h-5 text-orange-600" />
@@ -302,7 +302,7 @@ export default function BoyDashboard() {
         </div>
 
         {/* Tabs */}
-        <div className="bg-card dark:bg-gray-900 dark:bg-gray-900 border border-border rounded-2xl shadow-sm overflow-hidden">
+        <div className="bg-card dark:bg-gray-900 border border-border rounded-2xl shadow-sm overflow-hidden">
           <div className="border-b border-border">
             <div className="flex gap-1 p-2 overflow-x-auto">
               {[
