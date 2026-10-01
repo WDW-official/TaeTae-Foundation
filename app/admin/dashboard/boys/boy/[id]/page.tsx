@@ -74,8 +74,6 @@ export default function BoyDashboard() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showCognitiveModal, setShowCognitiveModal] = useState(false);
   const [showPhysicalModal, setShowPhysicalModal] = useState(false);
-  const [cognitiveAssessments, setCognitiveAssessments] = useState<any[]>([]);
-  const [physicalAssessments, setPhysicalAssessments] = useState<any[]>([]);
 
   const fetchBoy = async () => {
     if (!boyId) {
@@ -96,43 +94,8 @@ export default function BoyDashboard() {
     }
   };
 
-  function getLatestRecord<T extends { createdAt?: string; assessment_date?: string }>(
-      records: T[]
-    ): T | null {
-      if (!records || records.length === 0) return null
-
-      return [...records].sort((a, b) => {
-        const dateA = new Date(a.createdAt || a.assessment_date || 0).getTime()
-        const dateB = new Date(b.createdAt || b.assessment_date || 0).getTime()
-        return dateB - dateA
-      })[0]
-  }
-
-  const fetchAssessments = async () => {
-    if (!boyId) return;
-    
-    try {
-      // Fetch cognitive assessments
-      const cogRes = await fetch(`/api/assessments/cognitive/${boyId}`);
-      if (cogRes.ok) {
-        const cogData = await cogRes.json();
-        setCognitiveAssessments(cogData.assessments || []);
-      }
-
-      // Fetch physical assessments
-      const physRes = await fetch(`/api/assessments/physical/${boyId}`);
-      if (physRes.ok) {
-        const physData = await physRes.json();
-        setPhysicalAssessments(physData.assessments || []);
-      }
-    } catch (error) {
-      console.error("Error fetching assessments:", error);
-    }
-  };
-
   useEffect(() => {
     fetchBoy();
-    // fetchAssessments();
   }, [boyId]);
 
   if (loading) {
@@ -816,7 +779,7 @@ export default function BoyDashboard() {
           onClose={() => setShowCognitiveModal(false)}
           onSaved={() => {
             setShowCognitiveModal(false);
-            fetchAssessments();
+            fetchBoy();
           }}
         />
       )}
@@ -828,7 +791,7 @@ export default function BoyDashboard() {
           onClose={() => setShowPhysicalModal(false)}
           onSaved={() => {
             setShowPhysicalModal(false);
-            fetchAssessments();
+            fetchBoy();
           }}
         />
       )}
