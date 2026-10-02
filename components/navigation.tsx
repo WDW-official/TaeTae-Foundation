@@ -23,6 +23,7 @@ export default function Navigation() {
 
   const aboutLinks = [
     { href: "/about/operation", label: "How We Operate" },
+    { href: "/gallery", label: "Gallery" },
     // { href: "/about/the-plan", label: "The Plan" },
   ]
 
@@ -81,7 +82,7 @@ export default function Navigation() {
                 href="/about"
                 className={cn(
                   "text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-[#8bc97f] transition-colors font-medium py-2",
-                  pathname.startsWith("/about") &&
+                  (pathname.startsWith("/about") || aboutLinks.some((sub) => isActive(sub.href))) &&
                     "text-primary dark:text-[#8bc97f]"
                 )}
               >
@@ -231,7 +232,7 @@ export default function Navigation() {
                   href="/about"
                   className={cn(
                     "font-medium transition-colors",
-                    pathname.startsWith("/about")
+                    (pathname.startsWith("/about") || aboutLinks.some((sub) => isActive(sub.href)))
                       ? "text-primary dark:text-[#8bc97f]"
                       : "text-gray-700 dark:text-gray-300"
                   )}
